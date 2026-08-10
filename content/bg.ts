@@ -76,6 +76,7 @@ export const bg = {
   product: {
     contactForPrice: "Свържете се за цена",
     contactCta: "Свържете се за повече информация",
+    detailsCta: "Детайли",
     specsTitle: "Характеристики",
     descriptionTitle: "Описание",
     priceLabel: "Цена",

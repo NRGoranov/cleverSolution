@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="mt-auto border-t border-zinc-200 bg-zinc-50">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-3">
         <div>
-          <p className="font-display text-lg font-semibold text-ink">
+          <p className="font-display text-lg font-semibold text-brand">
             {bg.site.name}
           </p>
           <p className="mt-2 text-sm text-ink-muted">{bg.site.tagline}</p>

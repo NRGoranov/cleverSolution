@@ -11,28 +11,28 @@ const accentClasses: Record<
   { text: string; bg: string; border: string; ring: string }
 > = {
   kitchen: {
-    text: "text-zinc-800",
-    bg: "bg-zinc-900",
-    border: "border-zinc-800",
-    ring: "focus-visible:outline-zinc-900",
+    text: "text-brand",
+    bg: "bg-brand",
+    border: "border-brand",
+    ring: "focus-visible:outline-brand",
   },
   security: {
-    text: "text-zinc-800",
-    bg: "bg-zinc-800",
-    border: "border-zinc-700",
-    ring: "focus-visible:outline-zinc-800",
+    text: "text-brand-dark",
+    bg: "bg-brand-dark",
+    border: "border-brand-dark",
+    ring: "focus-visible:outline-brand-dark",
   },
   wristbands: {
-    text: "text-zinc-700",
-    bg: "bg-zinc-700",
-    border: "border-zinc-600",
-    ring: "focus-visible:outline-zinc-700",
+    text: "text-brand",
+    bg: "bg-brand-muted",
+    border: "border-brand-muted",
+    ring: "focus-visible:outline-brand-muted",
   },
   vacuums: {
-    text: "text-zinc-700",
-    bg: "bg-zinc-800",
-    border: "border-zinc-600",
-    ring: "focus-visible:outline-zinc-800",
+    text: "text-brand-dark",
+    bg: "bg-brand",
+    border: "border-brand",
+    ring: "focus-visible:outline-brand",
   },
 };
 

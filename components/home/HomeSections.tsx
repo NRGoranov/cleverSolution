@@ -98,7 +98,7 @@ export function ContactSection() {
             </p>
             <Link
               href="/contact"
-              className="mt-6 inline-flex items-center justify-center rounded-md bg-zinc-900 px-8 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+              className="mt-6 inline-flex items-center justify-center rounded-md bg-brand px-8 py-3 text-sm font-medium text-brand-foreground transition-colors hover:bg-brand-dark"
             >
               {bg.home.contactSection.cta}
             </Link>

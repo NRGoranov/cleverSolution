@@ -69,7 +69,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
       />
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <nav aria-label="Breadcrumb" className="mb-8 text-sm text-ink-muted">
@@ -123,7 +125,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <Link
                   href={contactHref}
                   className={cn(
-                    "inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90",
+                    "inline-flex items-center justify-center rounded-md px-8 py-3 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90",
                     bgAccent
                   )}
                 >
@@ -134,7 +136,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     href={product.buyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-md border border-zinc-300 px-8 py-3 text-sm font-medium text-ink transition-colors hover:bg-zinc-50"
+                    className="inline-flex items-center justify-center rounded-md border border-brand/30 px-8 py-3 text-sm font-medium text-brand transition-colors hover:bg-brand-soft"
                   >
                     {bg.product.externalBuy}
                   </a>

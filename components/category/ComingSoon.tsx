@@ -15,7 +15,7 @@ export function ComingSoon({ accent }: ComingSoonProps) {
     <div className="flex flex-col items-center justify-center rounded-2xl bg-white px-6 py-20 text-center shadow-soft">
       <div
         className={cn(
-          "mb-6 flex h-16 w-16 items-center justify-center rounded-full text-white",
+          "mb-6 flex h-16 w-16 items-center justify-center rounded-full text-brand-foreground",
           bgAccent
         )}
         aria-hidden="true"
@@ -42,7 +42,7 @@ export function ComingSoon({ accent }: ComingSoonProps) {
       <Link
         href="/contact"
         className={cn(
-          "mt-8 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90",
+          "mt-8 inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90",
           bgAccent
         )}
       >

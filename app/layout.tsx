@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="bg">
+    <html lang="bg" data-scroll-behavior="smooth">
       <body
         className={`${lora.variable} ${inter.variable} flex min-h-screen flex-col antialiased`}
       >

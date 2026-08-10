@@ -9,7 +9,7 @@ export default function ProductNotFound() {
       </h1>
       <Link
         href="/"
-        className="mt-6 inline-flex items-center justify-center rounded-md bg-zinc-900 px-6 py-3 text-sm font-medium text-white"
+        className="mt-6 inline-flex items-center justify-center rounded-md bg-brand px-6 py-3 text-sm font-medium text-brand-foreground transition-colors hover:bg-brand-dark"
       >
         {bg.product.backToCategories}
       </Link>

@@ -34,13 +34,16 @@ export function SkeletonButton({ className }: SkeletonProps) {
 
 export function SkeletonProductCard() {
   return (
-    <article className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-soft">
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-soft">
       <SkeletonImage />
-      <div className="space-y-3 p-5">
+      <div className="flex flex-1 flex-col gap-3 p-5">
         <Skeleton className="h-5 w-3/4" />
+        <Skeleton className="h-5 w-1/2" />
         <SkeletonText className="w-full" />
         <SkeletonText className="w-2/3" />
-        <SkeletonButton />
+        <div className="mt-auto pt-1">
+          <Skeleton className="h-10 w-full rounded-md" />
+        </div>
       </div>
     </article>
   );
@@ -48,7 +51,7 @@ export function SkeletonProductCard() {
 
 export function SkeletonProductGrid({ count = 8 }: { count?: number }) {
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {Array.from({ length: count }).map((_, i) => (
         <SkeletonProductCard key={i} />
       ))}

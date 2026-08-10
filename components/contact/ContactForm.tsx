@@ -145,7 +145,7 @@ function ContactFormInner() {
       <button
         type="submit"
         disabled={formState === "submitting"}
-        className="w-full rounded-md bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-md bg-brand px-6 py-3 text-sm font-medium text-brand-foreground transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-60"
       >
         {formState === "submitting"
           ? bg.contact.form.submitting

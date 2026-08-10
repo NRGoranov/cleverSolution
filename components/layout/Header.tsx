@@ -116,7 +116,7 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link
           href="/"
-          className="font-display text-xl font-semibold tracking-tight text-zinc-900"
+          className="font-display text-xl font-semibold tracking-tight text-brand"
         >
           {bg.site.name}
         </Link>

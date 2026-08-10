@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import Balancer from "react-wrap-balancer";
 
 import { cn } from "@/lib/utils";
 
@@ -186,24 +185,22 @@ export function Hero10({
         vs.title
       )}
     >
-      <Balancer>{title}</Balancer>
+      {title}
       {(titleLine2Prefix || titleHighlight) && (
         <>
           <br />
-          <Balancer>
-            {titleLine2Prefix && <span>{titleLine2Prefix} </span>}
-            {titleHighlight && (
-              <span className="text-primary">{titleHighlight}</span>
-            )}
-          </Balancer>
+          {titleLine2Prefix && <span>{titleLine2Prefix} </span>}
+          {titleHighlight && (
+            <span className="text-primary">{titleHighlight}</span>
+          )}
         </>
       )}
     </h1>
   );
 
   const descriptionElement = description && (
-    <p className={cn("text-muted-foreground", vs.description)}>
-      <Balancer>{description}</Balancer>
+    <p className={cn("text-muted-foreground text-balance", vs.description)}>
+      {description}
     </p>
   );
 
