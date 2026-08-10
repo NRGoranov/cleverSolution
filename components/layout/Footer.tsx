@@ -57,8 +57,21 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-zinc-200 py-6 text-center text-sm text-ink-muted">
-        © {new Date().getFullYear()} {bg.site.name}. {bg.footer.rights}
+      <div className="relative border-t border-zinc-200 py-6 text-center text-sm text-ink-muted">
+        <p className="absolute bottom-6 left-4 text-xs text-ink-subtle sm:left-6">
+          {bg.footer.madeBy}{" "}
+          <a
+            href={bg.footer.makerUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-ink-subtle/40 underline-offset-2 transition-colors hover:text-brand hover:decoration-brand/50"
+          >
+            {bg.footer.makerName}
+          </a>
+        </p>
+        <p>
+          © {new Date().getFullYear()} {bg.site.name}. {bg.footer.rights}
+        </p>
       </div>
     </footer>
   );

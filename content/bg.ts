@@ -11,6 +11,7 @@ export const bg = {
     contact: "Контакти",
     menuOpen: "Отвори менюто",
     menuClose: "Затвори менюто",
+    scrollToTop: "Към началото на страницата",
   },
   hero: {
     headline: "Подбрани решения за",
@@ -131,6 +132,9 @@ export const bg = {
   footer: {
     rights: "Всички права запазени.",
     contact: "Контакти",
+    madeBy: "Site was made by",
+    makerName: "NRG",
+    makerUrl: "https://nrgtrw.com",
   },
   // Testimonials section — plug back in when real content exists
   // testimonials: { ... },
