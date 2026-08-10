@@ -4,11 +4,12 @@ Product gallery / representative site for CleverSolutions (Bulgaria, bg-BG).
 
 ## Stack
 
-- Next.js 14 (App Router), TypeScript, Tailwind CSS
+- Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS
 - Zod-validated product data in `/data/products/`
-- Framer Motion micro-interactions
+- Framer Motion / Motion micro-interactions
 - Resend contact form
 - Playwright e2e smoke tests
+- Vercel plugin agent docs in `AGENTS.md`
 
 ## Getting started
 

@@ -15,7 +15,7 @@ import { getAccentClasses } from "@/lib/utils";
 import { cn } from "@/lib/cn";
 
 type ProductPageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
@@ -25,7 +25,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const product = getProductBySlug(slug);
 
   if (!product) {
@@ -53,8 +53,8 @@ const categoryAccentMap = {
 } as const;
 
 /** Product detail — content is driven entirely by the URL slug. */
-export default function ProductPage({ params }: ProductPageProps) {
-  const { slug } = params;
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { slug } = await params;
   const product = getProductBySlug(slug);
 
   if (!product) notFound();
