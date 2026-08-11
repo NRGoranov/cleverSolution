@@ -19,7 +19,7 @@ export const heroDriftWallItems = [
     title: "Грил",
   },
   {
-    image: encodeURI("/Friteuse a Gaz sur Meuble au Meilleur prix.jpg"),
+    image: encodeURI("/Friteuse à Gaz sur Meuble au Meilleur prix.jpg"),
     title: "Газов фритюрник",
   },
   {
