@@ -229,7 +229,7 @@ export function Hero10({
   ) : null;
 
   return (
-    <section className="bg-background relative isolate w-full overflow-hidden">
+    <section className="relative w-full overflow-hidden">
       <motion.div
         className={cn(
           "relative z-10 mx-auto flex max-w-6xl flex-col items-center px-6 text-center",

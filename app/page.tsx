@@ -18,12 +18,11 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <>
+    <div className="relative z-10">
       <Hero />
       <CategoryGrid />
       <FeaturedProducts />
-      {/* Testimonials section — plug back in when real content exists */}
       <ContactSection />
-    </>
+    </div>
   );
 }

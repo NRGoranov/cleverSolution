@@ -4,7 +4,7 @@ import { categories } from "@/data/products";
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-zinc-200 bg-zinc-50">
+    <footer className="relative z-10 mt-auto border-t border-zinc-200 bg-zinc-50">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-3">
         <div>
           <p className="font-display text-lg font-semibold text-brand">

@@ -13,19 +13,17 @@ export function FeaturedProducts() {
   }
 
   return (
-    <section className="py-16 md:py-20" aria-labelledby="featured-heading">
+    <section className="relative z-10 py-16 md:py-20" aria-labelledby="featured-heading">
       <div className="mx-auto max-w-6xl px-4">
         <ScrollReveal>
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2
-                id="featured-heading"
-                className="font-display text-3xl font-semibold text-ink md:text-4xl"
-              >
-                {bg.featured.title}
-              </h2>
-              <p className="mt-2 text-ink-muted">{bg.featured.subtitle}</p>
-            </div>
+          <div className="mb-10 max-w-2xl rounded-2xl border border-white/60 bg-white/85 p-6 shadow-soft backdrop-blur-md">
+            <h2
+              id="featured-heading"
+              className="font-display text-3xl font-semibold text-ink md:text-4xl"
+            >
+              {bg.featured.title}
+            </h2>
+            <p className="mt-2 text-ink-muted">{bg.featured.subtitle}</p>
           </div>
         </ScrollReveal>
         <ProductGrid products={products} />
@@ -38,7 +36,7 @@ export function CategoryGrid() {
   return (
     <section
       id="categories"
-      className="bg-zinc-50 py-16 md:py-20"
+      className="relative z-10 rounded-t-[2rem] rounded-b-[2rem] border-t border-zinc-200/90 bg-zinc-50 py-16 shadow-[0_-24px_64px_-24px_rgba(24,24,27,0.14)] md:rounded-t-[2.5rem] md:rounded-b-[2.5rem] md:py-20"
       aria-labelledby="categories-heading"
     >
       <div className="mx-auto max-w-6xl px-4">
@@ -83,7 +81,10 @@ export function CategoryGrid() {
 
 export function ContactSection() {
   return (
-    <section className="py-16 md:py-20" aria-labelledby="contact-cta-heading">
+    <section
+      className="relative z-10 py-16 md:py-20"
+      aria-labelledby="contact-cta-heading"
+    >
       <div className="mx-auto max-w-6xl px-4">
         <ScrollReveal>
           <div className="rounded-2xl border border-zinc-200 bg-white p-8 text-center shadow-soft md:p-12">

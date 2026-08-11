@@ -3,6 +3,7 @@ import { Lora, Inter } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { MainBackground } from "@/components/layout/MainBackground";
 import { bg } from "@/content/bg";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
@@ -45,8 +46,9 @@ export default function RootLayout({
       <body
         className={`${lora.variable} ${inter.variable} flex min-h-screen flex-col antialiased`}
       >
+        <MainBackground />
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="relative z-10 flex-1">{children}</main>
         <Footer />
         <ScrollToTop />
       </body>
