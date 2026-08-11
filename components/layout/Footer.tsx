@@ -57,8 +57,11 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="relative border-t border-zinc-200 py-6 text-center text-sm text-ink-muted">
-        <p className="absolute bottom-6 left-4 text-xs text-ink-subtle sm:left-6">
+      <div className="relative border-t border-zinc-200 px-4 py-6 sm:py-6">
+        <p className="text-center text-sm text-ink-muted">
+          © {new Date().getFullYear()} {bg.site.name}. {bg.footer.rights}
+        </p>
+        <p className="mt-3 text-center text-xs text-ink-subtle sm:absolute sm:bottom-6 sm:left-6 sm:mt-0 sm:text-left">
           {bg.footer.madeBy}{" "}
           <a
             href={bg.footer.makerUrl}
@@ -68,9 +71,6 @@ export function Footer() {
           >
             {bg.footer.makerName}
           </a>
-        </p>
-        <p>
-          © {new Date().getFullYear()} {bg.site.name}. {bg.footer.rights}
         </p>
       </div>
     </footer>
