@@ -26,13 +26,14 @@ export const bg = {
     sectionSubtitle: "Четири области, в които можем да ви помогнем",
     kitchenware: {
       name: "Кухня",
-      description: "Кухненски принадлежности и аксесоари",
+      description: "Професионално кухненско оборудване — конвектомати, фурни и аксесоари",
       slug: "kitchen",
       subcategories: [
-        { name: "Фритюрници", slug: "fryers" },
-        { name: "Фурни", slug: "ovens" },
         { name: "Конвектомати", slug: "combi-ovens" },
-        { name: "Готварски плочи", slug: "cooktops" },
+        { name: "Speed ovens", slug: "speed-ovens" },
+        { name: "Автоматични фурни", slug: "ovens" },
+        { name: "Sous-Vide", slug: "sous-vide" },
+        { name: "Оборудване", slug: "equipment" },
       ],
     },
     security: {

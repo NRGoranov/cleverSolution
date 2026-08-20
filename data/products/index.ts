@@ -19,6 +19,7 @@ export const categories = [
     href: `/${bg.categories.kitchenware.slug}`,
     subcategories: bg.categories.kitchenware.subcategories.map((s) => ({
       name: s.name,
+      slug: s.slug,
       href: `/${bg.categories.kitchenware.slug}?sub=${s.slug}`,
     })),
   },
@@ -31,6 +32,7 @@ export const categories = [
     href: `/${bg.categories.security.slug}`,
     subcategories: bg.categories.security.subcategories.map((s) => ({
       name: s.name,
+      slug: s.slug,
       href: `/${bg.categories.security.slug}?sub=${s.slug}`,
     })),
   },
@@ -43,6 +45,7 @@ export const categories = [
     href: `/${bg.categories.wristbands.slug}`,
     subcategories: bg.categories.wristbands.subcategories.map((s) => ({
       name: s.name,
+      slug: s.slug,
       href: `/${bg.categories.wristbands.slug}?sub=${s.slug}`,
     })),
   },
@@ -55,6 +58,7 @@ export const categories = [
     href: `/${bg.categories.vacuums.slug}`,
     subcategories: bg.categories.vacuums.subcategories.map((s) => ({
       name: s.name,
+      slug: s.slug,
       href: `/${bg.categories.vacuums.slug}?sub=${s.slug}`,
     })),
   },
@@ -109,12 +113,21 @@ function withCategory(
   return { ...product, categoryId, categorySlug };
 }
 
-export function getPublishedByCategory(categoryId: CategoryId): ProductWithCategory[] {
+export function getPublishedByCategory(
+  categoryId: CategoryId,
+  subcategory?: string
+): ProductWithCategory[] {
   const category = categories.find((c) => c.id === categoryId);
   if (!category) return [];
 
   return validatedByCategory[categoryId]
     .filter(isPublished)
+    .filter(
+      (product) =>
+        !subcategory ||
+        product.subcategory === subcategory ||
+        (!product.subcategory && subcategory === "all")
+    )
     .map((product) => withCategory(product, categoryId, category.slug));
 }
 

@@ -26,7 +26,7 @@ test.describe("CleverSolutions smoke tests", () => {
   });
 
   test("draft products do not appear on category pages", async ({ page }) => {
-    await page.goto("/vacuums");
+    await page.goto("/kitchen");
     await expect(
       page.getByText("Примерен draft продукт — не публикуван")
     ).toHaveCount(0);
@@ -37,38 +37,35 @@ test.describe("CleverSolutions smoke tests", () => {
   }) => {
     await page.goto("/kitchen");
     await expect(
-      page.getByRole("heading", { name: "Примерен фритюрник 15 л — заменете" })
+      page.getByRole("heading", {
+        name: "Електрически конвектомат iCombi PRO® XS",
+      })
     ).toBeVisible();
-    await expect(page.getByText("6 продукта")).toBeVisible();
+    await expect(page.getByText("39 продукта")).toBeVisible();
   });
 
   test("product detail page changes content by slug", async ({ page }) => {
-    await page.goto("/product/sample-fryer-15l");
+    await page.goto("/product/icp-xs");
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: "Примерен фритюрник 15 л — заменете",
+        name: "Електрически конвектомат iCombi PRO® XS",
       })
     ).toBeVisible();
-    await expect(page.getByText("15 л").first()).toBeVisible();
-    await expect(
-      page.getByRole("img", {
-        name: /двоен фритюрник/i,
-      })
-    ).toBeVisible();
+    await expect(page.getByText("iCP XS").first()).toBeVisible();
 
-    await page.goto("/product/sample-combi-oven");
+    await page.goto("/product/icp-6-1-1");
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: "Примерен конвектомат — заменете",
+        name: "Електрически конвектомат iCombi PRO® 6-11",
       })
     ).toBeVisible();
-    await expect(page.getByText("10 GN 1/1")).toBeVisible();
+    await expect(page.getByText("6х 1/1-GN").first()).toBeVisible();
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: "Примерен фритюрник 15 л — заменете",
+        name: "Електрически конвектомат iCombi PRO® XS",
       })
     ).toHaveCount(0);
   });
@@ -76,11 +73,11 @@ test.describe("CleverSolutions smoke tests", () => {
   test("contact about product prefills the form", async ({ page }) => {
     await page.goto(
       "/contact?product=" +
-        encodeURIComponent("Примерен фритюрник 15 л — заменете")
+        encodeURIComponent("Електрически конвектомат iCombi PRO® XS")
     );
     const productField = page.getByRole("textbox", { name: "Продукт" });
     await expect(productField).toHaveValue(
-      "Примерен фритюрник 15 л — заменете"
+      "Електрически конвектомат iCombi PRO® XS"
     );
   });
 

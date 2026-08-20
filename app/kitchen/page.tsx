@@ -4,8 +4,20 @@ import {
   getCategoryMetadata,
 } from "@/lib/category-page";
 
-export const metadata: Metadata = getCategoryMetadata("kitchenware");
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ sub?: string }>;
+}): Promise<Metadata> {
+  const { sub } = await searchParams;
+  return getCategoryMetadata("kitchenware", sub);
+}
 
-export default function KitchenPage() {
-  return <CategoryPageContent categoryId="kitchenware" />;
+export default async function KitchenPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sub?: string }>;
+}) {
+  const { sub } = await searchParams;
+  return <CategoryPageContent categoryId="kitchenware" subcategory={sub} />;
 }

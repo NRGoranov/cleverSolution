@@ -6,6 +6,7 @@ import {
   getPublishedByCategory,
   type CategoryId,
 } from "@/data/products";
+import { CategorySubnav } from "@/components/category/CategorySubnav";
 import { ComingSoon } from "@/components/category/ComingSoon";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
@@ -14,40 +15,72 @@ import { cn } from "@/lib/cn";
 
 type CategoryPageProps = {
   categoryId: CategoryId;
+  subcategory?: string;
 };
 
-export function getCategoryMetadata(categoryId: CategoryId): Metadata {
+export function getCategoryMetadata(
+  categoryId: CategoryId,
+  subcategory?: string
+): Metadata {
   const category = getCategoryById(categoryId);
   if (!category) return {};
 
+  const sub = subcategory
+    ? category.subcategories.find((item) => item.slug === subcategory)
+    : undefined;
+  const title = sub ? `${sub.name} — ${category.name}` : category.name;
+
   return {
-    title: category.name,
+    title,
     description: category.description,
     openGraph: {
-      title: `${category.name} | ${bg.site.name}`,
+      title: `${title} | ${bg.site.name}`,
       description: category.description,
     },
   };
 }
 
-export function CategoryPageContent({ categoryId }: CategoryPageProps) {
+export function CategoryPageContent({
+  categoryId,
+  subcategory,
+}: CategoryPageProps) {
   const category = getCategoryById(categoryId);
   if (!category) notFound();
 
-  const products = getPublishedByCategory(categoryId);
+  if (
+    subcategory &&
+    !category.subcategories.some((item) => item.slug === subcategory)
+  ) {
+    notFound();
+  }
+
+  const allProducts = getPublishedByCategory(categoryId);
+  const products = getPublishedByCategory(categoryId, subcategory);
+  const activeSub = category.subcategories.find((item) => item.slug === subcategory);
   const { text } = getAccentClasses(category.accent);
+
+  const counts = Object.fromEntries(
+    category.subcategories.map((sub) => [
+      sub.slug,
+      allProducts.filter((product) => product.subcategory === sub.slug).length,
+    ])
+  );
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
       <ScrollReveal>
-        <header className="mb-10 max-w-2xl">
+        <header className="mb-8 max-w-2xl">
           <p className={cn("text-sm font-medium uppercase tracking-widest", text)}>
             {bg.nav.categories}
           </p>
           <h1 className="mt-2 font-display text-4xl font-semibold text-ink md:text-5xl">
-            {category.name}
+            {activeSub ? activeSub.name : category.name}
           </h1>
-          <p className="mt-4 text-lg text-ink-muted">{category.description}</p>
+          <p className="mt-4 text-lg text-ink-muted">
+            {activeSub
+              ? `${activeSub.name} — ${category.description}`
+              : category.description}
+          </p>
           {products.length > 0 && (
             <p className="mt-2 text-sm text-ink-subtle">
               {bg.category.productCount(products.length)}
@@ -55,6 +88,17 @@ export function CategoryPageContent({ categoryId }: CategoryPageProps) {
           )}
         </header>
       </ScrollReveal>
+
+      {category.subcategories.length > 0 && allProducts.length > 0 && (
+        <CategorySubnav
+          categoryHref={category.href}
+          subcategories={category.subcategories}
+          activeSub={subcategory}
+          accent={category.accent}
+          counts={counts}
+          totalCount={allProducts.length}
+        />
+      )}
 
       {products.length === 0 ? (
         <ComingSoon accent={category.accent} />

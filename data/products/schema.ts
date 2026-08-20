@@ -23,6 +23,7 @@ export const ProductSchema = z.object({
     )
     .default([]),
   buyUrl: z.string().url().optional(),
+  subcategory: z.string().optional(),
   status: z.enum(["draft", "published"]).default("draft"),
 });
 
