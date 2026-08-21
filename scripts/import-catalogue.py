@@ -136,8 +136,28 @@ def capitalize_sentences(text: str, *, preserve_leading: bool = False) -> str:
     return "".join(chars)
 
 
+INCOMPLETE_END_CHARS = set(",;:/\\|•–-")
+
+
+def normalize_ending(text: str) -> str:
+    """Drop incomplete trailing punctuation; keep . ! ? or no ending mark."""
+    if not text:
+        return text
+
+    lines: list[str] = []
+    for line in text.split("\n"):
+        stripped = line.rstrip()
+        while stripped and stripped[-1] in INCOMPLETE_END_CHARS:
+            stripped = stripped[:-1].rstrip()
+        # Collapse accidental spaces before a kept terminal mark
+        stripped = re.sub(r"\s+([.!?…])$", r"\1", stripped)
+        lines.append(stripped)
+    return "\n".join(lines).strip()
+
+
 def normalize_prose(text: str, *, preserve_leading: bool = False) -> str:
-    return capitalize_sentences(text, preserve_leading=preserve_leading)
+    text = capitalize_sentences(text, preserve_leading=preserve_leading)
+    return normalize_ending(text)
 
 
 def first_line(text: str) -> str:
@@ -546,12 +566,14 @@ def build_specs(
         seen.add(key)
         preserve_value = key == "модел" or preserves_leading_capitalization(value)
         preserve_label = preserves_leading_capitalization(label)
-        specs.append(
-            {
-                "label": normalize_prose(label, preserve_leading=preserve_label),
-                "value": normalize_prose(value, preserve_leading=preserve_value),
-            }
-        )
+        clean_label = normalize_prose(label, preserve_leading=preserve_label)
+        clean_value = normalize_prose(value, preserve_leading=preserve_value)
+        if not clean_label or not clean_value:
+            return
+        # Placeholder / empty Excel cells
+        if clean_value in {"-", "—", "–"}:
+            return
+        specs.append({"label": clean_label, "value": clean_value})
 
     power = clean_text(row[2]) if len(row) > 2 else ""
     origin = clean_text(row[3]) if len(row) > 3 else ""
@@ -738,7 +760,7 @@ def parse_workbook(path: Path) -> list[dict]:
                 if not raw:
                     continue
 
-                name = product_name(raw)
+                name = normalize_prose(product_name(raw))
                 model = extract_model(raw)
                 base_slug = slugify(model or name)
                 count = seen_slugs.get(base_slug, 0)
