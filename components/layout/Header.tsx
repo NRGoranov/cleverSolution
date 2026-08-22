@@ -20,6 +20,7 @@ import {
 } from "framer-motion";
 import { bg } from "@/content/bg";
 import { categories } from "@/data/products";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 import { cn } from "@/lib/utils";
 
 type NavCategory = (typeof categories)[number];
@@ -30,7 +31,7 @@ const SPRING = { stiffness: 260, damping: 36, mass: 0.7 };
 
 function desktopNavLinkClass(isActive: boolean) {
   return cn(
-    "relative inline-flex cursor-pointer items-center gap-1 rounded-md px-2.5 py-1 text-sm font-medium transition-[color,background-color] duration-200 ease-out",
+    "relative inline-flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-1 text-sm font-medium transition-[color,background-color] duration-200 ease-out lg:px-2.5",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2",
     "after:pointer-events-none after:absolute after:inset-x-2 after:bottom-0.5 after:h-px after:rounded-full after:bg-brand after:origin-center after:transition-[transform,opacity] after:duration-200 after:ease-out",
     isActive
@@ -246,7 +247,7 @@ export function Header() {
             className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 ease-out group-hover/header:opacity-100"
             style={{
               background:
-                "radial-gradient(360px circle at var(--nav-glow-x, 50%) var(--nav-glow-y, 35%), rgba(15, 118, 110, 0.08), transparent 50%)",
+                "radial-gradient(360px circle at var(--nav-glow-x, 50%) var(--nav-glow-y, 35%), rgba(255, 96, 0, 0.10), transparent 50%)",
             }}
           />
         ) : null}
@@ -260,21 +261,20 @@ export function Header() {
             paddingRight: rowPaddingX,
           }}
         >
-          <Link
-            href="/"
-            className="group/logo rounded-md font-display text-xl font-semibold tracking-tight text-brand transition-[background-color,transform] duration-200 hover:bg-zinc-900/[0.04] active:scale-[0.99]"
-          >
-            <span className="inline-block px-1.5 py-0.5 transition-transform duration-200 ease-out group-hover/logo:scale-[1.02]">
-              {bg.site.name}
-            </span>
-          </Link>
+          <BrandLogo priority className="px-1.5 py-0.5" />
 
           <nav
-            className="flex items-center gap-1 lg:gap-2"
+            className="flex items-center gap-0.5 lg:gap-2"
             aria-label="Основна навигация"
           >
             <Link href="/" className={desktopNavLinkClass(pathname === "/")}>
               {bg.nav.home}
+            </Link>
+            <Link
+              href="/about"
+              className={desktopNavLinkClass(pathname === "/about")}
+            >
+              {bg.nav.about}
             </Link>
             {categories.map((category) => (
               <CategoryDropdown
@@ -301,13 +301,10 @@ export function Header() {
             paddingRight: rowPaddingX,
           }}
         >
-          <Link
-            href="/"
-            onClick={() => setMenuOpen(false)}
-            className="rounded-md font-display text-xl font-semibold tracking-tight text-brand transition-[background-color,transform] duration-200 hover:bg-zinc-900/[0.04] active:scale-[0.99]"
-          >
-            <span className="inline-block px-1.5 py-0.5">{bg.site.name}</span>
-          </Link>
+          <BrandLogo
+            className="px-1.5 py-0.5"
+            imageClassName="h-7 w-auto"
+          />
 
           <button
             type="button"
@@ -387,6 +384,23 @@ export function Header() {
                       {bg.nav.home}
                     </Link>
                   </motion.li>
+                  <motion.li
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -6 }}
+                    transition={{
+                      duration: 0.22,
+                      delay: 0.05,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                  >
+                    <Link
+                      href="/about"
+                      className="block rounded-xl px-3 py-2.5 text-lg font-medium text-zinc-900 transition-colors hover:bg-zinc-50"
+                    >
+                      {bg.nav.about}
+                    </Link>
+                  </motion.li>
                   {categories.map((category, index) => {
                     const expanded = expandedCategory === category.id;
                     return (
@@ -397,7 +411,7 @@ export function Header() {
                         exit={{ opacity: 0, x: -6 }}
                         transition={{
                           duration: 0.22,
-                          delay: (index + 1) * 0.05,
+                          delay: (index + 2) * 0.05,
                           ease: [0.22, 1, 0.36, 1],
                         }}
                         className="border-b border-zinc-100 py-1"
@@ -472,7 +486,7 @@ export function Header() {
                     exit={{ opacity: 0, x: -6 }}
                     transition={{
                       duration: 0.22,
-                      delay: (categories.length + 1) * 0.05,
+                      delay: (categories.length + 2) * 0.05,
                       ease: [0.22, 1, 0.36, 1],
                     }}
                   >

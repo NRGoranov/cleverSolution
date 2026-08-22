@@ -6,8 +6,20 @@ test.describe("CleverSolutions smoke tests", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Категории" })).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "CleverSolutions", exact: true })
+      page.getByRole("link", { name: "Clever Solution" }).first()
     ).toBeVisible();
+    await expect(page.getByRole("link", { name: "За нас" }).first()).toBeVisible();
+  });
+
+  test("about page shows bilingual company description", async ({ page }) => {
+    await page.goto("/about");
+    await expect(
+      page.getByRole("heading", { name: "Кои сме ние?" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Who we are?" })
+    ).toBeVisible();
+    await expect(page.getByText("CLEVER SOLUTION Ltd")).toBeVisible();
   });
 
   test("mobile nav opens and closes", async ({ page }) => {
@@ -19,6 +31,7 @@ test.describe("CleverSolutions smoke tests", () => {
 
     const mobileNav = page.getByRole("navigation", { name: "Мобилна навигация" });
     await expect(mobileNav).toBeVisible();
+    await expect(mobileNav.getByRole("link", { name: "За нас" })).toBeVisible();
     await expect(mobileNav.getByRole("link", { name: "Контакти" })).toBeVisible();
 
     await page.getByRole("button", { name: "Затвори менюто" }).click();

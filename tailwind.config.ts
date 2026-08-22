@@ -10,8 +10,8 @@ const config: Config = {
     extend: {
       colors: {
         canvas: {
-          DEFAULT: "#ffffff",
-          alt: "#f4f4f5",
+          DEFAULT: "#fff8f1",
+          alt: "#f7efe6",
         },
         ink: {
           DEFAULT: "#18181b",
@@ -19,17 +19,17 @@ const config: Config = {
           subtle: "#a1a1aa",
         },
         brand: {
-          DEFAULT: "#0f766e",
-          dark: "#115e59",
-          muted: "#14b8a6",
-          soft: "#ccfbf1",
+          DEFAULT: "#ff6000",
+          dark: "#d14f00",
+          muted: "#ff8533",
+          soft: "#ffe8d6",
           foreground: "#ffffff",
         },
         accent: {
-          kitchen: "#0f766e",
-          security: "#0d9488",
-          wristbands: "#14b8a6",
-          vacuums: "#2dd4bf",
+          kitchen: "#ff6000",
+          security: "#d14f00",
+          wristbands: "#e8590c",
+          vacuums: "#ff8533",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

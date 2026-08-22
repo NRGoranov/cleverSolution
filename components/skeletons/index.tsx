@@ -183,7 +183,31 @@ export function SkeletonContactForm() {
   );
 }
 
-/** Contact page shell matching form + aside layout. */
+export function SkeletonAboutPage() {
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+      <div className="mx-auto max-w-3xl rounded-2xl border border-zinc-200 bg-white p-6 shadow-soft md:p-10">
+        <Skeleton className="h-4 w-20" />
+        <Skeleton className="mt-3 h-12 w-64" />
+        <div className="mt-8 space-y-3">
+          <SkeletonText />
+          <SkeletonText />
+          <SkeletonText className="w-5/6" />
+          <SkeletonText className="w-2/3" />
+        </div>
+        <div className="mt-12 border-t border-zinc-200 pt-10">
+          <Skeleton className="h-10 w-56" />
+          <div className="mt-6 space-y-3">
+            <SkeletonText />
+            <SkeletonText />
+            <SkeletonText className="w-4/5" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function SkeletonContactPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">

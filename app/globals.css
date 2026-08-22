@@ -3,33 +3,33 @@
 @tailwind utilities;
 
 :root {
-  --color-canvas: #ffffff;
-  --color-canvas-alt: #f4f4f5;
+  --color-canvas: #fff8f1;
+  --color-canvas-alt: #f7efe6;
   --color-ink: #18181b;
-  --color-brand: #0f766e;
-  --color-brand-dark: #115e59;
-  --color-brand-muted: #14b8a6;
-  --color-brand-soft: #ccfbf1;
+  --color-brand: #ff6000;
+  --color-brand-dark: #d14f00;
+  --color-brand-muted: #ff8533;
+  --color-brand-soft: #ffe8d6;
 
-  --background: 0 0% 100%;
+  --background: 28 100% 97%;
   --foreground: 240 10% 3.9%;
   --card: 0 0% 100%;
   --card-foreground: 240 10% 3.9%;
   --popover: 0 0% 100%;
   --popover-foreground: 240 10% 3.9%;
-  --primary: 175 84% 26%;
+  --primary: 23 100% 50%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 240 5% 96%;
+  --secondary: 28 30% 96%;
   --secondary-foreground: 240 6% 10%;
-  --muted: 240 5% 96%;
+  --muted: 28 20% 96%;
   --muted-foreground: 240 4% 46%;
-  --accent: 166 76% 96%;
-  --accent-foreground: 175 84% 22%;
+  --accent: 24 100% 95%;
+  --accent-foreground: 18 90% 32%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --border: 240 6% 90%;
-  --input: 240 6% 90%;
-  --ring: 175 84% 26%;
+  --border: 30 16% 88%;
+  --input: 30 16% 88%;
+  --ring: 23 100% 50%;
   --radius: 0.5rem;
 }
 

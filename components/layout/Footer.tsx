@@ -1,16 +1,21 @@
 import Link from "next/link";
 import { bg } from "@/content/bg";
 import { categories } from "@/data/products";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 export function Footer() {
   return (
     <footer className="relative z-10 mt-auto border-t border-zinc-200 bg-zinc-50">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-3">
         <div>
-          <p className="font-display text-lg font-semibold text-brand">
-            {bg.site.name}
-          </p>
-          <p className="mt-2 text-sm text-ink-muted">{bg.site.tagline}</p>
+          <BrandLogo imageClassName="h-8 w-auto" />
+          <p className="mt-3 text-sm text-ink-muted">{bg.site.tagline}</p>
+          <Link
+            href="/about"
+            className="mt-3 inline-block text-sm font-medium text-ink transition-colors hover:text-brand"
+          >
+            {bg.nav.about}
+          </Link>
         </div>
 
         <div>

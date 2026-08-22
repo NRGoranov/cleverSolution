@@ -1,17 +1,32 @@
 export const bg = {
   site: {
-    name: "CleverSolutions",
-    tagline: "Подбрани продукти за дома и събития",
+    name: "Clever Solution",
+    tagline: "Your clever choice",
     description:
-      "CleverSolutions представя внимателно подбрани продукти — кухненски принадлежности, системи за сигурност, гривни за събития и роботизирани прахосмукачки.",
+      "КЛЕВЪР СОЛЮШЪН ЕООД предлага професионално кухненско оборудване, решения за контрол на достъпа, опаковъчни материали и препарати за почистване и поддръжка.",
   },
   nav: {
     home: "Начало",
+    about: "За нас",
     categories: "Категории",
     contact: "Контакти",
     menuOpen: "Отвори менюто",
     menuClose: "Затвори менюто",
     scrollToTop: "Към началото на страницата",
+  },
+  about: {
+    title: "За нас",
+    bg: {
+      heading: "Кои сме ние?",
+      p1: "КЛЕВЪР СОЛЮШЪН ЕООД е новосъздадена компания от доказани и опитни професионалисти, специализирана в сферата на оборудване на обекти и предприятия за обществено хранене, индустриални кухни и кетъринг. Продуктовото портфолио на компанията включва и разнообразни и функционални кухненски аксесоари, решения за контрол на достъпа, като почистващи препарати. Грижим си и за сигурния достъп до Вашите обекти и събития, като предлагаме киоск терминали и гривни, карти и аксесоари за контрол на достъпа.",
+      p2: "С над двадесет години опит в сегмента, ние гарантираме високо качество, предлагайки надеждни продукти от водещи и доказани производители, фокусирайки се върху предоставянето на цялостни решения, съобразени с нуждите на нашите клиенти. Ние нямаме само клиенти, а изграждаме мрежа от доверени партньори и приятели!",
+      p3: "Нашият ангажимент е да подобрим вашата оперативна ефективност с ноу-хау и чрез надеждни продукти и отлично клиентско обслужване!",
+    },
+    en: {
+      heading: "Who we are?",
+      p1: "CLEVER SOLUTION Ltd is a newly established business from proven and experienced professionals, specializing in industrial catering equipment, consumables and accessories, access control solutions, such as functional kitchen accessories, cleaning detergents, kiosks and access control wristbands, cards, and accessories.",
+      p2: "With over two decades of experience in the segment, we ensure high-quality, offering products from leading and reliable manufacturers, focusing on providing comprehensive solutions, tailored to the needs of our clients. We do not have just customers, we gain a network from trusted partners and friends. Our commitment is to enhance your operational efficiency with know-how and through reliable products, and excellent customer service!",
+    },
   },
   hero: {
     headline: "Подбрани решения за",
@@ -26,7 +41,8 @@ export const bg = {
     sectionSubtitle: "Четири области, в които можем да ви помогнем",
     kitchenware: {
       name: "Кухня",
-      description: "Професионално кухненско оборудване — конвектомати, фурни и аксесоари",
+      description:
+        "Професионално кухненско оборудване — конвектомати, фурни и аксесоари",
       slug: "kitchen",
       subcategories: [
         { name: "Конвектомати", slug: "combi-ovens" },
@@ -38,7 +54,7 @@ export const bg = {
     },
     security: {
       name: "Сигурност",
-      description: "Устройства и системи за домашна сигурност",
+      description: "Решения за контрол на достъпа — терминали, карти и системи",
       slug: "security",
       subcategories: [
         { name: "Камери", slug: "cameras" },
@@ -60,7 +76,7 @@ export const bg = {
     },
     vacuums: {
       name: "Почистване",
-      description: "Роботизирани прахосмукачки",
+      description: "Препарати за почистване и поддръжка",
       slug: "vacuums",
       subcategories: [
         { name: "Роботи", slug: "robots" },
