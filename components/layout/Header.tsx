@@ -28,6 +28,8 @@ type NavCategory = (typeof categories)[number];
 const SCROLL_START = 40;
 const SCROLL_RANGE = 140;
 const SPRING = { stiffness: 260, damping: 36, mass: 0.7 };
+const COMPACT_MAX_WIDTH_PX = 80 * 16; // 80rem
+const COMPACT_SIDE_PAD_PX = 16;
 
 function desktopNavLinkClass(isActive: boolean) {
   return cn(
@@ -133,6 +135,7 @@ export function Header() {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
   const menuOpenValue = useMotionValue(0);
+  const viewportWidth = useMotionValue(1200);
 
   const { scrollY } = useScroll();
   const rawProgress = useTransform(
@@ -148,10 +151,27 @@ export function Header() {
       : SPRING
   );
 
+  useEffect(() => {
+    const syncViewport = () => viewportWidth.set(window.innerWidth);
+    syncViewport();
+    window.addEventListener("resize", syncViewport);
+    return () => window.removeEventListener("resize", syncViewport);
+  }, [viewportWidth]);
+
   const wrapPaddingTop = useTransform(progress, [0, 1], [0, 12]);
-  const wrapPaddingX = useTransform(progress, [0, 1], [0, 16]);
-  // Compact via padding/height only — avoid scale so text stays readable.
-  const headerMaxWidth = useTransform(progress, [0, 1], ["100%", "80rem"]);
+  const wrapPaddingX = useTransform(progress, [0, 1], [0, COMPACT_SIDE_PAD_PX]);
+  // Full viewport at top → compact centered pill when scrolled (pixel lerp).
+  const headerMaxWidth = useTransform(
+    [progress, viewportWidth],
+    ([p, vw]) => {
+      const width = Number(vw);
+      const compact = Math.min(
+        COMPACT_MAX_WIDTH_PX,
+        Math.max(320, width - COMPACT_SIDE_PAD_PX * 2)
+      );
+      return width + (compact - width) * Number(p);
+    }
+  );
   const borderRadius = useTransform(
     [progress, menuOpenValue],
     ([value, menu]) => {
@@ -234,6 +254,7 @@ export function Header() {
         onPointerEnter={onHeaderPointerEnter}
         className="group/header relative mx-auto w-full overflow-visible border border-transparent border-b-zinc-200/90 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80"
         style={{
+          width: "100%",
           maxWidth: headerMaxWidth,
           borderRadius,
           boxShadow: headerShadow,
