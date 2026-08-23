@@ -150,8 +150,8 @@ export function Header() {
 
   const wrapPaddingTop = useTransform(progress, [0, 1], [0, 12]);
   const wrapPaddingX = useTransform(progress, [0, 1], [0, 16]);
-  const headerScale = useTransform(progress, [0, 1], [1, 0.94]);
-  const headerMaxWidth = useTransform(progress, [0, 1], ["100vw", "72rem"]);
+  // Compact via padding/height only — avoid scale so text stays readable.
+  const headerMaxWidth = useTransform(progress, [0, 1], ["100%", "80rem"]);
   const borderRadius = useTransform(
     [progress, menuOpenValue],
     ([value, menu]) => {
@@ -161,8 +161,8 @@ export function Header() {
       return p * 9999;
     }
   );
-  const rowHeight = useTransform(progress, [0, 1], [64, 48]);
-  const rowPaddingX = useTransform(progress, [0, 1], [16, 20]);
+  const rowHeight = useTransform(progress, [0, 1], [64, 52]);
+  const rowPaddingX = useTransform(progress, [0, 1], [16, 24]);
   const shadowBlur = useTransform(progress, [0, 1], [0, 16]);
   const shadowAlpha = useTransform(progress, [0, 1], [0, 0.08]);
   const headerShadow = useMotionTemplate`0 4px ${shadowBlur}px rgba(24, 24, 27, ${shadowAlpha})`;
@@ -221,7 +221,7 @@ export function Header() {
 
   return (
     <motion.div
-      className="sticky top-0 z-50 w-screen max-w-[100vw]"
+      className="sticky top-0 z-50 w-full"
       style={{
         paddingTop: wrapPaddingTop,
         paddingLeft: wrapPaddingX,
@@ -232,12 +232,10 @@ export function Header() {
         ref={headerRef}
         onPointerMove={onHeaderPointerMove}
         onPointerEnter={onHeaderPointerEnter}
-        className="group/header relative w-full overflow-visible border border-transparent border-b-zinc-200/90 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80"
+        className="group/header relative mx-auto w-full overflow-visible border border-transparent border-b-zinc-200/90 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80"
         style={{
           maxWidth: headerMaxWidth,
           borderRadius,
-          scale: headerScale,
-          transformOrigin: "top center",
           boxShadow: headerShadow,
         }}
       >
