@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useReducedMotion } from "motion/react";
-import { heroDriftWallItems } from "@/lib/hero-drift-images";
+import { heroDriftWallItems, HERO_DRIFT_COLUMNS } from "@/lib/hero-drift-images";
 import { cn } from "@/lib/utils";
 
 const DriftWall = dynamic(() => import("@/components/DriftWall"), {
@@ -27,7 +27,7 @@ export function HomePageBackground({ className }: HomePageBackgroundProps) {
     >
       <DriftWall
         items={[...heroDriftWallItems]}
-        columns={8}
+        columns={HERO_DRIFT_COLUMNS}
         tileWidth={200}
         tileHeight={132}
         gap={18}
@@ -42,7 +42,7 @@ export function HomePageBackground({ className }: HomePageBackgroundProps) {
         lift={64}
         fade={0.6}
         dim={0.55}
-        overlayColor="#060010"
+        overlayColor="#1c1008"
         radius={14}
         roll={0}
         pauseOnHover={false}

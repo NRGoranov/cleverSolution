@@ -27,14 +27,14 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <article className="group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-soft transition-shadow hover:shadow-soft-lg">
       <Link href={productHref} className="block shrink-0" tabIndex={-1}>
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100">
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
           {mainImage ? (
             <Image
               src={mainImage.src}
               alt={mainImage.alt}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-contain p-4 transition-transform duration-500 group-hover:scale-[1.03]"
             />
           ) : (
             <ImagePlaceholder

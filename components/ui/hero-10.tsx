@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -15,6 +16,8 @@ export interface Hero10Props {
   socialProof?: string;
   images: string[];
   imageAlts?: string[];
+  imageLinks?: string[];
+  imageLabels?: string[];
   animation?: "none" | "subtle";
   primaryCTA: CtaProps;
   secondaryCTA?: CtaProps;
@@ -116,11 +119,15 @@ function Reveal({
 function ImageFan({
   images,
   imageAlts,
+  imageLinks,
+  imageLabels,
   cardAspect,
   animate,
 }: Readonly<{
   images: string[];
   imageAlts?: string[];
+  imageLinks?: string[];
+  imageLabels?: string[];
   cardAspect: string;
   animate: boolean;
 }>) {
@@ -135,25 +142,50 @@ function ImageFan({
     >
       {images.slice(0, 3).map((src, i) => {
         const slot = fanSlots[i] ?? fanSlots[1];
+        const href = imageLinks?.[i];
+        const label = imageLabels?.[i];
+        const alt = imageAlts?.[i] ?? label ?? "";
+
+        const media = (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={src}
+              alt={href ? "" : alt}
+              decoding="async"
+              className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            {label ? (
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent px-3 pb-3 pt-10 text-left text-xs font-semibold leading-snug text-white sm:text-sm">
+                {label}
+              </span>
+            ) : null}
+          </>
+        );
+
         return (
           <motion.div
             key={src}
             custom={slot}
             variants={fanCard}
             className={cn(
-              "relative shrink-0 overflow-hidden rounded-xl shadow-xl outline outline-black/10",
+              "group relative shrink-0 overflow-hidden rounded-xl shadow-xl outline outline-black/10",
               cardAspect,
               slot.width,
               slot.layout
             )}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt={imageAlts?.[i] ?? ""}
-              decoding="async"
-              className="size-full object-cover"
-            />
+            {href ? (
+              <Link
+                href={href}
+                className="absolute inset-0 block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                aria-label={label ?? alt}
+              >
+                {media}
+              </Link>
+            ) : (
+              media
+            )}
           </motion.div>
         );
       })}
@@ -169,6 +201,8 @@ export function Hero10({
   socialProof,
   images,
   imageAlts,
+  imageLinks,
+  imageLabels,
   animation = "none",
   primaryCTA,
   secondaryCTA,
@@ -223,6 +257,8 @@ export function Hero10({
     <ImageFan
       images={images}
       imageAlts={imageAlts}
+      imageLinks={imageLinks}
+      imageLabels={imageLabels}
       cardAspect={vs.fanCard}
       animate={animate}
     />

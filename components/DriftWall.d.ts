@@ -5,6 +5,7 @@ declare module "@/components/DriftWall" {
     image: string;
     title?: string;
     href?: string;
+    column?: number;
   };
 
   export type DriftWallProps = {

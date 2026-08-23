@@ -26,7 +26,7 @@ export function ProductGallery({ product, accent }: ProductGalleryProps) {
 
   return (
     <div className="space-y-4">
-      <div className="relative aspect-square overflow-hidden rounded-2xl bg-zinc-100 shadow-soft">
+      <div className="relative aspect-square overflow-hidden rounded-2xl bg-white shadow-soft">
         <Image
           key={activeImage.src}
           src={activeImage.src}
@@ -34,11 +34,11 @@ export function ProductGallery({ product, accent }: ProductGalleryProps) {
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 50vw"
-          className="object-cover"
+          className="object-contain p-6"
         />
       </div>
       {images.length > 1 && (
-        <div className="grid grid-cols-4 gap-3" role="tablist" aria-label="Гalerия">
+        <div className="grid grid-cols-4 gap-3" role="tablist" aria-label="Галерия">
           {images.map((image, index) => (
             <button
               key={image.src}
@@ -48,7 +48,7 @@ export function ProductGallery({ product, accent }: ProductGalleryProps) {
               aria-label={image.alt}
               onClick={() => setActiveIndex(index)}
               className={cn(
-                "relative aspect-square overflow-hidden rounded-lg ring-2 ring-offset-2 ring-offset-canvas transition-all",
+                "relative aspect-square overflow-hidden rounded-lg bg-white ring-2 ring-offset-2 ring-offset-canvas transition-all",
                 index === activeIndex
                   ? "ring-zinc-900"
                   : "ring-transparent hover:ring-zinc-200"
@@ -59,7 +59,7 @@ export function ProductGallery({ product, accent }: ProductGalleryProps) {
                 alt={image.alt}
                 fill
                 sizes="120px"
-                className="object-cover"
+                className="object-contain p-1.5"
               />
             </button>
           ))}

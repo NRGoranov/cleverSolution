@@ -1,5 +1,29 @@
 /** Local images for the hero DriftWall background (paths under /public). */
-export const heroDriftWallItems = [
+
+export const HERO_DRIFT_COLUMNS = 7;
+
+/**
+ * Column roles for the drifting backdrop (7 columns):
+ * 0–3 kitchen equipment, 4 access control, 5 packaging, 6 cleaning.
+ * Partner photos will replace the placeholder kitchen shots in columns 4–6.
+ */
+export const heroDriftColumnRoles = [
+  "kitchen",
+  "kitchen",
+  "kitchen",
+  "kitchen",
+  "security",
+  "packaging",
+  "cleaning",
+] as const;
+
+type DriftItem = {
+  image: string;
+  title: string;
+  column: number;
+};
+
+const kitchenPool: Omit<DriftItem, "column">[] = [
   { image: "/images/hero/1-fryer.png", title: "Фритюрник" },
   { image: "/images/hero/2-combi-oven.png", title: "Конвектомат" },
   { image: "/images/hero/3-deck-oven.png", title: "Пекарска фурна" },
@@ -19,7 +43,7 @@ export const heroDriftWallItems = [
     title: "Грил",
   },
   {
-    image: encodeURI("/Friteuse à Gaz sur Meuble au Meilleur prix.jpg"),
+    image: encodeURI("/Friteuse a Gaz sur Meuble au Meilleur prix.jpg"),
     title: "Газов фритюрник",
   },
   {
@@ -32,4 +56,26 @@ export const heroDriftWallItems = [
     ),
     title: "Rational конвектомат",
   },
-] as const;
+];
+
+function assignColumns(pool: Omit<DriftItem, "column">[]): DriftItem[] {
+  const items: DriftItem[] = [];
+  const kitchenCols = [0, 1, 2, 3];
+  const kitchen = pool.slice(0, 12);
+  kitchen.forEach((item, i) => {
+    items.push({ ...item, column: kitchenCols[i % kitchenCols.length] });
+  });
+
+  const placeholders = pool.slice(12);
+  const otherCols = [4, 5, 6];
+  otherCols.forEach((column, i) => {
+    const primary = placeholders[i] ?? pool[i];
+    const extra = pool[i + 3];
+    items.push({ ...primary, column });
+    if (extra) items.push({ ...extra, column });
+  });
+
+  return items;
+}
+
+export const heroDriftWallItems = assignColumns(kitchenPool);

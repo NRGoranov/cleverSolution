@@ -71,8 +71,16 @@ const DriftWall = ({
 
   const columnItems = useMemo(() => {
     const cols = Array.from({ length: columns }, () => []);
-    items.forEach((item, i) => cols[i % columns].push(item));
-    return cols.map(col => (col.length ? col : items.slice(0, 1)));
+    const usesExplicitColumns = items.some(
+      (item) => typeof item.column === "number"
+    );
+    items.forEach((item, i) => {
+      const index = usesExplicitColumns
+        ? Math.min(columns - 1, Math.max(0, item.column ?? 0))
+        : i % columns;
+      cols[index].push(item);
+    });
+    return cols.map((col) => (col.length ? col : items.slice(0, 1)));
   }, [items, columns]);
 
   const columnMeta = useMemo(() => {

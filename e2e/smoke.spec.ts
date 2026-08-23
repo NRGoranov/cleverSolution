@@ -22,6 +22,14 @@ test.describe("CleverSolutions smoke tests", () => {
     await expect(page.getByText("CLEVER SOLUTION Ltd")).toBeVisible();
   });
 
+  test("hero category images link to category pages", async ({ page }) => {
+    await page.goto("/");
+    await page
+      .getByRole("link", { name: "Професионално кухненско оборудване" })
+      .click();
+    await expect(page).toHaveURL(/\/kitchen/);
+  });
+
   test("mobile nav opens and closes", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/");
