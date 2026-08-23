@@ -24,6 +24,16 @@
   mask-composite: intersect;
 }
 
+.drift-wall--fill-viewport {
+  --dw-edge: 10%;
+  -webkit-mask-image:
+    radial-gradient(ellipse 94% 88% at 50% 46%, #000 var(--dw-edge), transparent 100%),
+    linear-gradient(to top, #000 var(--dw-edge), transparent 100%);
+  mask-image:
+    radial-gradient(ellipse 94% 88% at 50% 46%, #000 var(--dw-edge), transparent 100%),
+    linear-gradient(to top, #000 var(--dw-edge), transparent 100%);
+}
+
 .drift-wall__plane {
   position: absolute;
   top: 50%;

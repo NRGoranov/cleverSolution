@@ -36,12 +36,14 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
     scrollbar-width: thin;
     scrollbar-color: var(--color-brand-muted) transparent;
   }
 
   body {
     @apply bg-background font-sans text-foreground antialiased;
+    font-feature-settings: "kern" 1, "liga" 1;
   }
 
   ::selection {

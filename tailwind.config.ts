@@ -67,9 +67,9 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        display: ["var(--font-fraunces)", "Georgia", "serif"],
-        serif: ["var(--font-fraunces)", "Georgia", "serif"],
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        serif: ["var(--font-display)", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "Segoe UI", "sans-serif"],
       },
       boxShadow: {
         soft: "0 4px 24px -4px rgba(24, 24, 27, 0.06), 0 2px 8px -2px rgba(24, 24, 27, 0.03)",

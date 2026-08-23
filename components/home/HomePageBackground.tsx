@@ -21,7 +21,7 @@ export function HomePageBackground({ className }: HomePageBackgroundProps) {
     <div
       aria-hidden
       className={cn(
-        "pointer-events-none fixed inset-0 z-0 overflow-hidden",
+        "pointer-events-none fixed inset-0 z-0 w-screen max-w-[100vw] overflow-hidden",
         className
       )}
     >
@@ -41,7 +41,7 @@ export function HomePageBackground({ className }: HomePageBackgroundProps) {
         variance={0.45}
         parallax={reduceMotion ? 0 : 0.6}
         lift={64}
-        fade={0.6}
+        fade={0.15}
         dim={0.55}
         overlayColor="#1c1008"
         radius={14}

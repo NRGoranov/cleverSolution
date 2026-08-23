@@ -18,8 +18,9 @@ const columnFactor = (index, variance) => {
   return 1 + variance * pseudo;
 };
 
-/** Extra coverage so perspective + scale(1.18) still fill the edges. */
-const VIEWPORT_FILL_FACTOR = 1.35;
+/** Extra coverage so perspective, scale, and Y-rotation still fill the edges. */
+const VIEWPORT_FILL_FACTOR = 1.48;
+const PLANE_SCALE = 1.18;
 
 const DriftWall = ({
   items = DEFAULT_ITEMS,
@@ -77,6 +78,30 @@ const DriftWall = ({
     );
     return Math.max(minColumns, needed);
   }, [columns, fillViewport, containerWidth, columnUnit]);
+
+  const effectiveTileWidth = useMemo(() => {
+    if (!fillViewport || containerWidth <= 0 || effectiveColumns <= 0) {
+      return tileWidth;
+    }
+    const target =
+      (containerWidth * VIEWPORT_FILL_FACTOR) / effectiveColumns - gap;
+    return Math.max(120, target);
+  }, [fillViewport, containerWidth, effectiveColumns, gap, tileWidth]);
+
+  const planeOffsetX = useMemo(() => {
+    if (!fillViewport || containerWidth <= 0) return 0;
+    const planeWidth = effectiveColumns * (effectiveTileWidth + gap);
+    const turnRad = (turn * Math.PI) / 180;
+    // Negative rotateY pulls the left edge inward — shift the plane right.
+    return -planeWidth * PLANE_SCALE * Math.sin(turnRad) * 0.42;
+  }, [
+    fillViewport,
+    containerWidth,
+    effectiveColumns,
+    effectiveTileWidth,
+    gap,
+    turn,
+  ]);
 
   useEffect(() => {
     setReduced(prefersReducedMotion());
@@ -156,12 +181,13 @@ const DriftWall = ({
     (px, py) => {
       const plane = planeRef.current;
       if (!plane) return;
+      const offsetX = planeOffsetX + px * 14;
       plane.style.transform =
-        `translate(-50%, -50%) scale(1.18) ` +
+        `translate(calc(-50% + ${offsetX}px), -50%) scale(${PLANE_SCALE}) ` +
         `rotateX(${tilt + py}deg) rotateY(${turn + px}deg) rotateZ(${roll}deg) ` +
         `translateZ(${-depth}px)`;
     },
-    [tilt, turn, roll, depth]
+    [tilt, turn, roll, depth, planeOffsetX]
   );
 
   useEffect(() => {
@@ -255,7 +281,7 @@ const DriftWall = ({
 
   const cssVars = useMemo(
     () => ({
-      '--dw-tile-w': `${tileWidth}px`,
+      '--dw-tile-w': `${effectiveTileWidth}px`,
       '--dw-tile-h': `${tileHeight}px`,
       '--dw-gap': `${gap}px`,
       '--dw-radius': `${radius}px`,
@@ -264,10 +290,25 @@ const DriftWall = ({
       '--dw-dim': dim,
       '--dw-gray': grayscale ? 1 : 0,
       '--dw-overlay': overlayColor,
-      '--dw-edge': `${Math.max(0, (1 - fade) * 100)}%`,
+      '--dw-edge': fillViewport
+        ? '10%'
+        : `${Math.max(0, (1 - fade) * 100)}%`,
       ...style
     }),
-    [tileWidth, tileHeight, gap, radius, perspective, lift, dim, grayscale, overlayColor, fade, style]
+    [
+      effectiveTileWidth,
+      tileHeight,
+      gap,
+      radius,
+      perspective,
+      lift,
+      dim,
+      grayscale,
+      overlayColor,
+      fade,
+      fillViewport,
+      style,
+    ]
   );
 
   const renderTile = (item, id, colIndex) => {
@@ -298,7 +339,14 @@ const DriftWall = ({
     );
   };
 
-  const rootClass = ['drift-wall', reduced ? 'drift-wall--reduced' : '', className].filter(Boolean).join(' ');
+  const rootClass = [
+    'drift-wall',
+    fillViewport ? 'drift-wall--fill-viewport' : '',
+    reduced ? 'drift-wall--reduced' : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div

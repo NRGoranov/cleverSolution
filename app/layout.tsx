@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lora, Inter } from "next/font/google";
+import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
@@ -8,15 +8,15 @@ import { bg } from "@/content/bg";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
-const lora = Lora({
+const display = Cormorant_Garamond({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-fraunces",
+  variable: "--font-display",
   display: "swap",
 });
 
-const inter = Inter({
+const sans = Source_Sans_3({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+  variable: "--font-sans",
   display: "swap",
 });
 
@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="bg" data-scroll-behavior="smooth">
       <body
-        className={`${lora.variable} ${inter.variable} flex min-h-screen flex-col antialiased`}
+        className={`${display.variable} ${sans.variable} flex min-h-screen flex-col antialiased`}
       >
         <MainBackground />
         <Header />
