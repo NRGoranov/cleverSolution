@@ -14,5 +14,20 @@
 13,2026-08-11,Homepage backgrounds,DriftWall full-page backdrop; layered category/contact panels; inner-page teal gradient,Hero atmosphere vs readable content sections; footer above fixed background,DriftWall + HomePageBackground; MainBackground route switch; PageGradientBackground,1.75,"DriftWall.jsx, HomePageBackground, PageGradientBackground, HomeSections"
 14,2026-08-11,Bugfixes & DX,"React 19 script warning, Windows .next cache, JSON-LD, dev scripts",Balancer script tag; dev server lock; console warnings,Removed react-wrap-balancer; clean/dev:fresh; data-scroll-behavior; JSON-LD pattern,0.75,"hero-10.tsx, package.json scripts, app/layout.tsx"
 15,2026-08-11,Client handoff prep,Product Excel import template; hours statement; git push to GitHub,Client needs format for 150–180 products; billing documentation,CleverSolutions-Produktov-shablon.xlsx; work-hours statement; commits on main,0.5,"docs/*, scripts/generate-product-template.py, GitHub main branch"
+16,2026-08-20,Catalogue import,Import kitchen equipment Excel into published products with images,150–180 SKU catalogue; first real data was a multi-sheet Excel with embedded photos,"import-catalogue.py: sheet→subcategory map, image extract, slugify, Zod-ready kitchenware.ts",5,"scripts/import-catalogue.py, data/products/kitchenware.ts, public/images/products/*"
+17,2026-08-21,Catalogue QA,Normalize imported catalogue text endings and incomplete punctuation,Excel cells had truncated sentences and inconsistent spacing,Cleaned descriptions/specs in kitchenware.ts without changing product count,0.75,data/products/kitchenware.ts
+18,2026-08-22,Brand & About,"Orange/black palette, logo mark favicon, bilingual За нас page","Client asked for About copy, warmer color, logo colors black+orange",Brand tokens #FF6000; BrandLogo; /about BG+EN; nav/footer; icon/apple-icon/favicon,3.5,"content/bg.ts, app/about, BrandLogo, globals.css, app/icon.png"
+19,2026-08-23,Homepage & product photos,Hero fan links to categories; 7-column DriftWall; contain product images,Carousel photos needed to be category buttons; SKU photos cropped out of frames,Clickable hero slides; column-grouped DriftWall; object-contain on cards/gallery,1.75,"Hero.tsx, hero-10.tsx, hero-drift-images.ts, ProductCard, ProductGallery"
+20,2026-08-23,Billing estimate,Update work-hours statement and remaining 150–180 SKU ballpark,Client needs hours-to-date plus time to finish remaining products,Extended hours log to 31.5 h; Remaining SKUs sheet with scenario ranges,0.5,"scripts/generate-work-statement.py, docs/CleverSolutions-Work-Hours-Statement-client.*"
 
-TOTAL HOURS,,,,,,20.0,
+TOTAL HOURS,,,,,,31.5,
+
+REMAINING SKUs (ballpark)
+Scenario,SKU count,Input quality,Hours low,Hours high,Calendar (one developer)
+Excel-ready (same as kitchen catalogue),150,"Sheets with name, specs, embedded or folder images",18,24,3–4 focused days
+Excel-ready (same as kitchen catalogue),180,"Sheets with name, specs, embedded or folder images",22,28,4–5 focused days
+Typical mixed cleanup,150,"Excel plus missing/wrong photos, spec label fixes",26,34,about 1–1.5 weeks
+Typical mixed cleanup,180,"Excel plus missing/wrong photos, spec label fixes",30,40,about 1.5–2 weeks
+Manual / messy source,150–180,"PDFs, emails, uncropped photos — typed by hand",40,50,2–3 weeks
+
+Likely quote,150–180 SKUs,"Excel like kitchen catalogue, some photo/spec cleanup",24,36,about 4–6 focused days / 1.5 weeks

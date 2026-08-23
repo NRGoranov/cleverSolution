@@ -3,7 +3,7 @@
 export const HERO_DRIFT_COLUMNS = 7;
 
 /**
- * Column roles for the drifting backdrop (7 columns):
+ * Base column roles for the drifting backdrop (repeated when fillViewport adds columns):
  * 0–3 kitchen equipment, 4 access control, 5 packaging, 6 cleaning.
  * Partner photos will replace the placeholder kitchen shots in columns 4–6.
  */

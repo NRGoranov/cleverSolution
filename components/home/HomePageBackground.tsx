@@ -28,6 +28,7 @@ export function HomePageBackground({ className }: HomePageBackgroundProps) {
       <DriftWall
         items={[...heroDriftWallItems]}
         columns={HERO_DRIFT_COLUMNS}
+        fillViewport
         tileWidth={200}
         tileHeight={132}
         gap={18}

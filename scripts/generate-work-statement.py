@@ -17,7 +17,7 @@ SUMMARY_ROWS = [
     ["Project", "CleverSolutions — Product Gallery / Representative Website"],
     ["Client / Brand", "CleverSolutions (Bulgaria, bg-BG)"],
     ["Repository", "https://github.com/NRGoranov/cleverSolution"],
-    ["Work date(s)", "2026-08-09 — 2026-08-11 (3 days)"],
+    ["Work date(s)", "2026-08-09 — 2026-08-23 (site build + catalogue + brand round)"],
     ["Role", "Full-stack web development (Next.js / React / TypeScript)"],
     [
         "Nature of work",
@@ -28,13 +28,21 @@ SUMMARY_ROWS = [
         "Stack delivered",
         "Next.js 16.3, React 19.2, TypeScript, Tailwind CSS, Zod, Motion, Playwright, Resend, Vercel-ready",
     ],
-    ["Total billable hours (estimated)", "20.0"],
+    ["Total billable hours (estimated)", "31.5"],
     ["Day 1 — 09.08.2026", "6.5 h — project setup, content system, data layer, design tokens"],
     ["Day 2 — 10.08.2026", "7.0 h — pages, navigation, contact API, SEO, smoke tests"],
     ["Day 3 — 11.08.2026", "6.5 h — upgrade, brand polish, navbar motion, DriftWall backgrounds, handoff"],
+    ["Day 4 — 20.08.2026", "5.0 h — kitchen catalogue Excel import (39 SKUs + images)"],
+    ["Day 5 — 21.08.2026", "0.75 h — catalogue text cleanup"],
+    ["Day 6 — 22.08.2026", "3.5 h — orange brand, logo/favicon, bilingual About page"],
+    ["Day 7 — 23.08.2026", "2.25 h — hero category links, product image fit, hours statement"],
     [
-        "Remaining scope (approx.)",
-        "~0–10 h buffer within 20–30 h quote for bulk product import (150–180 SKUs) and images",
+        "Live catalogue now",
+        "39 real kitchen SKUs published; 12 sample placeholders in other categories (to replace)",
+    ],
+    [
+        "Remaining products (ballpark)",
+        "150–180 SKUs still to enter: likely 24–36 h if Excel+images match the kitchen catalogue; 40–50 h if copy/images need heavy cleanup",
     ],
     [
         "Currency note",
@@ -204,6 +212,56 @@ DETAILS = [
         "0.5",
         "docs/*, scripts/generate-product-template.py, GitHub main branch",
     ],
+    [
+        "16",
+        "2026-08-20",
+        "Catalogue import",
+        "Import kitchen equipment Excel into published products with images",
+        "150–180 SKU catalogue; first real data was a multi-sheet Excel with embedded photos",
+        "import-catalogue.py: sheet→subcategory map, image extract, slugify, Zod-ready kitchenware.ts",
+        "5",
+        "scripts/import-catalogue.py, data/products/kitchenware.ts, public/images/products/*",
+    ],
+    [
+        "17",
+        "2026-08-21",
+        "Catalogue QA",
+        "Normalize imported catalogue text endings and incomplete punctuation",
+        "Excel cells had truncated sentences and inconsistent spacing",
+        "Cleaned descriptions/specs in kitchenware.ts without changing product count",
+        "0.75",
+        "data/products/kitchenware.ts",
+    ],
+    [
+        "18",
+        "2026-08-22",
+        "Brand & About",
+        "Orange/black palette, logo mark favicon, bilingual За нас page",
+        "Client asked for About copy, warmer color, logo colors black+orange",
+        "Brand tokens #FF6000; BrandLogo; /about BG+EN; nav/footer; icon/apple-icon/favicon",
+        "3.5",
+        "content/bg.ts, app/about, BrandLogo, globals.css, app/icon.png",
+    ],
+    [
+        "19",
+        "2026-08-23",
+        "Homepage & product photos",
+        "Hero fan links to categories; 7-column DriftWall; contain product images",
+        "Carousel photos needed to be category buttons; SKU photos cropped out of frames",
+        "Clickable hero slides; column-grouped DriftWall; object-contain on cards/gallery",
+        "1.75",
+        "Hero.tsx, hero-10.tsx, hero-drift-images.ts, ProductCard, ProductGallery",
+    ],
+    [
+        "20",
+        "2026-08-23",
+        "Billing estimate",
+        "Update work-hours statement and remaining 150–180 SKU ballpark",
+        "Client needs hours-to-date plus time to finish remaining products",
+        "Extended hours log to 31.5 h; Remaining SKUs sheet with scenario ranges",
+        "0.5",
+        "scripts/generate-work-statement.py, docs/CleverSolutions-Work-Hours-Statement-client.*",
+    ],
 ]
 
 PS_HEADERS = ["ID", "Problem", "Impact", "Resolution", "Status"]
@@ -282,8 +340,29 @@ PROBLEMS = [
         "P11",
         "Inner-page teal gradient too strong then invisible",
         "Background tuning iterations",
-        "Top-down softer wash with visible but non-aggressive teal",
+        "Top-down softer wash; later replaced with warm orange from logo",
         "Resolved",
+    ],
+    [
+        "P12",
+        "Product photos overflowed frames / not centered",
+        "Catalogue images cropped on cards and detail gallery",
+        "object-contain + padding on ProductCard and ProductGallery",
+        "Resolved",
+    ],
+    [
+        "P13",
+        "Missing За нас and teal palette vs logo",
+        "No About page; brand colors did not match black/orange logo",
+        "Bilingual /about; #FF6000 tokens; logo + C-mark favicon",
+        "Resolved",
+    ],
+    [
+        "P14",
+        "Remaining 150–180 SKUs not yet on the site",
+        "Only 39 real kitchen products live; other categories are samples",
+        "Kitchen importer exists; other categories need the same Excel+images package",
+        "Open — see Remaining SKUs sheet",
     ],
 ]
 
@@ -291,12 +370,12 @@ INV_HEADERS = ["Area", "Items delivered"]
 INVENTORY = [
     [
         "Public routes",
-        "/ · /kitchen · /security · /wristbands · /vacuums · /product/[slug] · /contact",
+        "/ · /about · /kitchen · /security · /wristbands · /vacuums · /product/[slug] · /contact",
     ],
     ["API", "POST /api/contact (Resend)"],
     [
         "Data model",
-        "Zod Product schema; 4 category datasets; published/draft; optional price & buyUrl",
+        "Zod Product schema; 39 published kitchen SKUs from Excel; sample placeholders in 3 other categories",
     ],
     [
         "UI surfaces",
@@ -307,7 +386,59 @@ INVENTORY = [
     ["Ops", "Vercel-oriented Next 16 app; env example; clean/dev:fresh scripts"],
     [
         "Git milestones",
-        "910e54c initial site · a38c483 Next 16 · brand/UX · navbar motion · f5af12d DriftWall backgrounds",
+        "910e54c initial site · 4c816f6 kitchen catalogue · e0cd666 brand/About · 436eeae hero links + image fit",
+    ],
+]
+
+REMAINING_HEADERS = [
+    "Scenario",
+    "SKU count",
+    "Input quality",
+    "Hours low",
+    "Hours high",
+    "Calendar (one developer)",
+]
+
+REMAINING_ROWS = [
+    [
+        "Excel-ready (same as kitchen catalogue)",
+        "150",
+        "Sheets with name, specs, embedded or folder images",
+        "18",
+        "24",
+        "3–4 focused days",
+    ],
+    [
+        "Excel-ready (same as kitchen catalogue)",
+        "180",
+        "Sheets with name, specs, embedded or folder images",
+        "22",
+        "28",
+        "4–5 focused days",
+    ],
+    [
+        "Typical mixed cleanup",
+        "150",
+        "Excel plus missing/wrong photos, spec label fixes",
+        "26",
+        "34",
+        "about 1–1.5 weeks",
+    ],
+    [
+        "Typical mixed cleanup",
+        "180",
+        "Excel plus missing/wrong photos, spec label fixes",
+        "30",
+        "40",
+        "about 1.5–2 weeks",
+    ],
+    [
+        "Manual / messy source",
+        "150–180",
+        "PDFs, emails, uncropped photos — typed by hand",
+        "40",
+        "50",
+        "2–3 weeks",
     ],
 ]
 
@@ -369,6 +500,7 @@ def main() -> None:
         ("Hours Log", [DETAIL_HEADERS] + DETAILS),
         ("Problems Solutions", [PS_HEADERS] + PROBLEMS),
         ("Deliverables", [INV_HEADERS] + INVENTORY),
+        ("Remaining SKUs", [REMAINING_HEADERS] + REMAINING_ROWS),
     ]
 
     sheet_files: list[tuple[str, str]] = []
@@ -440,6 +572,21 @@ def main() -> None:
         w.writerows(DETAILS)
         w.writerow([])
         w.writerow(["TOTAL HOURS", "", "", "", "", "", total, ""])
+        w.writerow([])
+        w.writerow(["REMAINING SKUs (ballpark)"])
+        w.writerow(REMAINING_HEADERS)
+        w.writerows(REMAINING_ROWS)
+        w.writerow([])
+        w.writerow(
+            [
+                "Likely quote",
+                "150–180 SKUs",
+                "Excel like kitchen catalogue, some photo/spec cleanup",
+                "24",
+                "36",
+                "about 4–6 focused days / 1.5 weeks",
+            ]
+        )
 
     print(f"Wrote {target}")
     print(f"Wrote {csv_path}")

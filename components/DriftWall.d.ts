@@ -11,6 +11,8 @@ declare module "@/components/DriftWall" {
   export type DriftWallProps = {
     items?: DriftWallItem[];
     columns?: number;
+    /** Grow columns so the wall spans the viewport (default true). */
+    fillViewport?: boolean;
     tileWidth?: number;
     tileHeight?: number;
     gap?: number;

@@ -18,9 +18,13 @@ const columnFactor = (index, variance) => {
   return 1 + variance * pseudo;
 };
 
+/** Extra coverage so perspective + scale(1.18) still fill the edges. */
+const VIEWPORT_FILL_FACTOR = 1.35;
+
 const DriftWall = ({
   items = DEFAULT_ITEMS,
   columns = 5,
+  fillViewport = true,
   tileWidth = 200,
   tileHeight = 132,
   gap = 18,
@@ -57,9 +61,22 @@ const DriftWall = ({
   const lastTsRef = useRef(null);
 
   const [containerHeight, setContainerHeight] = useState(600);
+  const [containerWidth, setContainerWidth] = useState(1200);
   const [activeId, setActiveId] = useState(null);
   const activeIdRef = useRef(null);
   const [reduced, setReduced] = useState(false);
+
+  const columnUnit = tileWidth + gap;
+  const effectiveColumns = useMemo(() => {
+    const minColumns = Math.max(1, columns);
+    if (!fillViewport || containerWidth <= 0 || columnUnit <= 0) {
+      return minColumns;
+    }
+    const needed = Math.ceil(
+      (containerWidth * VIEWPORT_FILL_FACTOR) / columnUnit
+    );
+    return Math.max(minColumns, needed);
+  }, [columns, fillViewport, containerWidth, columnUnit]);
 
   useEffect(() => {
     setReduced(prefersReducedMotion());
@@ -70,18 +87,38 @@ const DriftWall = ({
   }, []);
 
   const columnItems = useMemo(() => {
-    const cols = Array.from({ length: columns }, () => []);
+    const cols = Array.from({ length: effectiveColumns }, () => []);
     const usesExplicitColumns = items.some(
       (item) => typeof item.column === "number"
     );
-    items.forEach((item, i) => {
-      const index = usesExplicitColumns
-        ? Math.min(columns - 1, Math.max(0, item.column ?? 0))
-        : i % columns;
-      cols[index].push(item);
-    });
+    // Role pattern repeats when we add columns to fill wide viewports.
+    const roleCount = usesExplicitColumns
+      ? Math.max(
+          columns,
+          ...items.map((item) =>
+            typeof item.column === "number" ? item.column + 1 : 0
+          )
+        )
+      : effectiveColumns;
+
+    if (usesExplicitColumns) {
+      const byRole = Array.from({ length: roleCount }, () => []);
+      items.forEach((item) => {
+        const role = Math.min(roleCount - 1, Math.max(0, item.column ?? 0));
+        byRole[role].push(item);
+      });
+      for (let c = 0; c < effectiveColumns; c++) {
+        const roleItems = byRole[c % roleCount];
+        cols[c] = roleItems.length ? [...roleItems] : items.slice(0, 1);
+      }
+    } else {
+      items.forEach((item, i) => {
+        cols[i % effectiveColumns].push(item);
+      });
+    }
+
     return cols.map((col) => (col.length ? col : items.slice(0, 1)));
-  }, [items, columns]);
+  }, [items, columns, effectiveColumns]);
 
   const columnMeta = useMemo(() => {
     const unit = tileHeight + gap;
@@ -96,6 +133,7 @@ const DriftWall = ({
     if (!containerRef.current) return;
     const ro = new ResizeObserver(([entry]) => {
       setContainerHeight(entry.contentRect.height || 600);
+      setContainerWidth(entry.contentRect.width || 1200);
     });
     ro.observe(containerRef.current);
     return () => ro.disconnect();
@@ -141,7 +179,7 @@ const DriftWall = ({
       applyPlaneTransform(pointerDampedRef.current.x, pointerDampedRef.current.y);
 
       if (!reduced) {
-        for (let c = 0; c < trackRefs.current.length; c++) {
+        for (let c = 0; c < columnMeta.length; c++) {
           const meta = columnMeta[c];
           if (!meta) continue;
           const paused = wallHoveredRef.current && pauseOnHover;
@@ -158,7 +196,7 @@ const DriftWall = ({
           if (el) el.style.transform = `translate3d(0, ${-next}px, 0)`;
         }
       } else {
-        for (let c = 0; c < trackRefs.current.length; c++) {
+        for (let c = 0; c < columnMeta.length; c++) {
           const el = trackRefs.current[c];
           const meta = columnMeta[c];
           if (el && meta) el.style.transform = `translate3d(0, ${-(offsetsRef.current[c] ?? 0)}px, 0)`;
@@ -281,7 +319,15 @@ const DriftWall = ({
           const copies = Array.from({ length: meta.copies });
           return (
             <div className="drift-wall__col" key={`col-${c}`}>
-              <div className="drift-wall__track" ref={el => (trackRefs.current[c] = el)}>
+              <div
+                className="drift-wall__track"
+                ref={el => {
+                  trackRefs.current[c] = el;
+                  if (trackRefs.current.length > effectiveColumns) {
+                    trackRefs.current.length = effectiveColumns;
+                  }
+                }}
+              >
                 {copies.map((_, copyIndex) =>
                   col.map((item, itemIndex) => renderTile(item, `${c}-${copyIndex}-${itemIndex}`, c))
                 )}
