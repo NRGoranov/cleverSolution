@@ -5,16 +5,16 @@ import {
   ContactSection,
   FeaturedProducts,
 } from "@/components/home/HomeSections";
+import { FaqPreview } from "@/components/home/FaqPreview";
 import { bg } from "@/content/bg";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: bg.site.name,
-  description: bg.site.description,
-  openGraph: {
-    title: bg.site.name,
-    description: bg.site.description,
-  },
-};
+export const metadata: Metadata = buildMetadata({
+  title: `${bg.site.name} — ${bg.seo.homeTitle}`,
+  description: bg.seo.homeDescription,
+  path: "/",
+  absoluteTitle: true,
+});
 
 export default function HomePage() {
   return (
@@ -22,6 +22,7 @@ export default function HomePage() {
       <Hero />
       <CategoryGrid />
       <FeaturedProducts />
+      <FaqPreview />
       <ContactSection />
     </div>
   );

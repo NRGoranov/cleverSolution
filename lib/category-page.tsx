@@ -6,6 +6,7 @@ import {
   getPublishedByCategory,
   type CategoryId,
 } from "@/data/products";
+import { buildMetadata } from "@/lib/seo";
 import { CategorySubnav } from "@/components/category/CategorySubnav";
 import { ComingSoon } from "@/components/category/ComingSoon";
 import { ProductGrid } from "@/components/products/ProductGrid";
@@ -29,15 +30,13 @@ export function getCategoryMetadata(
     ? category.subcategories.find((item) => item.slug === subcategory)
     : undefined;
   const title = sub ? `${sub.name} — ${category.name}` : category.name;
+  const path = sub ? `${category.href}?sub=${sub.slug}` : category.href;
 
-  return {
+  return buildMetadata({
     title,
     description: category.description,
-    openGraph: {
-      title: `${title} | ${bg.site.name}`,
-      description: category.description,
-    },
-  };
+    path,
+  });
 }
 
 export function CategoryPageContent({

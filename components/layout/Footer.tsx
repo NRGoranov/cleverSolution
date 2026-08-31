@@ -3,10 +3,16 @@ import { bg } from "@/content/bg";
 import { categories } from "@/data/products";
 import { BrandLogo } from "@/components/layout/BrandLogo";
 
+const legalLinks = [
+  { href: "/faq", label: bg.nav.faq },
+  { href: "/privacy", label: bg.nav.privacy },
+  { href: "/terms", label: bg.nav.terms },
+] as const;
+
 export function Footer() {
   return (
     <footer className="relative z-10 mt-auto border-t border-zinc-200 bg-zinc-50">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 md:grid-cols-4">
         <div>
           <BrandLogo imageClassName="h-8 w-auto" />
           <p className="mt-3 text-sm text-ink-muted">{bg.site.tagline}</p>
@@ -58,6 +64,24 @@ export function Footer() {
               </a>
             </li>
             <li>{bg.contact.info.address}</li>
+          </ul>
+        </div>
+
+        <div>
+          <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink-muted">
+            {bg.footer.legal}
+          </p>
+          <ul className="space-y-2">
+            {legalLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-sm text-ink transition-colors hover:text-ink-muted"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

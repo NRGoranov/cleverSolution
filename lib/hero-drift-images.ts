@@ -24,38 +24,21 @@ type DriftItem = {
 };
 
 const kitchenPool: Omit<DriftItem, "column">[] = [
-  { image: "/images/hero/1-fryer.png", title: "Фритюрник" },
-  { image: "/images/hero/2-combi-oven.png", title: "Конвектомат" },
-  { image: "/images/hero/3-deck-oven.png", title: "Пекарска фурна" },
-  { image: "/images/products/sample-fryer-15l/1.png", title: "Фритюрник 15 л" },
-  { image: "/images/products/sample-combi-oven/1.png", title: "Конвектомат" },
-  { image: "/images/products/sample-deck-oven/1.png", title: "Подова фурна" },
-  { image: "/images/products/sample-gas-range/1.png", title: "Газова плита" },
-  { image: "/images/products/sample-kitchen-line/1.png", title: "Кухненска линия" },
-  { image: "/images/products/sample-range-griddle/1.png", title: "Грил плита" },
-  { image: "/347340190033198057.jpg", title: "Кухненско оборудване" },
-  {
-    image: encodeURI("/Bakery Convection Ovens.jpg"),
-    title: "Пекарна фурна",
-  },
-  {
-    image: encodeURI("/Black Diamond BDGR-60 60.jpg"),
-    title: "Грил",
-  },
-  {
-    image: encodeURI("/Friteuse a Gaz sur Meuble au Meilleur prix.jpg"),
-    title: "Газов фритюрник",
-  },
-  {
-    image: encodeURI("/MoTak MR10-RGB24-N-C-S 60.jpg"),
-    title: "Хладилник",
-  },
-  {
-    image: encodeURI(
-      "/Overnight cooking in the Rational SelfCookingCenter whitefficiency.jpg"
-    ),
-    title: "Rational конвектомат",
-  },
+  { image: "/images/products/icp-xs/1.png", title: "iCombi PRO XS" },
+  { image: "/images/products/icp-6-1-1/1.png", title: "iCombi PRO 6-11" },
+  { image: "/images/products/icp-10-1-1/1.png", title: "iCombi PRO 10-11" },
+  { image: "/images/products/icc-10-11e/1.png", title: "iCombi Classic" },
+  { image: "/images/products/joker-mt-6-11/1.png", title: "JOKER MT" },
+  { image: "/images/products/genius-mt-6-11e/1.png", title: "GENIUS MT" },
+  { image: "/images/products/cook-master-6/1.jpeg", title: "COOK MASTER 6" },
+  { image: "/images/products/ivario-pro-2-s/1.jpeg", title: "iVario PRO 2-S" },
+  { image: "/images/products/ivario-pro-l/1.png", title: "iVario PRO L" },
+  { image: "/images/products/ivario-pro-xl/1.png", title: "iVario PRO XL" },
+  { image: "/images/products/idrochef-216touch/1.jpeg", title: "IDROCHEF 216" },
+  { image: "/images/products/idrochef-316touch/1.jpeg", title: "IDROCHEF 316" },
+  { image: "/images/products/kuoco/1.jpeg", title: "VALKO Kuoco" },
+  { image: "/images/products/k2o/1.jpeg", title: "VALKO K2O" },
+  { image: "/images/products/th-d1-070m/1.png", title: "Хладилен шкаф" },
 ];
 
 function assignColumns(pool: Omit<DriftItem, "column">[]): DriftItem[] {

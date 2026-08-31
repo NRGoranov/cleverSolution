@@ -13,6 +13,7 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { buildProductJsonLd } from "@/lib/product-jsonld";
 import { getAccentClasses } from "@/lib/utils";
 import { cn } from "@/lib/cn";
+import { buildMetadata } from "@/lib/seo";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -29,20 +30,16 @@ export async function generateMetadata({
   const product = getProductBySlug(slug);
 
   if (!product) {
-    return { title: bg.product.notFound };
+    return { title: bg.product.notFound, robots: { index: false } };
   }
 
-  return {
+  return buildMetadata({
     title: product.name,
     description: product.description,
-    openGraph: {
-      title: product.name,
-      description: product.tagline,
-      images: product.images[0]
-        ? [{ url: product.images[0].src, alt: product.images[0].alt }]
-        : undefined,
-    },
-  };
+    path: `/product/${product.slug}`,
+    image: product.images[0]?.src,
+    imageAlt: product.images[0]?.alt,
+  });
 }
 
 const categoryAccentMap = {

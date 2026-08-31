@@ -42,6 +42,34 @@ function desktopNavLinkClass(isActive: boolean) {
   );
 }
 
+function mobileNavLinkClass(isActive: boolean) {
+  return cn(
+    "flex items-center justify-between rounded-2xl border px-4 py-3.5 text-lg font-medium transition-all duration-200",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2",
+    isActive
+      ? "border-brand/25 bg-brand/[0.07] text-brand"
+      : "border-transparent text-zinc-900 hover:border-zinc-200 hover:bg-zinc-50"
+  );
+}
+
+function MobileLinkChevron() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      className="shrink-0 text-zinc-400"
+      aria-hidden="true"
+    >
+      <path d="m9 18 6-6-6-6" />
+    </svg>
+  );
+}
+
 function CategoryDropdown({
   category,
   active,
@@ -144,12 +172,11 @@ export function Header() {
     [0, 1],
     { clamp: true }
   );
-  const progress = useSpring(
-    rawProgress,
-    reduceMotion
-      ? { stiffness: 1000, damping: 100, mass: 0.1 }
-      : SPRING
-  );
+  const springConfig = reduceMotion
+    ? { stiffness: 1000, damping: 100, mass: 0.1 }
+    : SPRING;
+  const progress = useSpring(rawProgress, springConfig);
+  const menuOpenProgress = useSpring(menuOpenValue, springConfig);
 
   useEffect(() => {
     const syncViewport = () => viewportWidth.set(window.innerWidth);
@@ -160,6 +187,7 @@ export function Header() {
 
   const wrapPaddingTop = useTransform(progress, [0, 1], [0, 12]);
   const wrapPaddingX = useTransform(progress, [0, 1], [0, COMPACT_SIDE_PAD_PX]);
+  const headerScale = useTransform(progress, [0, 1], [1, 0.94]);
   // Full viewport at top → compact centered pill when scrolled (pixel lerp).
   const headerMaxWidth = useTransform(
     [progress, viewportWidth],
@@ -172,13 +200,15 @@ export function Header() {
       return width + (compact - width) * Number(p);
     }
   );
+  // Compact pill (9999) → rounded card (16) while the menu is open, like NRGxPortfolio.
   const borderRadius = useTransform(
-    [progress, menuOpenValue],
+    [progress, menuOpenProgress],
     ([value, menu]) => {
       const p = Number(value);
-      const isMenuOpen = Number(menu) > 0.5;
-      if (isMenuOpen && p > 0.35) return 16;
-      return p * 9999;
+      const m = Math.min(1, Math.max(0, Number(menu)));
+      const pill = p * 9999;
+      if (p > 0.35) return pill + (16 - pill) * m;
+      return pill;
     }
   );
   const rowHeight = useTransform(progress, [0, 1], [64, 52]);
@@ -202,6 +232,15 @@ export function Header() {
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setMenuOpen(false);
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
 
   useEffect(() => {
     const fine = window.matchMedia("(pointer: fine)");
@@ -239,9 +278,16 @@ export function Header() {
     updateHeaderGlow(e.clientX, e.clientY);
   };
 
+  const menuTransition = reduceMotion
+    ? { duration: 0.01 }
+    : { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const };
+
   return (
     <motion.div
-      className="sticky top-0 z-50 w-full"
+      className={cn(
+        "z-50 w-full",
+        menuOpen ? "fixed top-0 left-0 right-0" : "sticky top-0"
+      )}
       style={{
         paddingTop: wrapPaddingTop,
         paddingLeft: wrapPaddingX,
@@ -252,11 +298,16 @@ export function Header() {
         ref={headerRef}
         onPointerMove={onHeaderPointerMove}
         onPointerEnter={onHeaderPointerEnter}
-        className="group/header relative mx-auto w-full overflow-visible border border-transparent border-b-zinc-200/90 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80"
+        className={cn(
+          "group/header relative mx-auto w-full border border-transparent border-b-zinc-200/90 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80",
+          menuOpen ? "overflow-visible" : "overflow-hidden"
+        )}
         style={{
           width: "100%",
           maxWidth: headerMaxWidth,
           borderRadius,
+          scale: headerScale,
+          transformOrigin: "top center",
           boxShadow: headerShadow,
         }}
       >
@@ -303,6 +354,12 @@ export function Header() {
               />
             ))}
             <Link
+              href="/faq"
+              className={desktopNavLinkClass(pathname === "/faq")}
+            >
+              {bg.nav.faq}
+            </Link>
+            <Link
               href="/contact"
               className={desktopNavLinkClass(pathname === "/contact")}
             >
@@ -328,7 +385,7 @@ export function Header() {
           <button
             type="button"
             className={cn(
-              "inline-flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-200",
+              "inline-flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-200",
               menuOpen
                 ? "border-brand/35 bg-brand/10 text-brand"
                 : "border-zinc-200 bg-white/80 text-zinc-700 hover:border-brand/25 hover:text-zinc-900"
@@ -339,7 +396,10 @@ export function Header() {
             onClick={() => setMenuOpen((open) => !open)}
           >
             {menuOpen ? (
-              <svg
+              <motion.svg
+                key="close"
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 1, rotate: 0 }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
                 height="18"
@@ -351,9 +411,12 @@ export function Header() {
               >
                 <path d="M18 6 6 18" />
                 <path d="m6 6 12 12" />
-              </svg>
+              </motion.svg>
             ) : (
-              <svg
+              <motion.svg
+                key="open"
+                initial={{ opacity: 0, rotate: 90 }}
+                animate={{ opacity: 1, rotate: 0 }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
                 height="18"
@@ -366,7 +429,7 @@ export function Header() {
                 <line x1="4" x2="20" y1="12" y2="12" />
                 <line x1="4" x2="20" y1="6" y2="6" />
                 <line x1="4" x2="20" y1="18" y2="18" />
-              </svg>
+              </motion.svg>
             )}
           </button>
         </motion.div>
@@ -378,11 +441,11 @@ export function Header() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              transition={menuTransition}
               className="relative z-[1] overflow-hidden border-t border-zinc-200 md:hidden"
             >
               <nav
-                className="max-h-[80vh] overflow-y-auto px-4 py-4"
+                className="max-h-[80vh] overflow-y-auto px-4 py-5"
                 aria-label="Мобилна навигация"
               >
                 <ul className="space-y-1">
@@ -398,9 +461,10 @@ export function Header() {
                   >
                     <Link
                       href="/"
-                      className="block rounded-xl px-3 py-2.5 text-lg font-medium text-zinc-900 transition-colors hover:bg-zinc-50"
+                      className={mobileNavLinkClass(pathname === "/")}
                     >
                       {bg.nav.home}
+                      <MobileLinkChevron />
                     </Link>
                   </motion.li>
                   <motion.li
@@ -415,9 +479,10 @@ export function Header() {
                   >
                     <Link
                       href="/about"
-                      className="block rounded-xl px-3 py-2.5 text-lg font-medium text-zinc-900 transition-colors hover:bg-zinc-50"
+                      className={mobileNavLinkClass(pathname === "/about")}
                     >
                       {bg.nav.about}
+                      <MobileLinkChevron />
                     </Link>
                   </motion.li>
                   {categories.map((category, index) => {
@@ -433,12 +498,17 @@ export function Header() {
                           delay: (index + 2) * 0.05,
                           ease: [0.22, 1, 0.36, 1],
                         }}
-                        className="border-b border-zinc-100 py-1"
+                        className="py-1"
                       >
                         <div className="flex items-center justify-between">
                           <Link
                             href={category.href}
-                            className="block flex-1 rounded-xl px-3 py-2 text-lg font-medium text-zinc-900 transition-colors hover:bg-zinc-50"
+                            className={cn(
+                              "block flex-1 rounded-2xl px-4 py-3 text-lg font-medium transition-all duration-200",
+                              pathname === category.href
+                                ? "text-brand"
+                                : "text-zinc-900 hover:bg-zinc-50"
+                            )}
                           >
                             {category.name}
                           </Link>
@@ -510,10 +580,29 @@ export function Header() {
                     }}
                   >
                     <Link
+                      href="/faq"
+                      className={mobileNavLinkClass(pathname === "/faq")}
+                    >
+                      {bg.nav.faq}
+                      <MobileLinkChevron />
+                    </Link>
+                  </motion.li>
+                  <motion.li
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -6 }}
+                    transition={{
+                      duration: 0.22,
+                      delay: (categories.length + 3) * 0.05,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                  >
+                    <Link
                       href="/contact"
-                      className="block rounded-xl px-3 py-2.5 text-lg font-medium text-zinc-900 transition-colors hover:bg-zinc-50"
+                      className={mobileNavLinkClass(pathname === "/contact")}
                     >
                       {bg.nav.contact}
+                      <MobileLinkChevron />
                     </Link>
                   </motion.li>
                 </ul>

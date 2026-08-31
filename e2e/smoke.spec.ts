@@ -25,7 +25,7 @@ test.describe("CleverSolutions smoke tests", () => {
   test("hero category images link to category pages", async ({ page }) => {
     await page.goto("/");
     await page
-      .getByRole("link", { name: "Професионално кухненско оборудване" })
+      .getByRole("link", { name: "Професионално кухненско оборудване", exact: true })
       .click();
     await expect(page).toHaveURL(/\/kitchen/);
   });
@@ -40,10 +40,32 @@ test.describe("CleverSolutions smoke tests", () => {
     const mobileNav = page.getByRole("navigation", { name: "Мобилна навигация" });
     await expect(mobileNav).toBeVisible();
     await expect(mobileNav.getByRole("link", { name: "За нас" })).toBeVisible();
+    await expect(mobileNav.getByRole("link", { name: "Въпроси" })).toBeVisible();
     await expect(mobileNav.getByRole("link", { name: "Контакти" })).toBeVisible();
 
     await page.getByRole("button", { name: "Затвори менюто" }).click();
     await expect(mobileNav).toBeHidden();
+  });
+
+  test("mobile menu expands inside the sticky navbar, not a full-page overlay", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto("/");
+    await page.evaluate(() => window.scrollTo(0, 400));
+
+    await page.getByRole("button", { name: "Отвори менюто" }).click();
+
+    const mobileNav = page.getByRole("navigation", { name: "Мобилна навигация" });
+    await expect(mobileNav).toBeVisible();
+
+    const header = page.locator("header").first();
+    const box = await header.boundingBox();
+    expect(box).toBeTruthy();
+    // Floating compact card: inset from the viewport, not a full-screen sheet.
+    expect(box!.x).toBeGreaterThan(8);
+    expect(box!.width).toBeLessThan(360);
+    expect(box!.height).toBeLessThan(640);
   });
 
   test("draft products do not appear on category pages", async ({ page }) => {
@@ -103,12 +125,21 @@ test.describe("CleverSolutions smoke tests", () => {
   });
 
   test("contact form submit succeeds (mocked endpoint)", async ({ page }) => {
-    // CONTACT_TEST_MODE=1 — API returns success without calling Resend
-    await page.goto("/contact");
+    await page.route("**/api/contact", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ success: true, testMode: true }),
+      });
+    });
 
-    await page.getByRole("textbox", { name: "Име", exact: true }).fill("Тест Потребител");
-    await page.getByRole("textbox", { name: "Имейл" }).fill("test@example.com");
-    await page.getByRole("textbox", { name: "Съобщение" }).fill("Това е тестово съобщение за smoke test.");
+    await page.goto("/contact");
+    const nameField = page.locator("#name");
+    await expect(nameField).toBeVisible();
+    await page.locator("#email").fill("test@example.com");
+    await page.locator("#message").fill("Това е тестово съобщение за smoke test.");
+    await nameField.fill("Тест Потребител");
+    await expect(nameField).toHaveValue("Тест Потребител");
     await page.getByRole("button", { name: "Изпратете съобщението" }).click();
 
     await expect(

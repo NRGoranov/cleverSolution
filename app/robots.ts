@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      // Draft products are never routed publicly — only published slugs exist as pages.
+      disallow: ["/api/"],
     },
     sitemap: `${siteConfig.url}/sitemap.xml`,
   };

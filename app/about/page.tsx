@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import { bg } from "@/content/bg";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: bg.about.title,
-  description: bg.about.bg.p1,
-  openGraph: {
-    title: bg.about.title,
-    description: bg.about.bg.p1,
-  },
-};
+  description: bg.seo.aboutDescription,
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { bg } from "@/content/bg";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: bg.contact.title,
   description: bg.contact.subtitle,
-};
+  path: "/contact",
+});
 
 export default function KontaktiPage() {
   return (

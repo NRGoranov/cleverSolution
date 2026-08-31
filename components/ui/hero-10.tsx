@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -148,12 +149,13 @@ function ImageFan({
 
         const media = (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={src}
               alt={href ? "" : alt}
-              decoding="async"
-              className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+              fill
+              sizes="(max-width: 640px) 45vw, 28vw"
+              priority={i === 1}
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
             {label ? (
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent px-3 pb-3 pt-10 text-left text-xs font-semibold leading-snug text-white sm:text-sm">
