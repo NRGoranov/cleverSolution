@@ -6,9 +6,11 @@ import {
   useCallback,
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 import {
   AnimatePresence,
   motion,
@@ -44,7 +46,7 @@ function desktopNavLinkClass(isActive: boolean) {
 
 function mobileNavLinkClass(isActive: boolean) {
   return cn(
-    "flex items-center justify-between rounded-2xl border px-4 py-3.5 text-lg font-medium transition-all duration-200",
+    "flex items-center justify-between rounded-xl border px-4 py-3.5 text-lg font-medium transition-colors duration-200",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2",
     isActive
       ? "border-brand/25 bg-brand/[0.07] text-brand"
@@ -162,7 +164,12 @@ export function Header() {
   const [reduceMotion, setReduceMotion] = useState(false);
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
-  const menuOpenValue = useMotionValue(0);
+  const [menuBox, setMenuBox] = useState<{
+    top: number;
+    left: number;
+    width: number;
+  } | null>(null);
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
   const viewportWidth = useMotionValue(1200);
 
   const { scrollY } = useScroll();
@@ -172,11 +179,12 @@ export function Header() {
     [0, 1],
     { clamp: true }
   );
-  const springConfig = reduceMotion
-    ? { stiffness: 1000, damping: 100, mass: 0.1 }
-    : SPRING;
-  const progress = useSpring(rawProgress, springConfig);
-  const menuOpenProgress = useSpring(menuOpenValue, springConfig);
+  const progress = useSpring(
+    rawProgress,
+    reduceMotion
+      ? { stiffness: 1000, damping: 100, mass: 0.1 }
+      : SPRING
+  );
 
   useEffect(() => {
     const syncViewport = () => viewportWidth.set(window.innerWidth);
@@ -187,7 +195,6 @@ export function Header() {
 
   const wrapPaddingTop = useTransform(progress, [0, 1], [0, 12]);
   const wrapPaddingX = useTransform(progress, [0, 1], [0, COMPACT_SIDE_PAD_PX]);
-  const headerScale = useTransform(progress, [0, 1], [1, 0.94]);
   // Full viewport at top → compact centered pill when scrolled (pixel lerp).
   const headerMaxWidth = useTransform(
     [progress, viewportWidth],
@@ -200,17 +207,7 @@ export function Header() {
       return width + (compact - width) * Number(p);
     }
   );
-  // Compact pill (9999) → rounded card (16) while the menu is open, like NRGxPortfolio.
-  const borderRadius = useTransform(
-    [progress, menuOpenProgress],
-    ([value, menu]) => {
-      const p = Number(value);
-      const m = Math.min(1, Math.max(0, Number(menu)));
-      const pill = p * 9999;
-      if (p > 0.35) return pill + (16 - pill) * m;
-      return pill;
-    }
-  );
+  const borderRadius = useTransform(progress, (p) => p * 9999);
   const rowHeight = useTransform(progress, [0, 1], [64, 52]);
   const rowPaddingX = useTransform(progress, [0, 1], [16, 24]);
   const shadowBlur = useTransform(progress, [0, 1], [0, 16]);
@@ -218,20 +215,33 @@ export function Header() {
   const headerShadow = useMotionTemplate`0 4px ${shadowBlur}px rgba(24, 24, 27, ${shadowAlpha})`;
 
   useEffect(() => {
-    menuOpenValue.set(menuOpen ? 1 : 0);
-  }, [menuOpen, menuOpenValue]);
+    setPortalTarget(document.body);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!menuOpen) {
+      setMenuBox(null);
+      return;
+    }
+    const sync = () => {
+      const el = headerRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      setMenuBox({ top: r.bottom + 8, left: r.left, width: r.width });
+    };
+    sync();
+    window.addEventListener("resize", sync);
+    window.addEventListener("scroll", sync, true);
+    return () => {
+      window.removeEventListener("resize", sync);
+      window.removeEventListener("scroll", sync, true);
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     setMenuOpen(false);
     setExpandedCategory(null);
   }, [pathname]);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
 
   useEffect(() => {
     const desktop = window.matchMedia("(min-width: 768px)");
@@ -280,34 +290,29 @@ export function Header() {
 
   const menuTransition = reduceMotion
     ? { duration: 0.01 }
-    : { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const };
+    : { duration: 0.2, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
+    <>
     <motion.div
-      className={cn(
-        "z-50 w-full",
-        menuOpen ? "fixed top-0 left-0 right-0" : "sticky top-0"
-      )}
+      className="sticky top-0 z-50 w-full overflow-visible"
       style={{
         paddingTop: wrapPaddingTop,
         paddingLeft: wrapPaddingX,
         paddingRight: wrapPaddingX,
       }}
     >
+      <motion.div
+        className="relative mx-auto w-full overflow-visible"
+        style={{ maxWidth: headerMaxWidth }}
+      >
       <motion.header
         ref={headerRef}
         onPointerMove={onHeaderPointerMove}
         onPointerEnter={onHeaderPointerEnter}
-        className={cn(
-          "group/header relative mx-auto w-full border border-transparent border-b-zinc-200/90 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80",
-          menuOpen ? "overflow-visible" : "overflow-hidden"
-        )}
+        className="group/header relative z-[1] w-full overflow-hidden border border-transparent border-b-zinc-200/90 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80"
         style={{
-          width: "100%",
-          maxWidth: headerMaxWidth,
           borderRadius,
-          scale: headerScale,
-          transformOrigin: "top center",
           boxShadow: headerShadow,
         }}
       >
@@ -385,7 +390,7 @@ export function Header() {
           <button
             type="button"
             className={cn(
-              "inline-flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-200",
+              "inline-flex h-11 w-11 items-center justify-center rounded-md border transition-colors duration-200",
               menuOpen
                 ? "border-brand/35 bg-brand/10 text-brand"
                 : "border-zinc-200 bg-white/80 text-zinc-700 hover:border-brand/25 hover:text-zinc-900"
@@ -393,13 +398,11 @@ export function Header() {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? bg.nav.menuClose : bg.nav.menuOpen}
+            onMouseDown={(event) => event.preventDefault()}
             onClick={() => setMenuOpen((open) => !open)}
           >
             {menuOpen ? (
-              <motion.svg
-                key="close"
-                initial={{ opacity: 0, rotate: -90 }}
-                animate={{ opacity: 1, rotate: 0 }}
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
                 height="18"
@@ -411,12 +414,9 @@ export function Header() {
               >
                 <path d="M18 6 6 18" />
                 <path d="m6 6 12 12" />
-              </motion.svg>
+              </svg>
             ) : (
-              <motion.svg
-                key="open"
-                initial={{ opacity: 0, rotate: 90 }}
-                animate={{ opacity: 1, rotate: 0 }}
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
                 height="18"
@@ -429,36 +429,39 @@ export function Header() {
                 <line x1="4" x2="20" y1="12" y2="12" />
                 <line x1="4" x2="20" y1="6" y2="6" />
                 <line x1="4" x2="20" y1="18" y2="18" />
-              </motion.svg>
+              </svg>
             )}
           </button>
         </motion.div>
-
-        <AnimatePresence initial={false}>
-          {menuOpen ? (
+      </motion.header>
+      </motion.div>
+    </motion.div>
+    {portalTarget
+      ? createPortal(
+          <AnimatePresence initial={false}>
+            {menuOpen && menuBox ? (
             <motion.div
+              key="mobile-menu"
               id="mobile-menu"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
               transition={menuTransition}
-              className="relative z-[1] overflow-hidden border-t border-zinc-200 md:hidden"
+              style={{
+                position: "fixed",
+                top: menuBox.top,
+                left: menuBox.left,
+                width: menuBox.width,
+                zIndex: 60,
+              }}
+              className="md:hidden"
             >
               <nav
-                className="max-h-[80vh] overflow-y-auto px-4 py-5"
+                className="max-h-[min(80vh,calc(100dvh-5.5rem))] overflow-y-auto rounded-xl border border-zinc-200 bg-white px-4 py-4 shadow-lg"
                 aria-label="Мобилна навигация"
               >
                 <ul className="space-y-1">
-                  <motion.li
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -6 }}
-                    transition={{
-                      duration: 0.22,
-                      delay: 0,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                  >
+                  <li>
                     <Link
                       href="/"
                       className={mobileNavLinkClass(pathname === "/")}
@@ -466,17 +469,8 @@ export function Header() {
                       {bg.nav.home}
                       <MobileLinkChevron />
                     </Link>
-                  </motion.li>
-                  <motion.li
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -6 }}
-                    transition={{
-                      duration: 0.22,
-                      delay: 0.05,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                  >
+                  </li>
+                  <li>
                     <Link
                       href="/about"
                       className={mobileNavLinkClass(pathname === "/about")}
@@ -484,27 +478,16 @@ export function Header() {
                       {bg.nav.about}
                       <MobileLinkChevron />
                     </Link>
-                  </motion.li>
-                  {categories.map((category, index) => {
+                  </li>
+                  {categories.map((category) => {
                     const expanded = expandedCategory === category.id;
                     return (
-                      <motion.li
-                        key={category.id}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -6 }}
-                        transition={{
-                          duration: 0.22,
-                          delay: (index + 2) * 0.05,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                        className="py-1"
-                      >
+                      <li key={category.id} className="py-0.5">
                         <div className="flex items-center justify-between">
                           <Link
                             href={category.href}
                             className={cn(
-                              "block flex-1 rounded-2xl px-4 py-3 text-lg font-medium transition-all duration-200",
+                              "block flex-1 rounded-xl px-4 py-3 text-lg font-medium transition-colors duration-200",
                               pathname === category.href
                                 ? "text-brand"
                                 : "text-zinc-900 hover:bg-zinc-50"
@@ -514,7 +497,7 @@ export function Header() {
                           </Link>
                           <button
                             type="button"
-                            className="rounded-full p-2 text-zinc-500 transition-colors hover:bg-zinc-50 hover:text-zinc-800"
+                            className="rounded-md p-2 text-zinc-500 transition-colors hover:bg-zinc-50 hover:text-zinc-800"
                             aria-expanded={expanded}
                             aria-label={category.name}
                             onClick={() =>
@@ -541,44 +524,24 @@ export function Header() {
                             </svg>
                           </button>
                         </div>
-                        <AnimatePresence initial={false}>
-                          {expanded ? (
-                            <motion.ul
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: "auto" }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{
-                                duration: 0.22,
-                                ease: [0.22, 1, 0.36, 1],
-                              }}
-                              className="mb-2 space-y-1 overflow-hidden pl-3"
-                            >
-                              {category.subcategories.map((sub) => (
-                                <li key={sub.href}>
-                                  <Link
-                                    href={sub.href}
-                                    className="block rounded-lg px-3 py-1.5 text-sm text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900"
-                                  >
-                                    {sub.name}
-                                  </Link>
-                                </li>
-                              ))}
-                            </motion.ul>
-                          ) : null}
-                        </AnimatePresence>
-                      </motion.li>
+                        {expanded ? (
+                          <ul className="mb-2 space-y-1 pl-3">
+                            {category.subcategories.map((sub) => (
+                              <li key={sub.href}>
+                                <Link
+                                  href={sub.href}
+                                  className="block rounded-lg px-3 py-1.5 text-sm text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900"
+                                >
+                                  {sub.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null}
+                      </li>
                     );
                   })}
-                  <motion.li
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -6 }}
-                    transition={{
-                      duration: 0.22,
-                      delay: (categories.length + 2) * 0.05,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                  >
+                  <li>
                     <Link
                       href="/faq"
                       className={mobileNavLinkClass(pathname === "/faq")}
@@ -586,17 +549,8 @@ export function Header() {
                       {bg.nav.faq}
                       <MobileLinkChevron />
                     </Link>
-                  </motion.li>
-                  <motion.li
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -6 }}
-                    transition={{
-                      duration: 0.22,
-                      delay: (categories.length + 3) * 0.05,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                  >
+                  </li>
+                  <li>
                     <Link
                       href="/contact"
                       className={mobileNavLinkClass(pathname === "/contact")}
@@ -604,13 +558,15 @@ export function Header() {
                       {bg.nav.contact}
                       <MobileLinkChevron />
                     </Link>
-                  </motion.li>
+                  </li>
                 </ul>
               </nav>
             </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </motion.header>
-    </motion.div>
+            ) : null}
+          </AnimatePresence>,
+          portalTarget
+        )
+      : null}
+    </>
   );
 }

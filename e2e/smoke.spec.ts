@@ -47,25 +47,33 @@ test.describe("CleverSolutions smoke tests", () => {
     await expect(mobileNav).toBeHidden();
   });
 
-  test("mobile menu expands inside the sticky navbar, not a full-page overlay", async ({
+  test("mobile menu floats over the page without expanding the navbar", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto("/");
     await page.evaluate(() => window.scrollTo(0, 400));
+    const header = page.locator("header").first();
+    await expect
+      .poll(async () => (await header.boundingBox())?.height ?? 999)
+      .toBeLessThan(58);
+
+    const headerBefore = await header.boundingBox();
+    expect(headerBefore).toBeTruthy();
 
     await page.getByRole("button", { name: "Отвори менюто" }).click();
 
     const mobileNav = page.getByRole("navigation", { name: "Мобилна навигация" });
     await expect(mobileNav).toBeVisible();
 
-    const header = page.locator("header").first();
-    const box = await header.boundingBox();
-    expect(box).toBeTruthy();
-    // Floating compact card: inset from the viewport, not a full-screen sheet.
-    expect(box!.x).toBeGreaterThan(8);
-    expect(box!.width).toBeLessThan(360);
-    expect(box!.height).toBeLessThan(640);
+    const headerAfter = await header.boundingBox();
+    const navBox = await mobileNav.boundingBox();
+    expect(headerAfter).toBeTruthy();
+    expect(navBox).toBeTruthy();
+    expect(Math.abs(headerAfter!.height - headerBefore!.height)).toBeLessThan(8);
+    const scrollAfter = await page.evaluate(() => window.scrollY);
+    expect(scrollAfter).toBeGreaterThan(50);
+    expect(navBox!.y).toBeGreaterThan(headerAfter!.y);
   });
 
   test("draft products do not appear on category pages", async ({ page }) => {
