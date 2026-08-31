@@ -290,7 +290,7 @@ export function Header() {
 
   const menuTransition = reduceMotion
     ? { duration: 0.01 }
-    : { duration: 0.2, ease: [0.22, 1, 0.36, 1] as const };
+    : { duration: 0.36, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
     <>
@@ -390,10 +390,10 @@ export function Header() {
           <button
             type="button"
             className={cn(
-              "inline-flex h-11 w-11 items-center justify-center rounded-md border transition-colors duration-200",
+              "inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors duration-200",
               menuOpen
-                ? "border-brand/35 bg-brand/10 text-brand"
-                : "border-zinc-200 bg-white/80 text-zinc-700 hover:border-brand/25 hover:text-zinc-900"
+                ? "bg-brand/10 text-brand"
+                : "text-zinc-700 hover:bg-zinc-900/[0.04] hover:text-zinc-900"
             )}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
@@ -443,9 +443,9 @@ export function Header() {
             <motion.div
               key="mobile-menu"
               id="mobile-menu"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              initial={{ height: 0, opacity: 1 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 1 }}
               transition={menuTransition}
               style={{
                 position: "fixed",
@@ -453,6 +453,8 @@ export function Header() {
                 left: menuBox.left,
                 width: menuBox.width,
                 zIndex: 60,
+                overflow: "hidden",
+                transformOrigin: "top center",
               }}
               className="md:hidden"
             >
