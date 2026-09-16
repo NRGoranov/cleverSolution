@@ -64,7 +64,7 @@ export default function RootLayout({
         <SkipToContent />
         <MainBackground />
         <Header />
-        <main id="main-content" tabIndex={-1} className="relative z-10 flex-1 focus:outline-none">
+        <main id="main-content" tabIndex={-1} className="relative z-[1] flex-1 focus:outline-none">
           {children}
         </main>
         <Footer />

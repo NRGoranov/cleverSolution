@@ -124,7 +124,7 @@ function CategoryDropdown({
         id={menuId}
         role="menu"
         className={cn(
-          "absolute left-0 top-full z-50 min-w-[12rem] pt-2 transition-all duration-200 ease-out",
+          "absolute left-0 top-full z-[90] min-w-[12rem] pt-2 transition-all duration-200 ease-out",
           open
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none -translate-y-1 opacity-0"
@@ -295,7 +295,7 @@ export function Header() {
   return (
     <>
     <motion.div
-      className="sticky top-0 z-50 w-full overflow-visible"
+      className="sticky top-0 z-[80] isolate w-full overflow-visible"
       style={{
         paddingTop: wrapPaddingTop,
         paddingLeft: wrapPaddingX,
@@ -303,14 +303,14 @@ export function Header() {
       }}
     >
       <motion.div
-        className="relative mx-auto w-full overflow-visible"
+        className="relative z-[80] mx-auto w-full overflow-visible"
         style={{ maxWidth: headerMaxWidth }}
       >
       <motion.header
         ref={headerRef}
         onPointerMove={onHeaderPointerMove}
         onPointerEnter={onHeaderPointerEnter}
-        className="group/header relative z-[1] w-full overflow-hidden border border-transparent border-b-zinc-200/90 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80"
+        className="group/header relative z-[80] w-full overflow-visible border border-transparent border-b-zinc-200/90 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80"
         style={{
           borderRadius,
           boxShadow: headerShadow,
@@ -319,7 +319,7 @@ export function Header() {
         {allowCursorSheen ? (
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 ease-out group-hover/header:opacity-100"
+            className="pointer-events-none absolute inset-0 z-0 rounded-[inherit] opacity-0 transition-opacity duration-300 ease-out group-hover/header:opacity-100"
             style={{
               background:
                 "radial-gradient(360px circle at var(--nav-glow-x, 50%) var(--nav-glow-y, 35%), rgba(255, 96, 0, 0.10), transparent 50%)",
@@ -329,7 +329,7 @@ export function Header() {
 
         {/* Desktop */}
         <motion.div
-          className="relative z-[1] mx-auto hidden max-w-6xl items-center justify-between md:flex"
+          className="relative z-10 mx-auto hidden max-w-6xl items-center justify-between md:flex"
           style={{
             height: rowHeight,
             paddingLeft: rowPaddingX,
@@ -375,7 +375,7 @@ export function Header() {
 
         {/* Mobile top row */}
         <motion.div
-          className="relative z-[1] flex items-center justify-between md:hidden"
+          className="relative z-10 flex items-center justify-between md:hidden"
           style={{
             height: rowHeight,
             paddingLeft: rowPaddingX,
@@ -452,7 +452,7 @@ export function Header() {
                 top: menuBox.top,
                 left: menuBox.left,
                 width: menuBox.width,
-                zIndex: 60,
+                zIndex: 90,
                 overflow: "hidden",
                 transformOrigin: "top center",
               }}
