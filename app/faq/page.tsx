@@ -3,6 +3,7 @@ import Link from "next/link";
 import { bg } from "@/content/bg";
 import { Accordion } from "@/components/motion/Accordion";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { FaqAnswer } from "@/components/faq/FaqAnswer";
 import { buildMetadata, faqJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
@@ -15,7 +16,7 @@ export default function FaqPage() {
   const items = bg.faq.items.map((item) => ({
     id: item.id,
     title: item.question,
-    content: item.answer,
+    content: <FaqAnswer text={item.answer} />,
   }));
   const jsonLd = faqJsonLd();
 

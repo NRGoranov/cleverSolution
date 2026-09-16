@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { bg } from "@/content/bg";
 import { siteConfig } from "@/lib/site-config";
+import { stripFaqLinks } from "@/lib/faq";
 
 export function absoluteUrl(path = "/"): string {
   const base = siteConfig.url.replace(/\/$/, "");
@@ -85,7 +86,7 @@ export function faqJsonLd() {
       name: item.question,
       acceptedAnswer: {
         "@type": "Answer",
-        text: item.answer,
+        text: stripFaqLinks(item.answer),
       },
     })),
   };

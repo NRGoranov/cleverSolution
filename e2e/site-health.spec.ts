@@ -60,24 +60,14 @@ test.describe("Launch checklist", () => {
     expect(sitemapBody).toContain("/contact");
   });
 
-  test("contact form shows validation errors", async ({ page }) => {
+  test("contact form is disabled and shows a warning", async ({ page }) => {
     await page.goto("/contact");
-    const nameField = page.getByRole("textbox", { name: "Име", exact: true });
-    await expect(nameField).toBeVisible();
-    await nameField.fill("A");
-    await page.getByRole("textbox", { name: "Имейл" }).fill("not-an-email");
-    await page.getByRole("textbox", { name: "Съобщение" }).fill("кратко");
-    await page.getByRole("button", { name: "Изпратете съобщението" }).click();
-
     await expect(
-      page.getByText("Моля, въведете име с поне 2 символа.")
+      page.getByText("Формата за съобщения все още не работи стабилно")
     ).toBeVisible();
     await expect(
-      page.getByText("Моля, въведете валиден имейл адрес.")
-    ).toBeVisible();
-    await expect(
-      page.getByText("Съобщението трябва да е поне 10 символа.")
-    ).toBeVisible();
+      page.getByRole("button", { name: "Изпратете съобщението" })
+    ).toBeDisabled();
   });
 
   test("homepage has clear CTAs and FAQ", async ({ page }) => {

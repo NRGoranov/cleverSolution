@@ -132,26 +132,21 @@ test.describe("CleverSolutions smoke tests", () => {
     );
   });
 
-  test("contact form submit succeeds (mocked endpoint)", async ({ page }) => {
-    await page.route("**/api/contact", async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ success: true, testMode: true }),
-      });
-    });
-
+  test("contact form is disabled with a warning", async ({ page }) => {
     await page.goto("/contact");
-    const nameField = page.locator("#name");
-    await expect(nameField).toBeVisible();
-    await page.locator("#email").fill("test@example.com");
-    await page.locator("#message").fill("Това е тестово съобщение за smoke test.");
-    await nameField.fill("Тест Потребител");
-    await expect(nameField).toHaveValue("Тест Потребител");
-    await page.getByRole("button", { name: "Изпратете съобщението" }).click();
-
     await expect(
-      page.getByText("Благодарим ви! Съобщението е изпратено успешно.")
-    ).toBeVisible({ timeout: 10000 });
+      page.getByRole("alert").filter({
+        hasText: "Формата за съобщения все още не работи стабилно",
+      })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Изпратете съобщението" })
+    ).toBeDisabled();
+    await expect(
+      page.getByRole("link", { name: "+359 888 250 818" }).first()
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "office@cleversolution.bg" }).first()
+    ).toBeVisible();
   });
 });

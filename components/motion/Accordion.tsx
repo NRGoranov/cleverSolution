@@ -1,13 +1,13 @@
 "use client";
 
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { useId, useState } from "react";
+import { type ReactNode, useId, useState } from "react";
 import { cn } from "@/lib/cn";
 
 type AccordionItem = {
   id: string;
   title: string;
-  content: string;
+  content: ReactNode;
 };
 
 type AccordionProps = {
@@ -74,7 +74,7 @@ export function Accordion({ items, className }: AccordionProps) {
                   transition={{ duration: 0.25, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <p className="px-5 pb-4 text-ink-muted">{item.content}</p>
+                  <div className="px-5 pb-4 text-ink-muted">{item.content}</div>
                 </motion.div>
               )}
             </AnimatePresence>

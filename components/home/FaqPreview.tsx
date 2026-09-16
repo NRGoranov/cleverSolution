@@ -2,6 +2,7 @@ import Link from "next/link";
 import { bg } from "@/content/bg";
 import { Accordion } from "@/components/motion/Accordion";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { FaqAnswer } from "@/components/faq/FaqAnswer";
 
 const PREVIEW_COUNT = 4;
 
@@ -9,7 +10,7 @@ export function FaqPreview() {
   const items = bg.faq.items.slice(0, PREVIEW_COUNT).map((item) => ({
     id: item.id,
     title: item.question,
-    content: item.answer,
+    content: <FaqAnswer text={item.answer} />,
   }));
 
   return (
