@@ -15,7 +15,7 @@ export default function AboutPage() {
       <ScrollReveal>
         <article className="mx-auto max-w-3xl rounded-2xl border border-zinc-200/80 bg-white/90 p-6 shadow-soft backdrop-blur-sm md:p-10">
           <header className="mb-8">
-            <p className="text-sm font-medium uppercase tracking-widest text-brand">
+            <p className="text-sm font-semibold uppercase tracking-widest text-ink">
               {bg.nav.about}
             </p>
             <h1 className="mt-2 font-display text-4xl font-semibold text-ink md:text-5xl">

@@ -35,21 +35,21 @@ const COMPACT_SIDE_PAD_PX = 16;
 
 function desktopNavLinkClass(isActive: boolean) {
   return cn(
-    "relative inline-flex cursor-pointer items-center gap-1 rounded-md px-1.5 py-1 text-sm font-medium transition-[color,background-color] duration-200 ease-out lg:px-2.5",
+    "relative inline-flex origin-center cursor-pointer items-center gap-1 rounded-md px-1.5 py-1 text-sm font-medium transition-[color,background-color,transform] duration-200 ease-out lg:px-2.5",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2",
-    "after:pointer-events-none after:absolute after:inset-x-2 after:bottom-0.5 after:h-px after:rounded-full after:bg-brand after:origin-center after:transition-[transform,opacity] after:duration-200 after:ease-out",
+    "after:pointer-events-none after:absolute after:inset-x-2 after:bottom-0.5 after:h-px after:rounded-full after:bg-brand-dark after:origin-center after:transition-[transform,opacity] after:duration-200 after:ease-out",
     isActive
-      ? "text-zinc-900 after:scale-x-100 after:opacity-90"
+      ? "scale-[1.04] font-semibold text-brand-dark after:scale-x-100 after:opacity-100"
       : "text-zinc-700 after:scale-x-0 after:opacity-0 hover:bg-zinc-900/[0.04] hover:text-zinc-900 hover:after:scale-x-100 hover:after:opacity-80"
   );
 }
 
 function mobileNavLinkClass(isActive: boolean) {
   return cn(
-    "flex items-center justify-between rounded-xl border px-4 py-3.5 text-lg font-medium transition-colors duration-200",
+    "flex origin-center items-center justify-between rounded-xl border px-4 py-3.5 text-lg font-medium transition-[color,background-color,transform,box-shadow] duration-200",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2",
     isActive
-      ? "border-brand/25 bg-brand/[0.07] text-brand"
+      ? "scale-[1.02] border-brand-dark/30 bg-white font-semibold text-brand-dark shadow-sm"
       : "border-transparent text-zinc-900 hover:border-zinc-200 hover:bg-zinc-50"
   );
 }
@@ -491,7 +491,7 @@ export function Header() {
                             className={cn(
                               "block flex-1 rounded-xl px-4 py-3 text-lg font-medium transition-colors duration-200",
                               pathname === category.href
-                                ? "text-brand"
+                                ? "font-semibold text-brand-dark"
                                 : "text-zinc-900 hover:bg-zinc-50"
                             )}
                           >

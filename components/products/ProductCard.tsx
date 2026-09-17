@@ -4,8 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { bg } from "@/content/bg";
 import type { ProductWithCategory } from "@/data/products";
-import { getAccentClasses } from "@/lib/utils";
-import { cn } from "@/lib/cn";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 
 type ProductCardProps = {
@@ -25,7 +23,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const productHref = `/product/${product.slug}`;
 
   return (
-    <article className="group flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-soft transition-shadow hover:shadow-soft-lg">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-soft transition-shadow hover:shadow-soft-lg">
       <Link href={productHref} className="block shrink-0" tabIndex={-1}>
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
           {mainImage ? (
@@ -46,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
 
-      <div className="flex min-h-0 flex-1 flex-col gap-3 p-5">
+      <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="min-h-[3.5rem]">
           <Link href={productHref}>
             <h3 className="line-clamp-2 font-display text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-ink-muted">
@@ -59,13 +57,10 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.tagline}
         </p>
 
-        <div className="mt-auto pt-1">
+        <div className="mt-auto shrink-0 pt-1">
           <Link
             href={productHref}
-            className={cn(
-              "inline-flex h-10 w-full items-center justify-center rounded-md px-5 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90",
-              getAccentClasses(accent).bg
-            )}
+            className="inline-flex h-10 w-full items-center justify-center rounded-md bg-brand px-5 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90"
           >
             {bg.product.detailsCta}
           </Link>

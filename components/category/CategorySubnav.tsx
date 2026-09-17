@@ -24,20 +24,20 @@ export function CategorySubnav({
   counts,
   totalCount,
 }: CategorySubnavProps) {
-  const { text, bg: bgAccent } = getAccentClasses(accent);
+  const { text } = getAccentClasses(accent);
 
   const linkClass = (active: boolean) =>
     cn(
-      "inline-flex shrink-0 items-center rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+      "inline-flex origin-center shrink-0 items-center rounded-full border px-3.5 py-1.5 text-sm font-medium transition-[color,background-color,transform,box-shadow]",
       active
-        ? cn("border-transparent text-white", bgAccent)
+        ? "scale-[1.04] border-transparent bg-brand-dark text-white shadow-sm"
         : "border-zinc-200 bg-white text-ink-muted hover:border-zinc-300 hover:text-ink"
     );
 
   return (
     <nav
       aria-label="Подкатегории"
-      className="mb-8 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="mb-8 flex gap-2 overflow-x-auto pb-1 pl-[5px] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       <Link href={categoryHref} className={linkClass(!activeSub)}>
         Всички

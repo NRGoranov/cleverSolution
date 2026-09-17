@@ -11,8 +11,6 @@ import { CategorySubnav } from "@/components/category/CategorySubnav";
 import { ComingSoon } from "@/components/category/ComingSoon";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { getAccentClasses } from "@/lib/utils";
-import { cn } from "@/lib/cn";
 
 type CategoryPageProps = {
   categoryId: CategoryId;
@@ -56,7 +54,6 @@ export function CategoryPageContent({
   const allProducts = getPublishedByCategory(categoryId);
   const products = getPublishedByCategory(categoryId, subcategory);
   const activeSub = category.subcategories.find((item) => item.slug === subcategory);
-  const { text } = getAccentClasses(category.accent);
 
   const counts = Object.fromEntries(
     category.subcategories.map((sub) => [
@@ -69,7 +66,7 @@ export function CategoryPageContent({
     <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
       <ScrollReveal>
         <header className="mb-8 max-w-2xl">
-          <p className={cn("text-sm font-medium uppercase tracking-widest", text)}>
+          <p className="text-sm font-semibold uppercase tracking-widest text-ink">
             {bg.nav.categories}
           </p>
           <h1 className="mt-2 font-display text-4xl font-semibold text-ink md:text-5xl">

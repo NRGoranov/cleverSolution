@@ -58,7 +58,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const category = getCategoryById(product.categoryId);
   const accent = categoryAccentMap[product.categoryId];
-  const { text, bg: bgAccent } = getAccentClasses(accent);
+  const { bg: bgAccent } = getAccentClasses(accent);
   const contactHref = `/contact?product=${encodeURIComponent(product.name)}`;
   const jsonLd = buildProductJsonLd(product);
 
@@ -97,7 +97,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <ScrollReveal delay={0.1}>
             <div className="space-y-6">
               <div>
-                <p className={cn("text-sm font-medium uppercase tracking-widest", text)}>
+                <p className="text-sm font-semibold uppercase tracking-widest text-ink">
                   {category?.name}
                 </p>
                 <h1 className="mt-2 font-display text-3xl font-semibold text-ink md:text-4xl">

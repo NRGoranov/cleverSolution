@@ -68,13 +68,11 @@ export const bg = {
     },
     wristbands: {
       name: "Гривни",
-      description: "All-inclusive гривни за събития и курорти",
+      description: "All-inclusive гривни за контрол на достъпа — винил и пластмаса",
       slug: "wristbands",
       subcategories: [
-        { name: "Събития", slug: "events" },
-        { name: "Курорти", slug: "resorts" },
-        { name: "Фестивали", slug: "festivals" },
-        { name: "RFID / NFC", slug: "rfid" },
+        { name: "Винил", slug: "vinyl" },
+        { name: "Пластмаса", slug: "plastic" },
       ],
     },
     vacuums: {
