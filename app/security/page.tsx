@@ -4,8 +4,20 @@ import {
   getCategoryMetadata,
 } from "@/lib/category-page";
 
-export const metadata: Metadata = getCategoryMetadata("security");
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ sub?: string }>;
+}): Promise<Metadata> {
+  const { sub } = await searchParams;
+  return getCategoryMetadata("security", sub);
+}
 
-export default function SecurityPage() {
-  return <CategoryPageContent categoryId="security" />;
+export default async function SecurityPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sub?: string }>;
+}) {
+  const { sub } = await searchParams;
+  return <CategoryPageContent categoryId="security" subcategory={sub} />;
 }

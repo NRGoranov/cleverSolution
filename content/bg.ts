@@ -45,14 +45,17 @@ export const bg = {
     kitchenware: {
       name: "Кухня",
       description:
-        "Професионално кухненско оборудване — конвектомати, фурни и аксесоари",
+        "Професионално кухненско оборудване — конвектомати, speed ovens, мултифункционални тигани, sous-vide, шокови охладители и хладилна техника",
       slug: "kitchen",
       subcategories: [
         { name: "Конвектомати", slug: "combi-ovens" },
         { name: "Speed ovens", slug: "speed-ovens" },
-        { name: "Автоматични фурни", slug: "ovens" },
+        { name: "Мултифункционални тигани", slug: "pans" },
         { name: "Sous-Vide", slug: "sous-vide" },
-        { name: "Оборудване", slug: "equipment" },
+        { name: "Шокови охладители", slug: "blast-chillers" },
+        { name: "Хладилни шкафове", slug: "fridges" },
+        { name: "Хладилни маси", slug: "fridge-tables" },
+        { name: "Готварски печки", slug: "ranges" },
       ],
     },
     security: {
@@ -68,11 +71,16 @@ export const bg = {
     },
     wristbands: {
       name: "Гривни",
-      description: "All-inclusive гривни за контрол на достъпа — винил и пластмаса",
+      description: "All-inclusive гривни за контрол на достъпа — винил, пластмаса, текстил, Tyvek®, термопечат и RFID",
       slug: "wristbands",
       subcategories: [
         { name: "Винил", slug: "vinyl" },
         { name: "Пластмаса", slug: "plastic" },
+        { name: "Силикон", slug: "silicone" },
+        { name: "Текстил", slug: "textile" },
+        { name: "Tyvek®", slug: "tyvek" },
+        { name: "Термопечат", slug: "thermal" },
+        { name: "RFID и баркод", slug: "rfid" },
       ],
     },
     vacuums: {

@@ -92,7 +92,7 @@ test.describe("CleverSolutions smoke tests", () => {
         name: "Електрически конвектомат iCombi PRO® XS",
       })
     ).toBeVisible();
-    await expect(page.getByText("39 продукта")).toBeVisible();
+    await expect(page.getByText("75 продукта")).toBeVisible();
   });
 
   test("product detail page changes content by slug", async ({ page }) => {

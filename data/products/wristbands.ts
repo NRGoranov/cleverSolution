@@ -326,7 +326,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "4480" },
       { label: "Ефект", value: "Liquide Glitter®" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "confetti-4800",
@@ -344,7 +344,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "4800" },
       { label: "Ефект", value: "Confetti" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "stars-4830",
@@ -362,7 +362,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "4830" },
       { label: "Ефект", value: "Stars" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "rain-4840",
@@ -380,7 +380,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "4840" },
       { label: "Ефект", value: "Rain" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "kaleidoscope-480p",
@@ -398,7 +398,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "480P" },
       { label: "Ефект", value: "Kaleidoscope®" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "grivni-smart-silicone",
@@ -416,7 +416,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Чип", value: "RFID / Smart®" },
       { label: "Употреба", value: "Многократна" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "qr-code-silicone",
@@ -433,7 +433,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Материал", value: "Силикон" },
       { label: "Код", value: "QR" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-vipbands-woven",
@@ -451,7 +451,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Цветове", value: "до 8" },
       { label: "Серия", value: "Textile VIP®Bands" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-vipbands-satin",
@@ -469,7 +469,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Печат", value: "Сублимация" },
       { label: "Серия", value: "Textile VIP®Bands" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-model-nice",
@@ -487,7 +487,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Закопчалка", value: "Кръгъл пластмасов клип" },
       { label: "Материал", value: "Тъкан текстил или сатен" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-model-lagos",
@@ -504,7 +504,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Размер", value: "26 × 1,5 см" },
       { label: "Закопчалка", value: "Триъгълен пластмасов клип" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-model-miami",
@@ -521,7 +521,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Закопчалка", value: "Квадратен пластмасов клип" },
       { label: "Серия", value: "Textile VIP®Bands" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-model-tenerife",
@@ -538,7 +538,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Материал", value: "Тъкан текстил" },
       { label: "Закопчалка", value: "Тънък кръгъл клип" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-model-ibiza",
@@ -556,7 +556,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Закопчалка", value: "Приплъзваща, сърцевидна" },
       { label: "Материал", value: "Тъкан текстил" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-model-woodstock",
@@ -573,7 +573,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Размер", value: "35 × 1,5 см" },
       { label: "Закопчалка", value: "Пластмасова приплъзваща" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-model-barcelona",
@@ -590,7 +590,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Размер", value: "35 × 1,4 см" },
       { label: "Закопчалка", value: "Плоска приплъзваща" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-model-honolulu",
@@ -607,7 +607,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Закопчалка", value: "Плоска метална (с клещи)" },
       { label: "Серия", value: "Textile VIP®Bands" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "textile-model-las-vegas",
@@ -624,7 +624,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Закопчалка", value: "Метална приплъзваща" },
       { label: "Употреба", value: "Многократна" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "sheeted-tyvek-tens",
@@ -642,7 +642,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "TENS" },
       { label: "Серия", value: "Tyvek® Classic" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "sheeted-tyvek-tens-jr",
@@ -659,7 +659,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Материал", value: "Tyvek®" },
       { label: "Модел", value: "TENS Jr." },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "securband-2008",
@@ -677,7 +677,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "2008" },
       { label: "Серия", value: "Securband®" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "securband-2025",
@@ -695,7 +695,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "2025" },
       { label: "Серия", value: "Securband®" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "securband-plus-2066",
@@ -713,7 +713,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "2066" },
       { label: "Серия", value: "Securband® Plus" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "tyvek-ttab",
@@ -730,7 +730,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Материал", value: "Tyvek® ECO" },
       { label: "Модел", value: "TTAB" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "tyvek-ntab",
@@ -747,7 +747,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Материал", value: "Tyvek® ECO" },
       { label: "Модел", value: "NTAB" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "sureimage-tens-jr",
@@ -765,7 +765,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Печат", value: "Пълноцветен фотопечат" },
       { label: "Модел", value: "TENS Jr. SureImage®" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "ticketband-ttx",
@@ -783,7 +783,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "TTX" },
       { label: "Персонализация", value: "Сериен номер / баркод / лого" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "ticketband-plus-txp",
@@ -801,7 +801,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "TXP" },
       { label: "Серия", value: "TicketBand Plus®" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "clever-custom-scanband",
@@ -818,7 +818,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Печат", value: "Термопечат" },
       { label: "Серия", value: "Scanband®" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "scanband-wide-7144-7147",
@@ -836,7 +836,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "7144 / 7147" },
       { label: "Формат", value: "Wide" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "scanband-narrow-7122",
@@ -854,7 +854,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "7122" },
       { label: "Формат", value: "Narrow" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "scanband-floodcoat-7244-7247",
@@ -872,7 +872,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Модел", value: "7244 / 7247" },
       { label: "Серия", value: "FloodCoat" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "rfid-plazgachi",
@@ -889,7 +889,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Тип", value: "RFID плъзгач" },
       { label: "Приложение", value: "Гривни all-inclusive / cashless" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "grivni-smart-woven",
@@ -906,7 +906,7 @@ export const wristbandsProducts: Product[] = [
       { label: "Материал", value: "Тъкан текстил" },
       { label: "Чип", value: "RFID / Smart®" },
     ],
-    status: "draft",
+    status: "published",
   },
   {
     slug: "barkod-plazgachi",
@@ -923,6 +923,6 @@ export const wristbandsProducts: Product[] = [
       { label: "Тип", value: "Баркод плъзгач" },
       { label: "Приложение", value: "Сканиране на входа / услуги" },
     ],
-    status: "draft",
+    status: "published",
   },
 ];

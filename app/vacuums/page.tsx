@@ -4,8 +4,20 @@ import {
   getCategoryMetadata,
 } from "@/lib/category-page";
 
-export const metadata: Metadata = getCategoryMetadata("vacuums");
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ sub?: string }>;
+}): Promise<Metadata> {
+  const { sub } = await searchParams;
+  return getCategoryMetadata("vacuums", sub);
+}
 
-export default function VacuumsPage() {
-  return <CategoryPageContent categoryId="vacuums" />;
+export default async function VacuumsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sub?: string }>;
+}) {
+  const { sub } = await searchParams;
+  return <CategoryPageContent categoryId="vacuums" subcategory={sub} />;
 }

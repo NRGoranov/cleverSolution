@@ -4,8 +4,7 @@ export const HERO_DRIFT_COLUMNS = 7;
 
 /**
  * Base column roles for the drifting backdrop (repeated when fillViewport adds columns):
- * 0–3 kitchen equipment, 4 access control, 5 packaging, 6 cleaning.
- * Partner photos will replace the placeholder kitchen shots in columns 4–6.
+ * 0–3 kitchen equipment, 4 access-control wristbands, 5–6 additional catalogue photos.
  */
 export const heroDriftColumnRoles = [
   "kitchen",
@@ -33,12 +32,12 @@ const kitchenPool: Omit<DriftItem, "column">[] = [
   { image: "/images/products/cook-master-6/1.jpeg", title: "COOK MASTER 6" },
   { image: "/images/products/ivario-pro-2-s/1.jpeg", title: "iVario PRO 2-S" },
   { image: "/images/products/ivario-pro-l/1.png", title: "iVario PRO L" },
-  { image: "/images/products/ivario-pro-xl/1.png", title: "iVario PRO XL" },
-  { image: "/images/products/idrochef-216touch/1.jpeg", title: "IDROCHEF 216" },
-  { image: "/images/products/idrochef-316touch/1.jpeg", title: "IDROCHEF 316" },
-  { image: "/images/products/kuoco/1.jpeg", title: "VALKO Kuoco" },
-  { image: "/images/products/k2o/1.jpeg", title: "VALKO K2O" },
-  { image: "/images/products/th-d1-070m/1.png", title: "Хладилен шкаф" },
+  { image: "/images/products/w6h/1.png", title: "VISION NUVŌ" },
+  { image: "/images/products/a70-1me/1.png", title: "Хладилен шкаф SMART" },
+  { image: "/images/products/vc77fe/1.jpeg", title: "Domina PRO 700" },
+  { image: "/images/products/wristbands/vinyl-classic/1.jpg", title: "Vinyl Classic" },
+  { image: "/images/products/wristbands/plastic-superband/1.jpg", title: "Superband" },
+  { image: "/images/products/wristbands/tyvek/1.jpg", title: "Tyvek" },
 ];
 
 function assignColumns(pool: Omit<DriftItem, "column">[]): DriftItem[] {

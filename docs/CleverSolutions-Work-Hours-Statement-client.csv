@@ -19,15 +19,26 @@
 18,2026-08-22,Brand & About,"Orange/black palette, logo mark favicon, bilingual За нас page","Client asked for About copy, warmer color, logo colors black+orange",Brand tokens #FF6000; BrandLogo; /about BG+EN; nav/footer; icon/apple-icon/favicon,3.5,"content/bg.ts, app/about, BrandLogo, globals.css, app/icon.png"
 19,2026-08-23,Homepage & product photos,Hero fan links to categories; 7-column DriftWall; contain product images,Carousel photos needed to be category buttons; SKU photos cropped out of frames,Clickable hero slides; column-grouped DriftWall; object-contain on cards/gallery,1.75,"Hero.tsx, hero-10.tsx, hero-drift-images.ts, ProductCard, ProductGallery"
 20,2026-08-23,Billing estimate,Update work-hours statement and remaining 150–180 SKU ballpark,Client needs hours-to-date plus time to finish remaining products,Extended hours log to 31.5 h; Remaining SKUs sheet with scenario ranges,0.5,"scripts/generate-work-statement.py, docs/CleverSolutions-Work-Hours-Statement-client.*"
+21,2026-08-23,Layout polish — published,Fill DriftWall on wide screens; full-width then compact scrolled navbar,Backdrop columns stopped at 7 on large monitors; navbar did not span the viewport,Filled DriftWall to viewport; 100vw top bar; compact centered pill on scroll; type tweaks,1.25,"Header.tsx, DriftWall, globals.css; commits 28b89d4, d5afbe9, a680154"
+22,2026-08-31,Legal & FAQ — published,FAQ and legal pages; portfolio-style mobile navbar,No FAQ/privacy/terms; burger menu needed to match NRGxPortfolio behaviour,Added /faq /privacy /terms; FAQ JSON-LD; mobile menu copied from portfolio pattern,2.25,"app/faq, app/privacy, app/terms, FaqPreview, Header.tsx; commit 398477d"
+23,2026-08-31,Mobile nav — published,"Menu must float over the page, roll down, no burger border",Open menu expanded/stuck the header and pushed the whole layout,Portal overlay; height animation from the bar; borderless burger; page no longer shifts,1.5,"Header.tsx; commits 5c9dad8, fdb698f"
+24,2026-09-16,Contact & FAQ — published,Disable unreliable send; live phone/email; clickable FAQ answers,Form did not send smoothly; old placeholder contacts; FAQ had no links,Warning + disabled submit; +359 888 250 818 and office@cleversolution.bg; markdown FAQ links,1.5,"ContactForm.tsx, content/bg.ts, FaqAnswer.tsx, lib/faq.ts; commit 0b532af"
+25,2026-09-16,Navbar stacking — published,Desktop bar and category dropdowns above page sections,Menus painted under hero/category cards (overflow + z-index),Raised header stacking; overflow visible; dropdowns sit on top of content,0.5,"Header.tsx, app/layout.tsx; commit bf7a3af"
+26,2026-09-17,UX + catalogue — published,Readable current-page highlights; first third of wristband catalogue,Active labels matched the peach background; wristbands still demo SKUs,Darker/slightly scaled current item; 5px chip padding; 17 vinyl + Superband/SureImage SKUs live,2.5,"Header, CategorySubnav, data/products/wristbands.ts, public/images/products/wristbands/*; commit aa2e01f"
+27,2026-09-18,Kitchen catalogue — publish next days,Expand kitchen from 39 to 75 SKUs with new subcategories and photos,"Client sent a fuller Equipment Excel (all sheets, WAVE 1, fridge tables, ranges)","Executed locally: importer + 75 published products, 8 kitchen subs; commit to main in the next days",3.5,"scripts/import-catalogue.py, data/products/kitchenware.ts, content/bg.ts, public/images/products/*"
+28,2026-09-18,Wristbands catalogue — publish next days,Remaining two-thirds of wristbands (35 SKUs),"17 of 52 live; silicone, textile, Tyvek, thermal, RFID, holographic plastic still local",Executed locally from scheme.xlsx + Word docs; publish remaining families in the next days,3,"data/products/wristbands.ts, import-wristbands.py, public/images/products/wristbands/*"
+29,2026-09-17,Billing — this statement,Map remaining work into the agreed 50 h envelope,Previous log stopped at 31.5 h and still quoted 24–36 h extra for 150–180 SKUs,Extended log through 19.09; remaining publishes sit inside 50 h; no overshoot,0.5,"scripts/generate-work-statement.py, docs/CleverSolutions-Work-Hours-Statement-client.*"
+30,2026-09-19,Wrap-up — scheduled,Homepage DriftWall photos from new SKUs; publish QA; close 50 h envelope,New kitchen/wristband photos not yet on the live backdrop; remaining git publish,Swap DriftWall tiles to new catalogue shots; verify category/product routes after push,2,"lib/hero-drift-images.ts, GitHub main, Playwright smoke"
 
-TOTAL HOURS,,,,,,31.5,
+TOTAL HOURS,,,,,,50.0,
 
-REMAINING SKUs (ballpark)
-Scenario,SKU count,Input quality,Hours low,Hours high,Calendar (one developer)
-Excel-ready (same as kitchen catalogue),150,"Sheets with name, specs, embedded or folder images",18,24,3–4 focused days
-Excel-ready (same as kitchen catalogue),180,"Sheets with name, specs, embedded or folder images",22,28,4–5 focused days
-Typical mixed cleanup,150,"Excel plus missing/wrong photos, spec label fixes",26,34,about 1–1.5 weeks
-Typical mixed cleanup,180,"Excel plus missing/wrong photos, spec label fixes",30,40,about 1.5–2 weeks
-Manual / messy source,150–180,"PDFs, emails, uncropped photos — typed by hand",40,50,2–3 weeks
+MAPPED REMAINING (inside 50 h envelope)
+Work package,SKU / scope,Execution,Hours (inside 50 h),Status,Notes
+Kitchen expansion,+36 SKUs (39 → 75) + new subcategories/photos,Already built locally — commit 18.09,3.5,Scheduled publish,Hours in log ID 27
+Wristbands remainder,+35 SKUs (17 → 52),Already built locally — commit 18.09,3,Scheduled publish,Hours in log ID 28
+DriftWall + publish QA,New photos on homepage; verify routes after push,Scheduled 19.09,2,Scheduled wrap-up,Hours in log ID 30
+This hours statement,Map work to 50 h cap,Executed 17.09,0.5,Done,Hours in log ID 29
+Security + cleaning real catalogue,Still 8 demo SKUs,Waiting on client Excel/photos,0,Out of envelope,Not billed inside 50 h unless new files arrive
+Contact form send,Button stays disabled,Re-enable only when delivery is stable,0,Parked,Use wrap-up buffer only if requested inside 50 h
 
-Likely quote,150–180 SKUs,"Excel like kitchen catalogue, some photo/spec cleanup",24,36,about 4–6 focused days / 1.5 weeks
+Project envelope,50 h agreed total,Logged work + scheduled publishes = 50 h; no extra 150–180 SKU quote,50,,Security/vacuums real data is outside this envelope until files arrive

@@ -12,9 +12,9 @@ from xml.etree import ElementTree as ET
 import openpyxl
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_SOURCE = ROOT / "docs" / "Catalogue-Webpage_data-Equipment-03.08.2026.xlsx"
+DEFAULT_SOURCE = ROOT / "docs" / "Catalogue-Webpage_data-Equipment-03_1.08.2026.xlsx"
 FALLBACK_SOURCE = Path(
-    r"c:\Users\user\Downloads\Catalogue-Webpage_data-Equipment-03.08.2026.xlsx"
+    r"c:\Users\user\Downloads\Catalogue-Webpage_data-Equipment-03_1.08.2026.xlsx"
 )
 OUT_TS = ROOT / "data" / "products" / "kitchenware.ts"
 OUT_JSON = ROOT / "data" / "products" / "catalogue-import.json"
@@ -30,9 +30,14 @@ NS = {
 SHEET_CONFIG = [
     {"subcategory": "combi-ovens", "label": "Конвектомати"},
     {"subcategory": "speed-ovens", "label": "Speed ovens"},
-    {"subcategory": "ovens", "label": "Автоматични фурни"},
+    {"subcategory": "pans", "label": "Мултифункционални тигани"},
     {"subcategory": "sous-vide", "label": "Sous-Vide"},
-    {"subcategory": "equipment", "label": "Оборудване"},
+    {"subcategory": "blast-chillers", "label": "Шокови охладители"},
+    {"subcategory": "fridges", "label": "Хладилни шкафове"},
+    {"subcategory": "fridge-tables", "label": "Хладилни маси"},
+    {"subcategory": "ranges", "label": "Готварски печки"},
+    # Equipment (8) is a priced NikiInox fridge overlapping „Хладилни шкафове“.
+    {"subcategory": "fridges", "label": "Хладилни шкафове"},
 ]
 
 CYRILLIC_MAP = {
@@ -90,6 +95,7 @@ def clean_text(value: object) -> str:
         return ""
     text = str(value).replace("\r\n", "\n").replace("\r", "\n")
     text = text.replace("\uf0d8", "•").replace("×", "x")
+    text = text.replace("_X000D_", "")
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
@@ -166,7 +172,16 @@ def first_line(text: str) -> str:
 
 
 def product_name(raw: str, model: str | None = None) -> str:
-    line = first_line(raw)
+    lines = [ln.strip() for ln in raw.split("\n") if ln.strip()]
+    line = lines[0] if lines else first_line(raw)
+    # "Стандартен комплект аксесоари за" + "модел iVario Pro 2S"
+    if lines and len(lines) > 1:
+        lowered = line.rstrip(" .,:;").lower()
+        if lowered.endswith(("за", "серия", "и")) or line.endswith((",", ":")):
+            second = lines[1]
+            if second and not second.lstrip().startswith(("-", "•", "*", "–")):
+                if not SPEC_LINE_RE.match(second):
+                    line = f"{line.rstrip(' ,:;')} {second}"
     match = SPEC_LINE_RE.match(line.strip())
     if match:
         label = normalize_spec_label(match.group(1))
@@ -217,12 +232,26 @@ def find_header_row(rows: list[tuple]) -> int | None:
 
 
 def is_product_row(row: tuple) -> bool:
-    if not row:
+    if not row or len(row) < 2:
+        return False
+    raw = clean_text(row[1])
+    if len(raw) < 20:
         return False
     number = row[0]
     if isinstance(number, (int, float)) and not isinstance(number, bool):
         return int(number) > 0
-    if isinstance(number, str) and number.strip().isdigit():
+    if isinstance(number, str):
+        text = number.strip()
+        if not text:
+            return False
+        if text.isdigit():
+            return True
+        # Broken Excel formulas still sit on real product rows (WAVE 1, pizza tables).
+        if "VALUE" in text.upper():
+            return True
+        # Occasional non-numeric markers like "ч" on otherwise complete product rows.
+        if text.upper().startswith("ИЗДЕЛ") or text in {"№", "No", "N"}:
+            return False
         return True
     return False
 
@@ -604,12 +633,26 @@ def load_media_sizes(z: zipfile.ZipFile) -> dict[str, int]:
     return sizes
 
 
+def drawing_file_for_sheet(z: zipfile.ZipFile, sheet_index: int) -> str | None:
+    rels_path = f"xl/worksheets/_rels/sheet{sheet_index}.xml.rels"
+    if rels_path not in z.namelist():
+        return None
+    xml = z.read(rels_path).decode("utf-8")
+    match = re.search(r'Target="\.\./drawings/(drawing\d+\.xml)"', xml)
+    if not match:
+        return None
+    return match.group(1)
+
+
 def load_sheet_images(
     z: zipfile.ZipFile, sheet_index: int
 ) -> dict[int, list[str]]:
-    drawing_path = f"xl/drawings/drawing{sheet_index}.xml"
-    rels_path = f"xl/drawings/_rels/drawing{sheet_index}.xml.rels"
-    if drawing_path not in z.namelist():
+    drawing_name = drawing_file_for_sheet(z, sheet_index)
+    if not drawing_name:
+        drawing_name = f"drawing{sheet_index}.xml"
+    drawing_path = f"xl/drawings/{drawing_name}"
+    rels_path = f"xl/drawings/_rels/{drawing_name}.rels"
+    if drawing_path not in z.namelist() or rels_path not in z.namelist():
         return {}
 
     rels_xml = z.read(rels_path).decode("utf-8")
@@ -693,7 +736,7 @@ def ts_string(value: str) -> str:
 def render_ts(products: list[dict]) -> str:
     lines = [
         "/**",
-        " * Imported from Catalogue-Webpage_data-Equipment-03.08.2026.xlsx",
+        " * Imported from Catalogue-Webpage_data-Equipment-03_1.08.2026.xlsx",
         " * Regenerate: python scripts/import-catalogue.py",
         " */",
         'import type { Product } from "./schema";',
@@ -730,6 +773,42 @@ def render_ts(products: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def product_dedupe_key(product: dict) -> str:
+    name = re.sub(r"\s+", " ", product["name"]).casefold()
+    dims = ""
+    power = ""
+    for spec in product.get("specs", []):
+        label = spec["label"].casefold()
+        if label.startswith("размери"):
+            dims = spec["value"]
+        elif label == "захранване":
+            power = spec["value"]
+    return f"{product['subcategory']}::{name}::{dims}::{power}"
+
+
+def merge_duplicate_products(products: list[dict]) -> list[dict]:
+    """Keep first occurrence; prefer a later row that has a price or image."""
+    by_key: dict[str, dict] = {}
+    order: list[str] = []
+    for product in products:
+        key = product_dedupe_key(product)
+        if key not in by_key:
+            by_key[key] = product
+            order.append(key)
+            continue
+        existing = by_key[key]
+        better_price = product.get("priceBgn") and not existing.get("priceBgn")
+        better_image = product.get("images") and not existing.get("images")
+        if better_price or better_image:
+            merged = {**existing, **product, "slug": existing["slug"]}
+            if not product.get("priceBgn"):
+                merged["priceBgn"] = existing.get("priceBgn")
+            if not product.get("images"):
+                merged["images"] = existing.get("images")
+            by_key[key] = merged
+    return [by_key[key] for key in order]
+
+
 def parse_workbook(path: Path) -> list[dict]:
     wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
     products: list[dict] = []
@@ -738,10 +817,9 @@ def parse_workbook(path: Path) -> list[dict]:
     with zipfile.ZipFile(path) as z:
         media_sizes = load_media_sizes(z)
 
-        for sheet_index, sheet_name in enumerate(wb.sheetnames, start=1):
-            if sheet_index > len(SHEET_CONFIG):
-                break
-            config = SHEET_CONFIG[sheet_index - 1]
+        for sheet_index, (sheet_name, config) in enumerate(
+            zip(wb.sheetnames, SHEET_CONFIG), start=1
+        ):
             ws = wb[sheet_name]
             rows = [tuple(row) for row in ws.iter_rows(values_only=True)]
             header_idx = find_header_row(rows)
@@ -760,7 +838,11 @@ def parse_workbook(path: Path) -> list[dict]:
                 if not raw:
                     continue
 
-                name = normalize_prose(product_name(raw))
+                name_source = product_name(raw)
+                name = normalize_prose(
+                    name_source,
+                    preserve_leading=preserves_leading_capitalization(name_source),
+                )
                 model = extract_model(raw)
                 base_slug = slugify(model or name)
                 count = seen_slugs.get(base_slug, 0)
@@ -803,7 +885,7 @@ def parse_workbook(path: Path) -> list[dict]:
                 )
 
     wb.close()
-    return products
+    return merge_duplicate_products(products)
 
 
 def main() -> None:

@@ -41,3 +41,7 @@ next-env.d.ts
 
 # generated catalogue import cache
 /data/products/catalogue-import.json
+/data/products/wristbands-import.json
+
+# source dumps used by import scripts (regenerate from Downloads)
+/docs/onedrive-sep2026/
