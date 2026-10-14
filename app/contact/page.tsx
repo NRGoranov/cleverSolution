@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { bg } from "@/content/bg";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { isSmtpConfigured } from "@/lib/mail";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
@@ -10,7 +11,11 @@ export const metadata: Metadata = buildMetadata({
   path: "/contact",
 });
 
+export const dynamic = "force-dynamic";
+
 export default function KontaktiPage() {
+  const smtpEnabled = isSmtpConfigured();
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
       <ScrollReveal>
@@ -18,14 +23,16 @@ export default function KontaktiPage() {
           <h1 className="font-display text-4xl font-semibold text-ink md:text-5xl">
             {bg.contact.title}
           </h1>
-          <p className="mt-4 text-lg text-ink-muted">{bg.contact.subtitle}</p>
+          <p className="mt-4 text-lg text-ink-muted">
+            {smtpEnabled ? bg.contact.subtitleReady : bg.contact.subtitle}
+          </p>
         </header>
       </ScrollReveal>
 
       <div className="grid gap-12 lg:grid-cols-5">
         <ScrollReveal className="lg:col-span-3">
           <div className="rounded-2xl bg-white p-6 shadow-soft md:p-8">
-            <ContactForm />
+            <ContactForm smtpEnabled={smtpEnabled} />
           </div>
         </ScrollReveal>
 

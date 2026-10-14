@@ -5,14 +5,20 @@ import { useState } from "react";
 import type { Product } from "@/data/products/schema";
 import type { CategoryAccent } from "@/data/products";
 import { cn } from "@/lib/cn";
+import type { ProductColorOption } from "@/lib/product-colors";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 
 type ProductGalleryProps = {
   product: Product;
   accent: CategoryAccent;
+  selectedColor?: ProductColorOption | null;
 };
 
-export function ProductGallery({ product, accent }: ProductGalleryProps) {
+export function ProductGallery({
+  product,
+  accent,
+  selectedColor = null,
+}: ProductGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const images = product.images;
 
@@ -22,7 +28,14 @@ export function ProductGallery({ product, accent }: ProductGalleryProps) {
     );
   }
 
-  const activeImage = images[activeIndex] ?? images[0];
+  const colorImageSrc = selectedColor?.imageSrc;
+  const colorImage = colorImageSrc
+    ? images.find((image) => image.src === colorImageSrc) ?? {
+        src: colorImageSrc,
+        alt: `${product.name} — ${selectedColor.name}`,
+      }
+    : null;
+  const activeImage = colorImage ?? images[activeIndex] ?? images[0];
 
   return (
     <div className="space-y-4">
@@ -44,12 +57,12 @@ export function ProductGallery({ product, accent }: ProductGalleryProps) {
               key={image.src}
               type="button"
               role="tab"
-              aria-selected={index === activeIndex}
+              aria-selected={!colorImage && index === activeIndex}
               aria-label={image.alt}
               onClick={() => setActiveIndex(index)}
               className={cn(
                 "relative aspect-square overflow-hidden rounded-lg bg-white ring-2 ring-offset-2 ring-offset-canvas transition-all",
-                index === activeIndex
+                !colorImage && index === activeIndex
                   ? "ring-zinc-900"
                   : "ring-transparent hover:ring-zinc-200"
               )}

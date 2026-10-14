@@ -1,44 +1,91 @@
-﻿ID,Date,Phase,Task / Work package,Problem / Challenge,Solution / What was implemented,Hours,Key deliverables / areas
-1,2026-08-09,Discovery & setup,"Read rebuild brief; scaffold Next.js App Router project with TypeScript, Tailwind, ESLint",Empty workspace; gallery site (not store); production-ready foundation needed,"Scaffolded app; path aliases, Tailwind tokens, Cyrillic fonts, base layout, AGENTS conventions",2,"package.json, app/, tailwind.config.ts, AGENTS.md"
-2,2026-08-09,Content & i18n,Bulgarian content system for all UI strings,UI must be bg-BG; single editable copy source for non-developer updates,"Centralized content/bg.ts for site, nav, hero, categories, product, contact, footer",1,content/bg.ts
-3,2026-08-09,Data architecture,Zod-validated product data layer for 4 categories; hand-editable placeholders,No CMS; real data from paper records later; schema must stay stable,ProductSchema; per-category files; draft/published; optional price; index helpers,1.75,data/products/*
-4,2026-08-09,Design system,"Tokens, typography, skeletons, SSR-safe motion primitives",Loading states must match layouts; Framer SSR blank-page risk,Ink/canvas tokens; skeleton shimmer; ScrollReveal safe mount pattern,1.75,"globals.css, components/skeletons, components/motion"
-5,2026-08-10,Layout & navigation,Header/Footer; category nav; mobile menu; subcategory dropdowns,Four categories; English URL slugs with Bulgarian labels,"Sticky header, hover dropdowns, responsive drawer, footer structure",1.25,"components/layout/Header.tsx, Footer.tsx"
-6,2026-08-10,Home page,"Hero, category grid, featured products, contact CTA block",Brand-first hero with local product photography,Hero10 image fan; HomeSections; primary/secondary CTAs,1.5,"components/home/*, components/ui/hero-10.tsx, app/page.tsx"
-7,2026-08-10,Category & product pages,"Galleries, coming-soon states, product detail with gallery/specs/JSON-LD",SEO without checkout; async App Router params on Next 16,CategoryPageContent; ProductGallery/Specs; generateStaticParams; contact deep-link,1.75,"app/{kitchen,security,wristbands,vacuums}, app/product/[slug]/*"
-8,2026-08-10,Contact & email,Contact page + Resend API Route Handler,Production email path with env-based configuration,Validated form; POST /api/contact; .env.example,1.25,"app/contact, components/contact/ContactForm.tsx, app/api/contact"
-9,2026-08-10,"Assets, SEO & QA","Local images, metadata/sitemap, Playwright smoke tests",No remote stock dependency; regression safety before handoff,public/images/*; robots/sitemap; e2e smoke suite (14 paths),1.25,"public/images, SEO files, e2e/smoke.spec.ts"
-10,2026-08-11,Platform upgrade,Upgrade to Next.js 16 and React 19; fix breaking changes,Codemod hung; params Promise migration; build verification,Manual dep upgrade; async params fixes; verified production build,1.25,"package.json, product page params, eslint-config-next 16"
-11,2026-08-11,Brand & UX polish,"Teal accent, scrollbar, product card Details flow, scroll-to-top, footer credit",Monochrome UI; cards pushed contact too early; mobile polish,brand tokens; ProductCard Details CTA; ScrollToTop; subtle NRG footer link,1.25,"globals.css, tailwind.config.ts, ProductCard, ScrollToTop, Footer"
-12,2026-08-11,Navbar motion,Port NRGxPortfolio scroll-shrink navbar behaviour,Client wanted same motion language as portfolio site,"Scroll-shrink pill header, cursor sheen, underline hovers, animated mobile menu",1,components/layout/Header.tsx
-13,2026-08-11,Homepage backgrounds,DriftWall full-page backdrop; layered category/contact panels; inner-page teal gradient,Hero atmosphere vs readable content sections; footer above fixed background,DriftWall + HomePageBackground; MainBackground route switch; PageGradientBackground,1.75,"DriftWall.jsx, HomePageBackground, PageGradientBackground, HomeSections"
-14,2026-08-11,Bugfixes & DX,"React 19 script warning, Windows .next cache, JSON-LD, dev scripts",Balancer script tag; dev server lock; console warnings,Removed react-wrap-balancer; clean/dev:fresh; data-scroll-behavior; JSON-LD pattern,0.75,"hero-10.tsx, package.json scripts, app/layout.tsx"
-15,2026-08-11,Client handoff prep,Product Excel import template; hours statement; git push to GitHub,Client needs format for 150–180 products; billing documentation,CleverSolutions-Produktov-shablon.xlsx; work-hours statement; commits on main,0.5,"docs/*, scripts/generate-product-template.py, GitHub main branch"
-16,2026-08-20,Catalogue import,Import kitchen equipment Excel into published products with images,150–180 SKU catalogue; first real data was a multi-sheet Excel with embedded photos,"import-catalogue.py: sheet→subcategory map, image extract, slugify, Zod-ready kitchenware.ts",5,"scripts/import-catalogue.py, data/products/kitchenware.ts, public/images/products/*"
-17,2026-08-21,Catalogue QA,Normalize imported catalogue text endings and incomplete punctuation,Excel cells had truncated sentences and inconsistent spacing,Cleaned descriptions/specs in kitchenware.ts without changing product count,0.75,data/products/kitchenware.ts
-18,2026-08-22,Brand & About,"Orange/black palette, logo mark favicon, bilingual За нас page","Client asked for About copy, warmer color, logo colors black+orange",Brand tokens #FF6000; BrandLogo; /about BG+EN; nav/footer; icon/apple-icon/favicon,3.5,"content/bg.ts, app/about, BrandLogo, globals.css, app/icon.png"
-19,2026-08-23,Homepage & product photos,Hero fan links to categories; 7-column DriftWall; contain product images,Carousel photos needed to be category buttons; SKU photos cropped out of frames,Clickable hero slides; column-grouped DriftWall; object-contain on cards/gallery,1.75,"Hero.tsx, hero-10.tsx, hero-drift-images.ts, ProductCard, ProductGallery"
-20,2026-08-23,Billing estimate,Update work-hours statement and remaining 150–180 SKU ballpark,Client needs hours-to-date plus time to finish remaining products,Extended hours log to 31.5 h; Remaining SKUs sheet with scenario ranges,0.5,"scripts/generate-work-statement.py, docs/CleverSolutions-Work-Hours-Statement-client.*"
-21,2026-08-23,Layout polish — published,Fill DriftWall on wide screens; full-width then compact scrolled navbar,Backdrop columns stopped at 7 on large monitors; navbar did not span the viewport,Filled DriftWall to viewport; 100vw top bar; compact centered pill on scroll; type tweaks,1.25,"Header.tsx, DriftWall, globals.css; commits 28b89d4, d5afbe9, a680154"
-22,2026-08-31,Legal & FAQ — published,FAQ and legal pages; portfolio-style mobile navbar,No FAQ/privacy/terms; burger menu needed to match NRGxPortfolio behaviour,Added /faq /privacy /terms; FAQ JSON-LD; mobile menu copied from portfolio pattern,2.25,"app/faq, app/privacy, app/terms, FaqPreview, Header.tsx; commit 398477d"
-23,2026-08-31,Mobile nav — published,"Menu must float over the page, roll down, no burger border",Open menu expanded/stuck the header and pushed the whole layout,Portal overlay; height animation from the bar; borderless burger; page no longer shifts,1.5,"Header.tsx; commits 5c9dad8, fdb698f"
-24,2026-09-16,Contact & FAQ — published,Disable unreliable send; live phone/email; clickable FAQ answers,Form did not send smoothly; old placeholder contacts; FAQ had no links,Warning + disabled submit; +359 888 250 818 and office@cleversolution.bg; markdown FAQ links,1.5,"ContactForm.tsx, content/bg.ts, FaqAnswer.tsx, lib/faq.ts; commit 0b532af"
-25,2026-09-16,Navbar stacking — published,Desktop bar and category dropdowns above page sections,Menus painted under hero/category cards (overflow + z-index),Raised header stacking; overflow visible; dropdowns sit on top of content,0.5,"Header.tsx, app/layout.tsx; commit bf7a3af"
-26,2026-09-17,UX + catalogue — published,Readable current-page highlights; first third of wristband catalogue,Active labels matched the peach background; wristbands still demo SKUs,Darker/slightly scaled current item; 5px chip padding; 17 vinyl + Superband/SureImage SKUs live,2.5,"Header, CategorySubnav, data/products/wristbands.ts, public/images/products/wristbands/*; commit aa2e01f"
-27,2026-09-18,Kitchen catalogue — publish next days,Expand kitchen from 39 to 75 SKUs with new subcategories and photos,"Client sent a fuller Equipment Excel (all sheets, WAVE 1, fridge tables, ranges)","Executed locally: importer + 75 published products, 8 kitchen subs; commit to main in the next days",3.5,"scripts/import-catalogue.py, data/products/kitchenware.ts, content/bg.ts, public/images/products/*"
-28,2026-09-18,Wristbands catalogue — publish next days,Remaining two-thirds of wristbands (35 SKUs),"17 of 52 live; silicone, textile, Tyvek, thermal, RFID, holographic plastic still local",Executed locally from scheme.xlsx + Word docs; publish remaining families in the next days,3,"data/products/wristbands.ts, import-wristbands.py, public/images/products/wristbands/*"
-29,2026-09-17,Billing — this statement,Map remaining work into the agreed 50 h envelope,Previous log stopped at 31.5 h and still quoted 24–36 h extra for 150–180 SKUs,Extended log through 19.09; remaining publishes sit inside 50 h; no overshoot,0.5,"scripts/generate-work-statement.py, docs/CleverSolutions-Work-Hours-Statement-client.*"
-30,2026-09-19,Wrap-up — scheduled,Homepage DriftWall photos from new SKUs; publish QA; close 50 h envelope,New kitchen/wristband photos not yet on the live backdrop; remaining git publish,Swap DriftWall tiles to new catalogue shots; verify category/product routes after push,2,"lib/hero-drift-images.ts, GitHub main, Playwright smoke"
+﻿CleverSolutions — Work hours statement
 
-TOTAL HOURS,,,,,,50.0,
+PROJECT
+Field,Value
+Project,CleverSolutions — Product Gallery / Representative Website
+Client / Brand,"CleverSolutions (Bulgaria, bg-BG)"
+Repository,https://github.com/NRGoranov/cleverSolution
+Work period,09 Aug 2026 — 07 Oct 2026
+Role,Full-stack web development (Next.js / React / TypeScript)
+Nature of work,Greenfield rebuild of product gallery site (not e-commerce checkout)
+Catalogue on site now,127 real SKUs (75 kitchen + 52 wristbands) + 8 demo placeholders
+Catalogue target,~180 SKUs in total
+Still waiting on client,"~53 SKUs to close the gap, plus Gmail App Password for the form"
+Last data received,13 Sep 2026
+Client status,Told last week he is busy and will send when he has time; no files since 13 Sep. He already knows the project cannot close without them
+Waiting on remaining files since,13 Sep 2026 — ~3.5 weeks
+Primary CTA,Phone + email live; Gmail SMTP form ready; send waits on client App Password
+Stack delivered,"Next.js 16.3, React 19.2, TypeScript, Tailwind CSS, Zod, Motion, Playwright, Nodemailer (Gmail SMTP), Vercel-ready"
+Agreed envelope,50 h total
+Hours executed (payable now),43.5 h — site + 127 live SKUs
+Hours held in envelope,"6.5 h — remaining ~53 SKUs, same import pace"
+Email form extra,Not billed — go-live waits on App Password already requested
 
-MAPPED REMAINING (inside 50 h envelope)
-Work package,SKU / scope,Execution,Hours (inside 50 h),Status,Notes
-Kitchen expansion,+36 SKUs (39 → 75) + new subcategories/photos,Already built locally — commit 18.09,3.5,Scheduled publish,Hours in log ID 27
-Wristbands remainder,+35 SKUs (17 → 52),Already built locally — commit 18.09,3,Scheduled publish,Hours in log ID 28
-DriftWall + publish QA,New photos on homepage; verify routes after push,Scheduled 19.09,2,Scheduled wrap-up,Hours in log ID 30
-This hours statement,Map work to 50 h cap,Executed 17.09,0.5,Done,Hours in log ID 29
-Security + cleaning real catalogue,Still 8 demo SKUs,Waiting on client Excel/photos,0,Out of envelope,Not billed inside 50 h unless new files arrive
-Contact form send,Button stays disabled,Re-enable only when delivery is stable,0,Parked,Use wrap-up buffer only if requested inside 50 h
+DAILY TOTALS
+Day,Date,Hours,Work
+1,2026-08-09,5,"Project setup, content system, data layer, design tokens"
+2,2026-08-10,5.5,"Pages, navigation, contact API, SEO, smoke tests"
+3,2026-08-11,5,"Upgrade, brand polish, navbar motion, DriftWall, handoff"
+4,2026-08-20,5,Kitchen catalogue Excel import (39 SKUs + images)
+5,2026-08-21,0.75,Catalogue text cleanup
+6,2026-08-22,3,"Orange brand, logo/favicon, bilingual About page"
+7,2026-08-23,3.5,"Hero links, image fit, hours statement, navbar/DriftWall layout"
+8,2026-08-31,3.25,FAQ/legal pages; portfolio-style mobile menu
+9,2026-09-16,2,Contact warning + live phone/email; nav stacking
+10,2026-09-17,3,Readable current-page highlights; first 17 wristbands; hours map
+11,2026-09-18,6.5,Publish kitchen 75 SKUs + remaining 35 wristbands
+12,2026-09-19,1,DriftWall photos from new catalogue; publish QA
+Held,since 2026-09-13,6.5,"Remaining ~53 SKUs to reach ~180 total (security, cleaning, leftover sheets)"
+,Executed — payable now,43.5,Site + 127 live SKUs of ~180 total
+,Held — waiting on client,6.5,~53 SKUs to finish the catalogue
+,Email form extra,0,Not billed
+,Envelope total,50.0,50 h agreed
 
-Project envelope,50 h agreed total,Logged work + scheduled publishes = 50 h; no extra 150–180 SKU quote,50,,Security/vacuums real data is outside this envelope until files arrive
+HOURS LOG
+ID,Date,Phase,Task / Work package,Problem / Challenge,Solution / What was implemented,Hours,Status,Key deliverables / areas
+1,2026-08-09,Discovery & setup,"Read rebuild brief; scaffold Next.js App Router project with TypeScript, Tailwind, ESLint",Empty workspace; gallery site (not store); production-ready foundation needed,"Scaffolded app; path aliases, Tailwind tokens, Cyrillic fonts, base layout, AGENTS conventions",1.5,Done,"package.json, app/, tailwind.config.ts, AGENTS.md"
+2,2026-08-09,Content & i18n,Bulgarian content system for all UI strings,UI must be bg-BG; single editable copy source for non-developer updates,"Centralized content/bg.ts for site, nav, hero, categories, product, contact, footer",0.75,Done,content/bg.ts
+3,2026-08-09,Data architecture,Zod-validated product data layer for 4 categories; hand-editable placeholders,No CMS; real data from paper records later; schema must stay stable,ProductSchema; per-category files; draft/published; optional price; index helpers,1.5,Done,data/products/*
+4,2026-08-09,Design system,"Tokens, typography, skeletons, SSR-safe motion primitives",Loading states must match layouts; Framer SSR blank-page risk,Ink/canvas tokens; skeleton shimmer; ScrollReveal safe mount pattern,1.25,Done,"globals.css, components/skeletons, components/motion"
+5,2026-08-10,Layout & navigation,Header/Footer; category nav; mobile menu; subcategory dropdowns,Four categories; English URL slugs with Bulgarian labels,"Sticky header, hover dropdowns, responsive drawer, footer structure",1,Done,"components/layout/Header.tsx, Footer.tsx"
+6,2026-08-10,Home page,"Hero, category grid, featured products, contact CTA block",Brand-first hero with local product photography,Hero10 image fan; HomeSections; primary/secondary CTAs,1.25,Done,"components/home/*, components/ui/hero-10.tsx, app/page.tsx"
+7,2026-08-10,Category & product pages,"Galleries, coming-soon states, product detail with gallery/specs/JSON-LD",SEO without checkout; async App Router params on Next 16,CategoryPageContent; ProductGallery/Specs; generateStaticParams; contact deep-link,1.25,Done,"app/{kitchen,security,wristbands,vacuums}, app/product/[slug]/*"
+8,2026-08-10,Contact & email,Contact page + first email API Route Handler,Production email path with env-based configuration,Validated form; POST /api/contact; .env.example (later switched to Gmail SMTP),1,Done,"app/contact, components/contact/ContactForm.tsx, app/api/contact"
+9,2026-08-10,"Assets, SEO & QA","Local images, metadata/sitemap, Playwright smoke tests",No remote stock dependency; regression safety before handoff,public/images/*; robots/sitemap; e2e smoke suite,1,Done,"public/images, SEO files, e2e/smoke.spec.ts"
+10,2026-08-11,Platform upgrade,Upgrade to Next.js 16 and React 19; fix breaking changes,Codemod hung; params Promise migration; build verification,Manual dep upgrade; async params fixes; verified production build,1,Done,"package.json, product page params, eslint-config-next 16"
+11,2026-08-11,Brand & UX polish,"Teal accent, scrollbar, product card Details flow, scroll-to-top, footer credit",Monochrome UI; cards pushed contact too early; mobile polish,brand tokens; ProductCard Details CTA; ScrollToTop; subtle NRG footer link,1,Done,"globals.css, tailwind.config.ts, ProductCard, ScrollToTop, Footer"
+12,2026-08-11,Navbar motion,Port NRGxPortfolio scroll-shrink navbar behaviour,Client wanted same motion language as portfolio site,"Scroll-shrink pill header, cursor sheen, underline hovers, animated mobile menu",0.75,Done,components/layout/Header.tsx
+13,2026-08-11,Homepage backgrounds,DriftWall full-page backdrop; layered category/contact panels; inner-page teal gradient,Hero atmosphere vs readable content sections; footer above fixed background,DriftWall + HomePageBackground; MainBackground route switch; PageGradientBackground,1.25,Done,"DriftWall.jsx, HomePageBackground, PageGradientBackground, HomeSections"
+14,2026-08-11,Bugfixes & DX,"React 19 script warning, Windows .next cache, JSON-LD, dev scripts",Balancer script tag; dev server lock; console warnings,Removed react-wrap-balancer; clean/dev:fresh; data-scroll-behavior; JSON-LD pattern,0.5,Done,"hero-10.tsx, package.json scripts, app/layout.tsx"
+15,2026-08-11,Client handoff prep,Product Excel import template; hours statement; git push to GitHub,Client needs format for 150–180 products; billing documentation,CleverSolutions-Produktov-shablon.xlsx; work-hours statement; commits on main,0.5,Done,"docs/*, scripts/generate-product-template.py, GitHub main branch"
+16,2026-08-20,Catalogue import,Import kitchen equipment Excel into published products with images,150–180 SKU catalogue; first real data was a multi-sheet Excel with embedded photos,"import-catalogue.py: sheet→subcategory map, image extract, slugify, Zod-ready kitchenware.ts",5,Done,"scripts/import-catalogue.py, data/products/kitchenware.ts, public/images/products/*"
+17,2026-08-21,Catalogue QA,Normalize imported catalogue text endings and incomplete punctuation,Excel cells had truncated sentences and inconsistent spacing,Cleaned descriptions/specs in kitchenware.ts without changing product count,0.75,Done,data/products/kitchenware.ts
+18,2026-08-22,Brand & About,"Orange/black palette, logo mark favicon, bilingual За нас page","Client asked for About copy, warmer color, logo colors black+orange",Brand tokens #FF6000; BrandLogo; /about BG+EN; nav/footer; icon/apple-icon/favicon,3,Done,"content/bg.ts, app/about, BrandLogo, globals.css, app/icon.png"
+19,2026-08-23,Homepage & product photos,Hero fan links to categories; 7-column DriftWall; contain product images,Carousel photos needed to be category buttons; SKU photos cropped out of frames,Clickable hero slides; column-grouped DriftWall; object-contain on cards/gallery,1.75,Done,"Hero.tsx, hero-10.tsx, hero-drift-images.ts, ProductCard, ProductGallery"
+20,2026-08-23,Billing estimate,Update work-hours statement and remaining 150–180 SKU ballpark,Client needs hours-to-date plus time to finish remaining products,Extended hours log to 31.5 h; Remaining SKUs sheet with scenario ranges,0.5,Done,"scripts/generate-work-statement.py, docs/CleverSolutions-Work-Hours-Statement-client.*"
+21,2026-08-23,Layout polish,Fill DriftWall on wide screens; full-width then compact scrolled navbar,Backdrop columns stopped at 7 on large monitors; navbar did not span the viewport,Filled DriftWall to viewport; 100vw top bar; compact centered pill on scroll; type tweaks,1.25,Done,"Header.tsx, DriftWall, globals.css; commits 28b89d4, d5afbe9, a680154"
+22,2026-08-31,Legal & FAQ,FAQ and legal pages; portfolio-style mobile navbar,No FAQ/privacy/terms; burger menu needed to match NRGxPortfolio behaviour,Filled /faq /privacy /terms with brochure copy; FAQ JSON-LD; mobile menu from portfolio pattern,2,Done,"app/faq, app/privacy, app/terms, FaqPreview, Header.tsx; commit 398477d"
+23,2026-08-31,Mobile nav,"Menu must float over the page, roll down, no burger border",Open menu expanded/stuck the header and pushed the whole layout,Portal overlay; height animation from the bar; borderless burger; page no longer shifts,1.25,Done,"Header.tsx; commits 5c9dad8, fdb698f"
+24,2026-09-16,Contact & FAQ,Disable unreliable send; live phone/email; clickable FAQ answers,Form did not send smoothly; old placeholder contacts; FAQ had no links,Warning + disabled submit; +359 888 250 818 and office@cleversolution.bg; markdown FAQ links,1.5,Done,"ContactForm.tsx, content/bg.ts, FaqAnswer.tsx, lib/faq.ts; commit 0b532af"
+25,2026-09-16,Navbar stacking,Desktop bar and category dropdowns above page sections,Menus painted under hero/category cards (overflow + z-index),Raised header stacking; overflow visible; dropdowns sit on top of content,0.5,Done,"Header.tsx, app/layout.tsx; commit bf7a3af"
+26,2026-09-17,UX + catalogue,Readable current-page highlights; first third of wristband catalogue,Active labels matched the peach background; wristbands still demo SKUs,Darker/slightly scaled current item; 5px chip padding; 17 vinyl + Superband/SureImage SKUs live,2.5,Done,"Header, CategorySubnav, data/products/wristbands.ts; commit aa2e01f"
+27,2026-09-18,Kitchen catalogue,Expand kitchen from 39 to 75 SKUs with new subcategories and photos,"Client sent a fuller Equipment Excel (all sheets, WAVE 1, fridge tables, ranges)","75 published kitchen products, 8 subcategories, photos; live on main",3.5,Done,"scripts/import-catalogue.py, data/products/kitchenware.ts; commit 5949e0c"
+28,2026-09-18,Wristbands catalogue,Remaining two-thirds of wristbands (35 SKUs),"17 of 52 were live; silicone, textile, Tyvek, thermal, RFID, holographic plastic remaining",All 52 wristbands published from scheme.xlsx + Word docs; live on main,3,Done,"data/products/wristbands.ts, import-wristbands.py; commit 5949e0c"
+29,2026-09-17,Billing,Map remaining work into the agreed 50 h envelope,Previous log stopped at 31.5 h and still quoted 24–36 h extra for 150–180 SKUs,Extended log through 19.09; remaining publishes sat inside 50 h; no overshoot,0.5,Done,"scripts/generate-work-statement.py, docs/CleverSolutions-Work-Hours-Statement-client.*"
+30,2026-09-19,Wrap-up,Homepage DriftWall photos from new SKUs; publish QA,New kitchen/wristband photos not yet on the live backdrop,DriftWall tiles swapped to new catalogue shots; category/product routes verified after push,1,Done,"lib/hero-drift-images.ts, GitHub main (5949e0c), Playwright smoke"
+31,2026-10-07,Contact send + billing,Switch contact form to Gmail SMTP; format this hours statement,Send still off until client mailbox; Resend was not the client's own mail; statement was unstyled and still said 'scheduled',Nodemailer + App Password path (GoLa-style); form enables when env is set; not billed extra,0,Courtesy — not billed extra,"lib/mail.ts, app/api/contact, ContactForm.tsx"
+32,Waiting,Remaining catalogue,Import remaining ~53 SKUs to reach ~180 total when client files arrive,"Gap is security, cleaning, and leftover sheets. Last data received 13 Sep 2026. Client said last week he is busy; no files since. He already knows the project cannot close without them",6.5 h held in the 50 h envelope at kitchen/wristband import pace (~7 min/SKU). Work starts as soon as Excel/photos arrive,6.5,Waiting on client,"data/products/security.ts, vacuums.ts — still 8 demo placeholders"
+,,,TOTAL,,,50.0,,50 h agreed envelope
+
+REMAINING SKUs
+Work package,SKU count,Hours in 50 h,Pace,Status,Notes
+Kitchen live,75,9.25,~7 min/SKU,Done,"IDs 16, 17, 27"
+Wristbands live,52,5.5,~6 min/SKU,Done,"IDs 26, 28"
+Security + cleaning on site,8 demos,0,—,Placeholder,Not real catalogue
+Remaining to reach ~180 total,~53,6.5,~7 min/SKU,Waiting since 13 Sep 2026,Last data 13.09.2026. Client busy as of last week; he already knows files are required to close
+On site now (real + demo),135 published / ~180 target,43.5 executed,—,Payable now,127 real + 8 demos; 1 extra vacuum draft is hidden
+
+OPEN ITEMS
+Item,Scope,Hours in 50 h envelope,Status,Notes
+Remaining ~53 SKUs (~180 total),"Replace 8 demos; import security, cleaning, and leftover sheets",6.5,Waiting on client since 13 Sep 2026,Last data 13.09.2026. Client said last week he is busy. He already knows close needs the files. Log ID 32.
+Contact form go-live,Enable send once client App Password is in env,0,Waiting on client — not billed extra,Instructions already sent. Log ID 31. Courtesy overage.

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { bg } from "@/content/bg";
 import type { ProductWithCategory } from "@/data/products";
+import { cn, primaryCtaClassName } from "@/lib/utils";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 
 type ProductCardProps = {
@@ -60,7 +61,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="mt-auto shrink-0 pt-1">
           <Link
             href={productHref}
-            className="inline-flex h-10 w-full items-center justify-center rounded-md bg-brand px-5 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90"
+            className={cn(primaryCtaClassName, "w-full")}
           >
             {bg.product.detailsCta}
           </Link>

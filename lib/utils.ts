@@ -6,6 +6,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/** Primary CTA shared by category “Детайли” and product “Свържете се”. */
+export const primaryCtaClassName =
+  "inline-flex h-10 items-center justify-center rounded-md bg-brand px-5 text-sm font-medium text-brand-foreground transition-opacity hover:opacity-90";
+
 const accentClasses: Record<
   CategoryAccent,
   { text: string; bg: string; border: string; ring: string }

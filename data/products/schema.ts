@@ -14,6 +14,16 @@ export const ProductSchema = z.object({
       })
     )
     .default([]),
+  colorOptions: z
+    .array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        hex: z.string(),
+        imageSrc: z.string().optional(),
+      })
+    )
+    .optional(),
   specs: z
     .array(
       z.object({

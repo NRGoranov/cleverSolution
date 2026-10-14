@@ -7,7 +7,7 @@ Product gallery / representative site for CleverSolutions (Bulgaria, bg-BG).
 - Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS
 - Zod-validated product data in `/data/products/`
 - Framer Motion / Motion micro-interactions
-- Resend contact form
+- Nodemailer (Gmail SMTP) contact form
 - Playwright e2e smoke tests
 - Vercel plugin agent docs in `AGENTS.md`
 
@@ -15,7 +15,7 @@ Product gallery / representative site for CleverSolutions (Bulgaria, bg-BG).
 
 ```bash
 npm install
-cp .env.example .env.local   # add your RESEND_API_KEY
+cp .env.example .env.local   # add EMAIL_USER + EMAIL_PASSWORD (Gmail App Password)
 npm run dev
 ```
 
@@ -41,7 +41,7 @@ Edit `data/products/*.ts` (one file per category). Copy a sample entry, fill fie
 
 ## Environment variables
 
-See `.env.example` for `RESEND_API_KEY`, contact emails, and site URL.
+See `.env.example` for `EMAIL_USER` / `EMAIL_PASSWORD` (Gmail App Password), `TO_EMAIL`, and site URL.
 
 ## Tests
 
