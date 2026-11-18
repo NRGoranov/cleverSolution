@@ -23,6 +23,7 @@ import {
 import { bg } from "@/content/bg";
 import { categories } from "@/data/products";
 import { BrandLogo } from "@/components/layout/BrandLogo";
+import { InquiryCountBadge } from "@/components/inquiry/InquiryCountBadge";
 import { cn } from "@/lib/utils";
 
 type NavCategory = (typeof categories)[number];
@@ -369,6 +370,7 @@ export function Header() {
               className={desktopNavLinkClass(pathname === "/contact")}
             >
               {bg.nav.contact}
+              <InquiryCountBadge />
             </Link>
           </nav>
         </motion.div>
@@ -557,7 +559,10 @@ export function Header() {
                       href="/contact"
                       className={mobileNavLinkClass(pathname === "/contact")}
                     >
-                      {bg.nav.contact}
+                      <span className="inline-flex items-center">
+                        {bg.nav.contact}
+                        <InquiryCountBadge />
+                      </span>
                       <MobileLinkChevron />
                     </Link>
                   </li>

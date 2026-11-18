@@ -103,6 +103,18 @@ export const bg = {
   product: {
     contactForPrice: "Свържете се за цена",
     contactCta: "Свържете се за повече информация",
+    inquiryAddCta: "Добавете към запитването",
+    inquiryAddedCta: "В запитването",
+    inquiryHint:
+      "Добавете продукта към запитването — всеки артикул влиза само веднъж. После отворете Контакти, за да изпратите.",
+    inquiryAddedFeedback: "Продуктът е добавен към запитването.",
+    inquiryAlreadyFeedback: "Този продукт вече е в запитването.",
+    inquiryUpdatedFeedback: "Запитването е обновено с избрания вариант.",
+    inquiryViewCta: "Към запитването",
+    inquiryCountAria: (count: number) =>
+      count === 1
+        ? "1 продукт в запитването"
+        : `${count} продукта в запитването`,
     detailsCta: "Детайли",
     colorLabel: "Цвят",
     colorSelected: (name: string) => `Избран цвят: ${name}`,
@@ -136,8 +148,12 @@ export const bg = {
       emailError: "Моля, въведете валиден имейл адрес.",
       phone: "Телефон",
       phonePlaceholder: "+359 ...",
-      product: "Продукт",
+      product: "Продукти в запитването",
       productPlaceholder: "За кой продукт питате?",
+      inquiryEmpty:
+        "Няма добавени продукти. Отворете страница на продукт и натиснете „Добавете към запитването“.",
+      inquiryBrowse: "Към продуктите",
+      inquiryRemove: "Премахнете",
       message: "Съобщение",
       messagePlaceholder: "Как можем да ви помогнем?",
       messageError: "Съобщението трябва да е поне 10 символа.",

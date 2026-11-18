@@ -122,13 +122,46 @@ test.describe("CleverSolutions smoke tests", () => {
   });
 
   test("contact about product prefills the form", async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.removeItem("cs-inquiry");
+    });
     await page.goto(
       "/contact?product=" +
         encodeURIComponent("Електрически конвектомат iCombi PRO® XS")
     );
-    const productField = page.getByRole("textbox", { name: "Продукт" });
-    await expect(productField).toHaveValue(
+    await expect(
+      page.getByRole("list", { name: "Продукти в запитването" })
+    ).toContainText("Електрически конвектомат iCombi PRO® XS");
+  });
+
+  test("product inquiry button adds once and confirms", async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.removeItem("cs-inquiry");
+    });
+    await page.goto("/product/icp-xs");
+    await page.getByRole("button", { name: "Добавете към запитването" }).click();
+    await expect(page.getByRole("status")).toContainText(
+      "Продуктът е добавен към запитването."
+    );
+    await page.getByRole("button", { name: "В запитването" }).click();
+    await expect(page.getByRole("status")).toContainText(
+      "Този продукт вече е в запитването."
+    );
+
+    await page.goto("/product/icp-6-1-1");
+    await page.getByRole("button", { name: "Добавете към запитването" }).click();
+    await expect(page.getByRole("status")).toContainText(
+      "Продуктът е добавен към запитването."
+    );
+
+    await page.goto("/contact");
+    const inquiry = page.getByRole("list", { name: "Продукти в запитването" });
+    await expect(inquiry.getByRole("listitem")).toHaveCount(2);
+    await expect(inquiry).toContainText(
       "Електрически конвектомат iCombi PRO® XS"
+    );
+    await expect(inquiry).toContainText(
+      "Електрически конвектомат iCombi PRO® 6-11"
     );
   });
 

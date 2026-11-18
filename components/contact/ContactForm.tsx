@@ -2,9 +2,12 @@
 
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { FormEvent, Suspense, useState } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import { bg } from "@/content/bg";
+import { InquiryProductList } from "@/components/inquiry/InquiryProductList";
+import { useInquiry } from "@/components/inquiry/useInquiry";
 import { SkeletonContactForm } from "@/components/skeletons";
+import { clearInquiry, mergeInquiryLabel } from "@/lib/inquiry";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 type FieldErrors = Partial<Record<"name" | "email" | "message", string>>;
@@ -28,11 +31,16 @@ function validateFields(formData: FormData): FieldErrors {
 
 function ContactFormInner({ smtpEnabled }: { smtpEnabled: boolean }) {
   const searchParams = useSearchParams();
-  const defaultProduct = searchParams.get("product") ?? "";
+  const { items: inquiryItems, ready: inquiryReady } = useInquiry();
 
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+
+  useEffect(() => {
+    const queryProduct = searchParams.get("product");
+    if (queryProduct) mergeInquiryLabel(queryProduct);
+  }, [searchParams]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -72,6 +80,7 @@ function ContactFormInner({ smtpEnabled }: { smtpEnabled: boolean }) {
       }
 
       setFormState("success");
+      clearInquiry();
       form.reset();
     } catch (error) {
       setFormState("error");
@@ -176,20 +185,7 @@ function ContactFormInner({ smtpEnabled }: { smtpEnabled: boolean }) {
         />
       </div>
 
-      <div>
-        <label htmlFor="product" className="mb-1.5 block text-sm font-medium text-ink">
-          {bg.contact.form.product}
-        </label>
-        <input
-          id="product"
-          name="product"
-          type="text"
-          defaultValue={defaultProduct}
-          key={defaultProduct}
-          placeholder={bg.contact.form.productPlaceholder}
-          className="w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-ink shadow-sm transition-colors focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-200"
-        />
-      </div>
+      <InquiryProductList items={inquiryItems} ready={inquiryReady} />
 
       <div>
         <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-ink">
