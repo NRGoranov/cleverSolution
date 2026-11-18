@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { bg } from "@/content/bg";
+import { company } from "@/lib/company";
 import { siteConfig } from "@/lib/site-config";
 import { stripFaqLinks } from "@/lib/faq";
 
@@ -64,13 +65,17 @@ export function organizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: bg.site.name,
-    legalName: "КЛЕВЪР СОЛЮШЪН ЕООД",
+    legalName: company.legalName,
     url: siteConfig.url,
     logo: absoluteUrl("/images/brand/logo.png"),
-    email: bg.contact.info.email,
-    telephone: bg.contact.info.phone,
+    email: company.email,
+    telephone: company.phone,
+    vatID: company.vatId,
+    taxID: company.uic,
     address: {
       "@type": "PostalAddress",
+      streetAddress: "р-н Подуяне, ж.к. Сухата река, бл. 44А, вх. Б, ап. 19",
+      postalCode: "1517",
       addressLocality: "София",
       addressCountry: "BG",
     },

@@ -45,6 +45,10 @@ function getToEmails() {
     .filter(Boolean);
 }
 
+function singleLine(value: string) {
+  return value.replace(/[\u0000-\u001F\u007F]/g, " ").replace(/\s+/g, " ").trim();
+}
+
 export async function sendContactEmail(input: {
   name: string;
   email: string;
@@ -54,29 +58,34 @@ export async function sendContactEmail(input: {
 }) {
   const user = smtpUser();
   const to = getToEmails();
-  const productLine = input.product ? `Продукт: ${input.product}` : "";
-  const phoneLine = input.phone ? `Телефон: ${input.phone}` : "";
+  const name = singleLine(input.name);
+  const email = singleLine(input.email);
+  const phone = input.phone ? singleLine(input.phone) : "";
+  const product = input.product ? singleLine(input.product) : "";
+  const message = input.message.replace(/\u0000/g, "").trim();
+  const productLine = product ? `Продукт: ${product}` : "";
+  const phoneLine = phone ? `Телефон: ${phone}` : "";
   const text = [
-    `Име: ${input.name}`,
-    `Имейл: ${input.email}`,
+    `Име: ${name}`,
+    `Имейл: ${email}`,
     phoneLine,
     productLine,
     "",
     "Съобщение:",
-    input.message,
+    message,
   ]
     .filter(Boolean)
     .join("\n");
 
   const transporter = getTransporter();
-  const subject = `Ново запитване от ${input.name}${
-    input.product ? ` — ${input.product}` : ""
-  }`;
+  const subject = singleLine(
+    `Ново запитване от ${name}${product ? ` — ${product}` : ""}`
+  ).slice(0, 180);
 
   await transporter.sendMail({
     from: user,
     to,
-    replyTo: input.email,
+    replyTo: email,
     subject,
     text,
   });
@@ -84,7 +93,7 @@ export async function sendContactEmail(input: {
   try {
     await transporter.sendMail({
       from: user,
-      to: input.email,
+      to: email,
       subject: "Копие на вашето запитване — Clever Solution",
       text: [
         "Благодарим ви за запитването. Получихме следното съобщение:",

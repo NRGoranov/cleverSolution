@@ -32,9 +32,14 @@ export function LegalPage({ title, updated, intro, sections }: LegalPageProps) {
                 <h2 className="font-display text-2xl font-semibold text-ink">
                   {section.heading}
                 </h2>
-                <p className="mt-3 text-base leading-relaxed text-ink-muted">
-                  {section.body}
-                </p>
+                {section.body.split(/\n\n+/).map((paragraph) => (
+                  <p
+                    key={paragraph}
+                    className="mt-3 text-base leading-relaxed text-ink-muted"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
               </section>
             ))}
           </div>

@@ -136,6 +136,7 @@ function ContactFormInner({ smtpEnabled }: { smtpEnabled: boolean }) {
           name="name"
           type="text"
           required={smtpEnabled}
+          maxLength={120}
           autoComplete="name"
           aria-invalid={fieldErrors.name ? true : undefined}
           aria-describedby={fieldErrors.name ? "name-error" : undefined}
@@ -158,6 +159,7 @@ function ContactFormInner({ smtpEnabled }: { smtpEnabled: boolean }) {
           name="email"
           type="email"
           required={smtpEnabled}
+          maxLength={254}
           autoComplete="email"
           aria-invalid={fieldErrors.email ? true : undefined}
           aria-describedby={fieldErrors.email ? "email-error" : undefined}
@@ -179,6 +181,7 @@ function ContactFormInner({ smtpEnabled }: { smtpEnabled: boolean }) {
           id="phone"
           name="phone"
           type="tel"
+          maxLength={40}
           autoComplete="tel"
           placeholder={bg.contact.form.phonePlaceholder}
           className="w-full rounded-lg border border-zinc-200 bg-white px-4 py-3 text-ink shadow-sm transition-colors focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-200"
@@ -195,6 +198,7 @@ function ContactFormInner({ smtpEnabled }: { smtpEnabled: boolean }) {
           id="message"
           name="message"
           required={smtpEnabled}
+          maxLength={5000}
           rows={5}
           aria-invalid={fieldErrors.message ? true : undefined}
           aria-describedby={fieldErrors.message ? "message-error" : undefined}

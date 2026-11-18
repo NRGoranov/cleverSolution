@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { bg } from "@/content/bg";
 import { categories } from "@/data/products";
+import { company } from "@/lib/company";
 import { BrandLogo } from "@/components/layout/BrandLogo";
 
 const legalLinks = [
@@ -47,6 +48,12 @@ export function Footer() {
             {bg.footer.contact}
           </p>
           <ul className="space-y-2 text-sm text-ink">
+            <li className="font-medium">{company.legalName}</li>
+            <li>ЕИК {company.uic}</li>
+            <li>ДДС № {company.vatId}</li>
+            {company.bankAccount ? (
+              <li>IBAN {company.bankAccount}</li>
+            ) : null}
             <li>
               <a
                 href={`mailto:${bg.contact.info.email}`}

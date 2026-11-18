@@ -10,8 +10,11 @@ export function buildProductJsonLd(product: ProductWithCategory) {
         )
       : undefined;
 
-  // Prices omitted until real pricing is supplied (priceBgn stays optional in schema).
-  const jsonLd: Record<string, unknown> = {
+  // No Offer. `priceBgn` is a legacy leva figure in the catalogue file, not a
+  // selling price. Since 9 August 2026 a published price has to be the payable
+  // price in euro and has to say whether VAT is included. "InStock" is also
+  // not something this inquiry site can stand behind.
+  return {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
@@ -19,16 +22,4 @@ export function buildProductJsonLd(product: ProductWithCategory) {
     url,
     image,
   };
-
-  if (product.priceBgn != null) {
-    jsonLd.offers = {
-      "@type": "Offer",
-      priceCurrency: "BGN",
-      price: product.priceBgn,
-      availability: "https://schema.org/InStock",
-      url,
-    };
-  }
-
-  return jsonLd;
 }

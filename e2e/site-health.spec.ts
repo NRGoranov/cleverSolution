@@ -17,6 +17,8 @@ test.describe("Launch checklist", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Политика за поверителност" })
     ).toBeVisible();
+    await expect(page.getByText("ЕИК 208662488").first()).toBeVisible();
+    await expect(page.getByText("EU-U.S. Data Privacy Framework")).toBeVisible();
 
     await page.goto("/terms");
     await expect(

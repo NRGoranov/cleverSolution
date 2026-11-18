@@ -5,6 +5,7 @@ export const ProductSchema = z.object({
   name: z.string(),
   tagline: z.string(),
   description: z.string(),
+  /** Legacy catalogue amount in BGN. Not rendered and not a selling price. */
   priceBgn: z.number().positive().optional(),
   images: z
     .array(
