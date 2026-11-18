@@ -45,11 +45,11 @@ export const bg = {
     kitchenware: {
       name: "Кухня",
       description:
-        "Професионално кухненско оборудване — конвектомати, speed ovens, мултифункционални тигани, sous-vide, шокови охладители и хладилна техника",
+        "Професионално кухненско оборудване — конвектомати, фурни за бързо готвене, мултифункционални тигани, sous-vide, шокови охладители и хладилна техника",
       slug: "kitchen",
       subcategories: [
         { name: "Конвектомати", slug: "combi-ovens" },
-        { name: "Speed ovens", slug: "speed-ovens" },
+        { name: "Фурни за бързо готвене", slug: "speed-ovens" },
         { name: "Мултифункционални тигани", slug: "pans" },
         { name: "Sous-Vide", slug: "sous-vide" },
         { name: "Шокови охладители", slug: "blast-chillers" },

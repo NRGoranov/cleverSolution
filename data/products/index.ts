@@ -153,8 +153,22 @@ export function getCategoryById(id: CategoryId) {
   return categories.find((c) => c.id === id);
 }
 
-export function getFeaturedProducts(limit = 4): ProductWithCategory[] {
-  return getAllPublishedProducts().slice(0, limit);
+function isPlaceholderProduct(product: Product): boolean {
+  return product.slug.startsWith("sample-") || product.name.includes("заменете");
+}
+
+export function getFeaturedProducts(limit = 3): ProductWithCategory[] {
+  const byCategory = categories
+    .map((category) => {
+      const products = getPublishedByCategory(category.id).filter(
+        (product) => !isPlaceholderProduct(product)
+      );
+      const withImage = products.find((product) => product.images.length > 0);
+      return withImage ?? products[0];
+    })
+    .filter((product): product is ProductWithCategory => Boolean(product));
+
+  return byCategory.slice(0, limit);
 }
 
 /** Slugs of published products only — for sitemap generation. */

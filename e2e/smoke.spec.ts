@@ -129,16 +129,26 @@ test.describe("CleverSolutions smoke tests", () => {
       "/contact?product=" +
         encodeURIComponent("Електрически конвектомат iCombi PRO® XS")
     );
+    const inquiry = page.getByRole("list", { name: "Продукти в запитването" });
+    await expect(inquiry).toContainText(
+      "Електрически конвектомат iCombi PRO® XS"
+    );
     await expect(
-      page.getByRole("list", { name: "Продукти в запитването" })
-    ).toContainText("Електрически конвектомат iCombi PRO® XS");
+      inquiry.getByRole("link", {
+        name: "Електрически конвектомат iCombi PRO® XS",
+      })
+    ).toHaveAttribute("href", "/product/icp-xs");
   });
 
   test("product inquiry button adds once and confirms", async ({ page }) => {
-    await page.addInitScript(() => {
-      localStorage.removeItem("cs-inquiry");
-    });
     await page.goto("/product/icp-xs");
+    await page.evaluate(() => {
+      localStorage.removeItem("cs-inquiry");
+      window.dispatchEvent(new Event("cs-inquiry-change"));
+    });
+    await expect(
+      page.getByRole("button", { name: "Добавете към запитването" })
+    ).toBeVisible();
     await page.getByRole("button", { name: "Добавете към запитването" }).click();
     await expect(page.getByRole("status")).toContainText(
       "Продуктът е добавен към запитването."
@@ -163,6 +173,40 @@ test.describe("CleverSolutions smoke tests", () => {
     await expect(inquiry).toContainText(
       "Електрически конвектомат iCombi PRO® 6-11"
     );
+    await expect(
+      inquiry.getByRole("link", {
+        name: "Електрически конвектомат iCombi PRO® XS",
+      })
+    ).toHaveAttribute("href", "/product/icp-xs");
+    await expect(
+      inquiry.getByRole("link", {
+        name: "Електрически конвектомат iCombi PRO® 6-11",
+      })
+    ).toHaveAttribute("href", "/product/icp-6-1-1");
+
+    await inquiry
+      .getByRole("link", {
+        name: "Електрически конвектомат iCombi PRO® XS",
+      })
+      .click();
+    await expect(page).toHaveURL(/\/product\/icp-xs$/);
+  });
+
+  test("unknown inquiry labels stay unlinked", async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        "cs-inquiry",
+        JSON.stringify([
+          { slug: "query:Несъществуващ модел", name: "Несъществуващ модел" },
+        ])
+      );
+    });
+    await page.goto("/contact");
+    const inquiry = page.getByRole("list", { name: "Продукти в запитването" });
+    await expect(inquiry).toContainText("Несъществуващ модел");
+    await expect(
+      inquiry.getByRole("link", { name: "Несъществуващ модел" })
+    ).toHaveCount(0);
   });
 
   test("contact form is disabled with a warning", async ({ page }) => {

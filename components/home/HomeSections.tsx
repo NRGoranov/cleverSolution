@@ -6,7 +6,7 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { getAccentClasses } from "@/lib/utils";
 
 export function FeaturedProducts() {
-  const products = getFeaturedProducts(4);
+  const products = getFeaturedProducts(3);
 
   if (products.length === 0) {
     return null;
@@ -26,7 +26,12 @@ export function FeaturedProducts() {
             <p className="mt-2 text-ink-muted">{bg.featured.subtitle}</p>
           </div>
         </ScrollReveal>
-        <ProductGrid products={products} />
+        <ProductGrid
+          products={products}
+          className={
+            products.length <= 2 ? "lg:grid-cols-2 xl:max-w-4xl" : "lg:grid-cols-3"
+          }
+        />
       </div>
     </section>
   );

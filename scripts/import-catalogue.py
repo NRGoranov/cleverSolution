@@ -29,7 +29,7 @@ NS = {
 
 SHEET_CONFIG = [
     {"subcategory": "combi-ovens", "label": "Конвектомати"},
-    {"subcategory": "speed-ovens", "label": "Speed ovens"},
+    {"subcategory": "speed-ovens", "label": "Фурни за бързо готвене"},
     {"subcategory": "pans", "label": "Мултифункционални тигани"},
     {"subcategory": "sous-vide", "label": "Sous-Vide"},
     {"subcategory": "blast-chillers", "label": "Шокови охладители"},

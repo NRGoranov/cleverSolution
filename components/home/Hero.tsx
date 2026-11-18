@@ -1,7 +1,7 @@
 import { Hero10 } from "@/components/ui/hero-10";
 import { bg } from "@/content/bg";
 
-/** Hero fan — three category entry points (product photos until partner shots arrive). */
+/** Hero fan — one product photo from three different catalogue categories. */
 const HERO_SLIDES = [
   {
     src: "/images/products/icp-xs/1.png",
@@ -10,16 +10,16 @@ const HERO_SLIDES = [
     label: "Професионално кухненско оборудване",
   },
   {
-    src: "/images/products/ivario-pro-l/1.png",
-    alt: "Мултифункционален тиган iVario PRO L",
-    href: "/security",
-    label: "Решения за контрол на достъпа",
+    src: "/images/products/wristbands/vinyl-classic/1.jpg",
+    alt: "Vinyl Classic гривни за контрол на достъпа",
+    href: "/wristbands",
+    label: "Гривни за контрол на достъпа",
   },
   {
-    src: "/images/products/idrochef-316touch/1.jpeg",
-    alt: "Уред за sous-vide IDROCHEF",
-    href: "/vacuums",
-    label: "Препарати за почистване и поддръжка",
+    src: "/images/products/wristbands/rfid/1.png",
+    alt: "RFID гривни и аксесоари за контрол на достъпа",
+    href: "/security",
+    label: "Решения за контрол на достъпа",
   },
 ] as const;
 

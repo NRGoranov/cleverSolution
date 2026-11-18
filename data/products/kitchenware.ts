@@ -732,11 +732,11 @@ export const kitchenwareProducts: Product[] = [
     slug: "furna-za-barzo-gotvene-s-mikrovalnova-tehnologiya-mychef-wave-1",
     subcategory: "speed-ovens",
     name: "Фурна за бързо готвене с микровълнова технология Mychef WAVE 1",
-    tagline: "Speed ovens",
+    tagline: "Фурни за бързо готвене",
     description: "Фурна за бързо готвене с микровълнова технология Mychef WAVE 1\nРеволюционна фурна проектирана за лесно и бързо готвене за минути или дори секунди.\n► Конвекция\n► Микровълни",
     priceBgn: 10197.7,
     images: [
-      { src: "/images/products/furna-za-barzo-gotvene-s-mikrovalnova-tehnologiya-mychef-wave-1/1.png", alt: "Фурна за бързо готвене с микровълнова технология Mychef WAVE 1" },
+      { src: "/images/products/furna-za-barzo-gotvene-s-mikrovalnova-tehnologiya-mychef-wave-1/product.png", alt: "Фурна за бързо готвене с микровълнова технология Mychef WAVE 1" },
     ],
     specs: [
       { label: "Захранване", value: "2.9kW/ 230V" },
@@ -777,11 +777,11 @@ export const kitchenwareProducts: Product[] = [
     slug: "furna-za-barzo-gotvene-s-mikrovalnova-tehnologiya-mychef-wave-2",
     subcategory: "speed-ovens",
     name: "Фурна за бързо готвене с микровълнова технология Mychef WAVE 2",
-    tagline: "Speed ovens",
+    tagline: "Фурни за бързо готвене",
     description: "Фурна за бързо готвене с микровълнова технология Mychef WAVE 2\nРеволюционна фурна проектирана за лесно и бързо готвене за минути или дори секунди.\n► Конвекция\n► Микровълни",
     priceBgn: 11015.23,
     images: [
-      { src: "/images/products/furna-za-barzo-gotvene-s-mikrovalnova-tehnologiya-mychef-wave-2/1.png", alt: "Фурна за бързо готвене с микровълнова технология Mychef WAVE 2" },
+      { src: "/images/products/furna-za-barzo-gotvene-s-mikrovalnova-tehnologiya-mychef-wave-2/product.png", alt: "Фурна за бързо готвене с микровълнова технология Mychef WAVE 2" },
     ],
     specs: [
       { label: "Захранване", value: "5.7kW/ 400V" },
@@ -822,7 +822,7 @@ export const kitchenwareProducts: Product[] = [
     slug: "furna-za-barzo-gotvene-mychef-quick-1",
     subcategory: "speed-ovens",
     name: "Фурна за бързо готвене Mychef QUICK 1",
-    tagline: "Speed ovens",
+    tagline: "Фурни за бързо готвене",
     description: "Фурна за бързо готвене Mychef QUICK 1\nРеволюционна фурна проектирана за лесно и бързо готвене за минути или дори секунди.\nИ пържени картофи).\n► Конвекция",
     priceBgn: 4926.74,
     images: [

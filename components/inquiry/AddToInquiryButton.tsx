@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Check, CircleCheck, Plus } from "lucide-react";
 import { bg } from "@/content/bg";
 import {
+  INQUIRY_EVENT,
   addToInquiry,
   inquiryHas,
   type InquiryAddResult,
@@ -54,10 +55,18 @@ export function InquiryAddedStatus({
 
 export function AddToInquiryButton({ item, onResult }: AddToInquiryButtonProps) {
   const [inList, setInList] = useState(false);
+  const { slug, name } = item;
 
   useEffect(() => {
-    setInList(inquiryHas(item.slug));
-  }, [item.slug]);
+    const sync = () => setInList(inquiryHas({ slug, name }));
+    sync();
+    window.addEventListener(INQUIRY_EVENT, sync);
+    window.addEventListener("storage", sync);
+    return () => {
+      window.removeEventListener(INQUIRY_EVENT, sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, [slug, name]);
 
   function handleClick() {
     const result = addToInquiry(item);
